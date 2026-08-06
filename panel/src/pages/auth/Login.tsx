@@ -12,28 +12,25 @@ import { fetchWithTimeout } from '@/hooks/fetch';
 import { processFetchError } from './errors';
 import { ServerGlowIcon } from '@/components/serverIcon';
 import { LocalStorageKey } from '@/lib/localStorage';
+import { useTranslation } from '@/hooks/useTranslation';
 
 
 function HeaderNoServer() {
+    const { t } = useTranslation();
     return (
         <div className="text-center">
             <div className="text-xl xs:text-2xl text-primary/85 font-semibold line-clamp-1">
-                {/* Server Unconfigured */}
-                {/* Unconfigured Server */}
-                {/* Server Not Configured */}
-                {/* Server Not Yet Configured */}
-                Welcome to txAdmin!
+                {t('login.welcome')}
             </div>
             <div className="text-sm xs:text-base font-normal tracking-wide text-muted-foreground">
-                {/* please login to set it up */}
-                {/* login to configure it */}
-                please login to continue
+                {t('login.prompt')}
             </div>
         </div>
     )
 }
 
 function HeaderServerInfo() {
+    const { t } = useTranslation();
     const server = window.txConsts.server;
     if (!server || !server.name || (!server.game && !server.icon)) {
         return <HeaderNoServer />;
@@ -49,7 +46,7 @@ function HeaderServerInfo() {
                 {server.name}
             </div>
             <div className="text-sm xs:text-base text-muted-foreground">
-                Login to continue
+                {t('login.prompt')}
             </div>
         </div>
     </>)
@@ -66,6 +63,7 @@ export enum LogoutReasonHash {
 }
 
 export default function Login() {
+    const { t } = useTranslation();
     const { setAuthData } = useAuth();
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -80,7 +78,7 @@ export default function Login() {
 
     const onErrorResponse = (error: string) => {
         if (error === 'no_admins_setup') {
-            setErrorMessage('No admins set up.\nRedirecting...');
+            setErrorMessage(t('login.no.admins'));
             setLocation('/addMaster/pin');
         } else {
             setErrorMessage(error);
@@ -155,15 +153,15 @@ export default function Login() {
         const hash = window.location.hash;
         if (!hash) return;
         if (hash === LogoutReasonHash.LOGOUT) {
-            setErrorMessage('Logged Out.');
+            setErrorMessage(t('login.logged.out'));
         } else if (hash === LogoutReasonHash.EXPIRED) {
-            setErrorMessage('Session Expired.');
+            setErrorMessage(t('login.session.expired'));
         } else if (hash === LogoutReasonHash.UPDATED) {
-            setErrorMessage('txAdmin updated!\nPlease login again.');
+            setErrorMessage(t('login.updated'));
         } else if (hash === LogoutReasonHash.MASTER_ALREADY_SET) {
-            setErrorMessage('Master account already configured.');
+            setErrorMessage(t('login.master.already.set'));
         } else if (hash === LogoutReasonHash.SHUTDOWN) {
-            setErrorMessage('The txAdmin server shut down.\nPlease start it again to be able to login.');
+            setErrorMessage(t('login.server.shutdown'));
         }
         window.location.hash = '';
     }, []);
@@ -187,13 +185,13 @@ export default function Login() {
                 {/* Form */}
                 <div className="flex flex-col xs:grid grid-cols-8 gap-2 xs:gap-4 items-baseline">
                     <Label className="col-span-2" htmlFor="frm-login">
-                        Username
+                        {t('login.username')}
                     </Label>
                     <Input
                         id="frm-login"
                         ref={usernameRef}
                         type="text"
-                        placeholder="username"
+                        placeholder={t('login.username')}
                         autoCapitalize='off'
                         autoComplete='off'
                         className="col-span-6"
@@ -202,13 +200,13 @@ export default function Login() {
                 </div>
                 <div className="flex flex-col xs:grid grid-cols-8 gap-2 xs:gap-4 items-baseline">
                     <Label className="col-span-2" htmlFor="frm-password">
-                        Password
+                        {t('login.password')}
                     </Label>
                     <Input
                         id="frm-password"
                         ref={passwordRef}
                         type="password"
-                        placeholder='password'
+                        placeholder={t('login.password')}
                         autoCapitalize='off'
                         autoComplete='off'
                         className="col-span-6"
@@ -222,7 +220,7 @@ export default function Login() {
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                         <LogInIcon className="inline mr-2 h-4 w-4" />
-                    )} Login
+                    )} {t('login.button')}
                 </Button>
                 <Button
                     className="cfxrebtn"
@@ -234,7 +232,7 @@ export default function Login() {
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                         <LogInIcon className="inline mr-2 h-4 w-4" />
-                    )} Login with Cfx.re
+                    )} {t('login.cfx')}
                 </Button>
             </CardContent>
         </form>

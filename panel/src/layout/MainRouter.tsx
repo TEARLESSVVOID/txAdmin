@@ -6,6 +6,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { contentRefreshKeyAtom, pageErrorStatusAtom, useSetPageTitle } from "@/hooks/pages";
 import { navigate as setLocation } from 'wouter/use-browser-location';
 import { useAdminPerms } from "@/hooks/auth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import Iframe from "@/pages/Iframe";
 import NotFound from "@/pages/NotFound";
@@ -35,55 +36,55 @@ const allRoutes: RouteType[] = [
     //Global Routes
     {
         path: '/players',
-        title: 'Players',
+        title: 'players',
         Page: <PlayersPage />
     },
     {
         path: '/history',
-        title: 'History',
+        title: 'history',
         Page: <HistoryPage />
     },
     {
         path: '/insights/player-drops',
-        title: 'Player Drops',
+        title: 'player.drops',
         Page: <PlayerDropsPage />
     },
     {
         path: '/allowlist',
-        title: 'Allowlist',
+        title: 'allowlist',
         Page: <Iframe legacyUrl="allowlist" />
     },
     {
         path: '/admins',
-        title: 'Admins',
+        title: 'admins',
         Page: <Iframe legacyUrl="adminManager" />
     },
     {
         path: '/settings',
-        title: 'Settings',
+        title: 'settings',
         permission: 'settings.view',
         Page: <SettingsPage />
     },
     {
         path: '/system/master-actions',
-        title: 'Master Actions',
+        title: 'master.actions',
         //NOTE: content is readonly for unauthorized accounts
         Page: <Iframe legacyUrl="masterActions" />
     },
     {
         path: '/system/diagnostics',
-        title: 'Diagnostics',
+        title: 'diagnostics',
         Page: <DiagnosticsPage />
     },
     {
         path: '/system/console-log',
-        title: 'Console Log',
+        title: 'console.log',
         permission: 'txadmin.log.view',
         Page: <SystemLogPage pageName="console" />
     },
     {
         path: '/system/action-log',
-        title: 'Action Log',
+        title: 'action.log',
         permission: 'txadmin.log.view',
         Page: <SystemLogPage pageName="action" />
     },
@@ -91,47 +92,47 @@ const allRoutes: RouteType[] = [
     //Server Routes
     {
         path: '/',
-        title: 'Dashboard',
+        title: 'dashboard',
         Page: <DashboardPage />
     },
     {
         path: '/server/console',
-        title: 'Live Console',
+        title: 'live.console',
         permission: 'console.view',
         Page: <LiveConsolePage />
     },
     {
         path: '/server/resources',
-        title: 'Resources',
+        title: 'resources',
         Page: <Iframe legacyUrl="resources" />
     },
     {
         path: '/server/server-log',
-        title: 'Server Log',
+        title: 'server.log',
         permission: 'server.log.view',
         Page: <Iframe legacyUrl="serverLog" />
     },
     {
         path: '/server/cfg-editor',
-        title: 'CFG Editor',
+        title: 'cfg.editor',
         permission: 'server.cfg.editor',
         Page: <Iframe legacyUrl="cfgEditor" />
     },
     {
         path: '/server/setup',
-        title: 'Server Setup',
+        title: 'server.setup',
         permission: 'master', //FIXME: eithger change to all_permissions or create a new Setup/Deploy permission
         Page: <Iframe legacyUrl="setup" />
     },
     {
         path: '/server/deployer',
-        title: 'Server Deployer',
+        title: 'server.deployer',
         permission: 'master', //FIXME: eithger change to all_permissions or create a new Setup/Deploy permission
         Page: <Iframe legacyUrl="deployer" />
     },
     {
         path: '/advanced',
-        title: 'Advanced',
+        title: 'advanced',
         permission: 'all_permissions',
         Page: <AdvancedPage />
     },
@@ -139,31 +140,25 @@ const allRoutes: RouteType[] = [
     //No nav routes
     {
         path: '/settings/ban-templates',
-        title: 'Ban Templates',
+        title: 'ban.templates',
         //NOTE: content is readonly for unauthorized accounts
         Page: <BanTemplatesPage />
     },
     {
         path: '/ban-identifiers',
-        title: 'Ban Identifiers',
+        title: 'ban.identifiers',
         Page: <AddLegacyBanPage />
     },
-    //FIXME: decide on how to organize the url for the player drops page - /server/ prefix?
-    //       This will likely be a part of the insights page, eventually
-    // {
-    //     path: '/player-crashes',
-    //     title: 'Player Crashes',
-    //     children: <PlayerCrashesPage />
-    // },
 ];
 
 
 function Route(route: RouteType) {
+    const { t } = useTranslation();
     const { hasPerm } = useAdminPerms();
     const setPageTitle = useSetPageTitle();
-    setPageTitle(route.title);
+    setPageTitle(t(`page.${route.title}`));
     const nodeToRender = route.permission && !hasPerm(route.permission)
-        ? <UnauthorizedPage pageName={route.title} permission={route.permission} />
+        ? <UnauthorizedPage pageName={t(`page.${route.title}`)} permission={route.permission} />
         : route.Page;
     return <WouterRoute path={route.path}>{nodeToRender}</WouterRoute>
 }

@@ -17,6 +17,7 @@ import InlineCode from '@/components/InlineCode';
 import { PlayersTableFiltersType, PlayersTableSearchType } from "@shared/playerApiTypes";
 import { useEventListener } from "usehooks-ts";
 import { Link } from "wouter";
+import { useTranslation } from '@/hooks/useTranslation';
 
 
 /**
@@ -25,31 +26,29 @@ import { Link } from "wouter";
 export const availableSearchTypes = [
     {
         value: 'playerName',
-        label: 'Name',
-        placeholder: 'Enter a player name',
-        description: 'Search players by their last display name.'
+        label: 'players.search.name',
+        placeholder: 'players.search.name.placeholder',
+        description: 'players.search.name.desc'
     },
     {
         value: 'playerNotes',
-        label: 'Notes',
-        placeholder: 'Enter part of the note to search for',
-        description: 'Search players by their profile notes contents.'
+        label: 'players.search.notes',
+        placeholder: 'players.search.notes.placeholder',
+        description: 'players.search.notes.desc'
     },
     {
         value: 'playerIds',
-        label: 'Player IDs',
-        placeholder: 'License, Discord, Steam, etc.',
-        description: 'Search players by their IDs separated by a comma.'
+        label: 'players.search.ids',
+        placeholder: 'players.search.ids.placeholder',
+        description: 'players.search.ids.desc'
     },
 ] as const;
 
 export const availableFilters = [
-    { label: 'Is Admin', value: 'isAdmin' },
-    { label: 'Is Online', value: 'isOnline' },
-    // { label: 'Is Banned', value: 'isBanned' },
-    // { label: 'Has Previous Ban', value: 'hasPreviousBan' },
-    { label: 'Has Whitelisted ID', value: 'isWhitelisted' },
-    { label: 'Has Profile Notes', value: 'hasNote' },
+    { label: 'players.filter.admin', value: 'isAdmin' },
+    { label: 'players.filter.online', value: 'isOnline' },
+    { label: 'players.filter.whitelisted', value: 'isWhitelisted' },
+    { label: 'players.filter.has.note', value: 'hasNote' },
 ] as const;
 
 //FIXME: this doesn't require exporting, but HMR doesn't work without it
@@ -74,6 +73,7 @@ type PlayerSearchBoxProps = {
 };
 
 export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps) {
+    const { t } = useTranslation();
     const inputRef = useRef<HTMLInputElement>(null);
     const [isSearchTypeDropdownOpen, setSearchTypeDropdownOpen] = useState(false);
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -139,8 +139,8 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
     const selectedSearchType = availableSearchTypes.find((type) => type.value === currSearchType);
     if (!selectedSearchType) throw new Error(`Invalid search type: ${currSearchType}`);
     const filterBtnMessage = selectedFilters.length
-        ? `${selectedFilters.length} Filter${selectedFilters.length > 1 ? 's' : ''}`
-        : 'No filters';
+        ? `${selectedFilters.length} ${t('players.filter.btn').replace('%{count}', String(selectedFilters.length))}`
+        : t('players.filter.no');
     return (
         <div className="p-4 mb-2 md:mb-4 md:rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <div className="flex flex-wrap-reverse gap-2">
@@ -179,12 +179,12 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 onClick={() => setSearchTypeDropdownOpen(!isSearchTypeDropdownOpen)}
                                 className="xs:w-48 justify-between border-input bg-black/5 dark:bg-black/30 hover:dark:bg-primary grow md:grow-0"
                             >
-                                Search by {selectedSearchType.label}
+                                {t(selectedSearchType.label)}
                                 <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='w-48'>
-                            <DropdownMenuLabel>Search Type</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t('common.search')}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuRadioGroup value={currSearchType} onValueChange={setCurrSearchType}>
                                 {availableSearchTypes.map((searchType) => (
@@ -203,7 +203,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 className="cursor-pointer"
                                 onCheckedChange={setRememberSearchType}
                             >
-                                Remember Option
+                                {t('players.remember')}
                             </DropdownMenuCheckboxItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -222,7 +222,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='w-44'>
-                            <DropdownMenuLabel>Search Filters</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t('players.filter')}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {availableFilters.map((filter) => (
                                 <DropdownMenuCheckboxItem
@@ -243,7 +243,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 onClick={() => setSelectedFilters([])}
                             >
                                 <FilterXIcon className="mr-2 h-4 w-4" />
-                                Clear Filters
+                                {t('players.clear.filters')}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -252,7 +252,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="grow md:grow-0">
-                                    More
+                                    {t('players.more')}
                                     <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -260,13 +260,13 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/ban-identifiers" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        Ban Identifiers
+                                        {t('players.ban.ids')}
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/system/master-actions#cleandb" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        Prune Players/HWIDs
+                                        {t('players.prune')}
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

@@ -13,6 +13,7 @@ import MainPageLink from '@/components/MainPageLink';
 import { cva } from 'class-variance-authority';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAdminPerms } from '@/hooks/auth';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const buttonVariants = cva(
     `group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 ring-offset-background  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`,
@@ -33,6 +34,7 @@ type HeaderMenuLinkProps = {
     disabled?: boolean;
 };
 function HeaderMenuLink(props: HeaderMenuLinkProps) {
+    const { t } = useTranslation();
     const [isActive] = useRoute(props.href);
     return (
         <NavigationMenuLink asChild active={isActive}>
@@ -48,8 +50,7 @@ function HeaderMenuLink(props: HeaderMenuLinkProps) {
                         </a>
                     </TooltipTrigger>
                     <TooltipContent side='bottom' className="text-destructive-inline text-center">
-                        You do not have permission <br />
-                        to access this page.
+                        {t('no.permission')}
                     </TooltipContent>
                 </Tooltip>
             ) : (
@@ -81,6 +82,7 @@ function HeaderMenuItem(props: HeaderMenuLinkProps) {
 
 //NOTE: breaking NavigationMenuItem into a separate menu because the dropdown is positioned wrong otherwise
 export default function DesktopNavbar() {
+    const { t } = useTranslation();
     const { hasPerm } = useAdminPerms();
 
     return (
@@ -92,22 +94,22 @@ export default function DesktopNavbar() {
                         <div className="ml-1 mb-2 rounded-md size-2 bg-accent" />
                     </DynamicNewItem> */}
                     <HeaderMenuItem href="/players">
-                        Players
+                        {t('nav.players')}
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/history">
-                        History
+                        {t('nav.history')}
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/insights/player-drops">
-                        Player Drops
+                        {t('nav.player.drops')}
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/allowlist">
-                        Allowlist
+                        {t('nav.allowlist')}
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/admins" disabled={!hasPerm('manage.admins')}>
-                        Admins
+                        {t('nav.admins')}
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/settings" disabled={!hasPerm('settings.view')}>
-                        Settings
+                        {t('nav.settings')}
                     </HeaderMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
@@ -124,34 +126,34 @@ export default function DesktopNavbar() {
                                 }
                             }}
                         >
-                            System
+                            {t('nav.system')}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="flex flex-col gap-2 p-4 list-none">
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/master-actions"
                             >
-                                Master Actions
+                                {t('nav.master.actions')}
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/diagnostics"
                             >
-                                Diagnostics
+                                {t('nav.diagnostics')}
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/console-log"
                                 disabled={!hasPerm('txadmin.log.view')}
                             >
-                                Console Log
+                                {t('nav.console.log')}
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/action-log"
                                 disabled={!hasPerm('txadmin.log.view')}
                             >
-                                Action Log
+                                {t('nav.action.log')}
                             </HeaderMenuLink>
                         </NavigationMenuContent>
                     </NavigationMenuItem>

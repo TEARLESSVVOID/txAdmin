@@ -11,6 +11,7 @@ import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/auth";
 import { useGlobalMenuSheet, usePlayerlistSheet, useServerSheet } from "@/hooks/sheets";
 import { useTheme } from "@/hooks/theme";
+import { useTranslation } from "@/hooks/useTranslation";
 import { FaDiscord } from "react-icons/fa";
 import { useAtomValue } from "jotai";
 import { serverNameAtom } from "@/hooks/status";
@@ -52,50 +53,53 @@ const navButtonClasses = `h-11 w-11 sm:h-10 sm:min-w-max sm:px-2 lg:px-3
 `;
 
 function ButtonToggleServerSheet({ className }: NavButtonProps) {
+    const { t } = useTranslation();
     const { setIsSheetOpen } = useServerSheet();
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title="Server Menu"
+            title={t('server.menu')}
             onClick={() => setIsSheetOpen(true)}
         >
             <Monitor className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max align-middle">
-                Server
+                {t('server.menu')}
             </div>
         </button>
     );
 }
 
 function ButtonToggleGlobalMenu({ className }: NavButtonProps) {
+    const { t } = useTranslation();
     const { setIsSheetOpen } = useGlobalMenuSheet();
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title="Global Menu"
+            title={t('global.menu')}
             onClick={() => setIsSheetOpen(true)}
         >
             <Menu className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max">
-                Menu
+                {t('global.menu')}
             </div>
         </button>
     );
 }
 
 function ButtonTogglePlayerlistSheet({ className }: NavButtonProps) {
+    const { t } = useTranslation();
     const { setIsSheetOpen } = usePlayerlistSheet();
     const playerCount = useAtomValue(playerCountAtom);
 
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title="Global Menu"
+            title={t('players.menu')}
             onClick={() => setIsSheetOpen(true)}
         >
             <PersonStanding className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max">
-                Players
+                {t('players.menu')}
                 <span className="hidden lg:inline-block font-mono">: {playerCount}</span>
             </div>
         </button>
@@ -104,6 +108,7 @@ function ButtonTogglePlayerlistSheet({ className }: NavButtonProps) {
 
 //Segmenting this into a component prevents full header rerenders
 function AuthedHeaderFragment() {
+    const { t } = useTranslation();
     const { authData, logout } = useAuth();
     const { theme, setTheme } = useTheme();
     const { setAccountModalOpen } = useAccountModal();
@@ -144,16 +149,16 @@ function AuthedHeaderFragment() {
                 {window.txConsts.isWebInterface && (
                     <DropdownMenuItem className="cursor-pointer" onClick={switchTheme}>
                         {theme === 'light' ? <SunIcon className="mr-2 h-4 w-4" /> : <MoonIcon className="mr-2 h-4 w-4" />}
-                        {theme === 'light' ? 'Light Mode' : 'Dark Mode'}
+                        {theme === 'light' ? t('light.mode') : t('dark.mode')}
                     </DropdownMenuItem>
                 )}
                 <DropdownMenuItem className="cursor-pointer" onClick={openAccountModal}>
                     <KeyRoundIcon className="mr-2 h-4 w-4" />
-                    Your Account
+                    {t('your.account')}
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer" onClick={gotoSupportDiscord}>
                     <FaDiscord size="14" className="mr-2" />
-                    Support
+                    {t('support')}
                 </DropdownMenuItem>
 
                 {/* Don't show logout if on NUI */}
@@ -162,7 +167,7 @@ function AuthedHeaderFragment() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="cursor-pointer" onClick={doLogout}>
                             <LogOutIcon className="mr-2 h-4 w-4" />
-                            Logout
+                            {t('logout')}
                         </DropdownMenuItem>
                     </>
                 )}
