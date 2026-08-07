@@ -14,12 +14,12 @@ export default class ActionsDao {
     constructor(private readonly db: DbInstance) { }
 
     private get dbo() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj;
     }
 
     private get chain() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj.chain;
     }
 
@@ -28,7 +28,7 @@ export default class ActionsDao {
      * Searches for an action in the database by the id, returns action or null if not found
      */
     findOne(actionId: string): DatabaseActionType | null {
-        if (typeof actionId !== 'string' || !actionId.length) throw new Error('Invalid actionId.');
+        if (typeof actionId !== 'string' || !actionId.length) throw new Error('无效的 actionId。');
 
         //Performing search
         const a = this.chain.get('actions')
@@ -48,8 +48,8 @@ export default class ActionsDao {
         hwidsArray?: string[],
         customFilter: ((action: DatabaseActionType) => action is T) | object = {}
     ): T[] {
-        if (!Array.isArray(idsArray)) throw new Error('idsArray should be an array');
-        if (hwidsArray && !Array.isArray(hwidsArray)) throw new Error('hwidsArray should be an array or undefined');
+        if (!Array.isArray(idsArray)) throw new Error('idsArray 应为数组');
+        if (hwidsArray && !Array.isArray(hwidsArray)) throw new Error('hwidsArray 应为数组或 undefined');
         const idsFilter = (action: DatabaseActionType) => idsArray.some((fi) => action.ids.includes(fi))
         const hwidsFilter = (action: DatabaseActionType) => {
             if ('hwids' in action && action.hwids) {
@@ -73,7 +73,7 @@ export default class ActionsDao {
                 .value()
                 .sort((a, b) => a.timestamp - b.timestamp); //FIXME: shouldn't be needed, remove after the autosort migration
         } catch (error) {
-            const msg = `Failed to search for a registered action database with error: ${(error as Error).message}`;
+            const msg = `搜索已登记的操作数据库失败，错误信息：${(error as Error).message}`;
             console.verbose.error(msg);
             throw new Error(msg);
         }
@@ -92,12 +92,12 @@ export default class ActionsDao {
         hwids?: string[], //only used for bans
     ): string {
         //Sanity check
-        if (!Array.isArray(ids) || !ids.length) throw new Error('Invalid ids array.');
-        if (typeof author !== 'string' || !author.length) throw new Error('Invalid author.');
-        if (typeof reason !== 'string' || !reason.length) throw new Error('Invalid reason.');
-        if (expiration !== false && (typeof expiration !== 'number')) throw new Error('Invalid expiration.');
-        if (playerName !== false && (typeof playerName !== 'string' || !playerName.length)) throw new Error('Invalid playerName.');
-        if (hwids && !Array.isArray(hwids)) throw new Error('Invalid hwids array.');
+        if (!Array.isArray(ids) || !ids.length) throw new Error('无效的 ids 数组。');
+        if (typeof author !== 'string' || !author.length) throw new Error('无效的作者。');
+        if (typeof reason !== 'string' || !reason.length) throw new Error('无效的原因。');
+        if (expiration !== false && (typeof expiration !== 'number')) throw new Error('无效的过期时间。');
+        if (playerName !== false && (typeof playerName !== 'string' || !playerName.length)) throw new Error('无效的玩家名。');
+        if (hwids && !Array.isArray(hwids)) throw new Error('无效的 hwids 数组。');
 
         //Saves it to the database
         const timestamp = now();
@@ -142,10 +142,10 @@ export default class ActionsDao {
         playerName: string | false = false,
     ): string {
         //Sanity check
-        if (!Array.isArray(ids) || !ids.length) throw new Error('Invalid ids array.');
-        if (typeof author !== 'string' || !author.length) throw new Error('Invalid author.');
-        if (typeof reason !== 'string' || !reason.length) throw new Error('Invalid reason.');
-        if (playerName !== false && (typeof playerName !== 'string' || !playerName.length)) throw new Error('Invalid playerName.');
+        if (!Array.isArray(ids) || !ids.length) throw new Error('无效的 ids 数组。');
+        if (typeof author !== 'string' || !author.length) throw new Error('无效的作者。');
+        if (typeof reason !== 'string' || !reason.length) throw new Error('无效的原因。');
+        if (playerName !== false && (typeof playerName !== 'string' || !playerName.length)) throw new Error('无效的玩家名。');
 
         //Saves it to the database
         const timestamp = now();
@@ -183,14 +183,14 @@ export default class ActionsDao {
      * Marks a warning as acknowledged
      */
     ackWarn(actionId: string) {
-        if (typeof actionId !== 'string' || !actionId.length) throw new Error('Invalid actionId.');
+        if (typeof actionId !== 'string' || !actionId.length) throw new Error('无效的 actionId。');
 
         try {
             const action = this.chain.get('actions')
                 .find({ id: actionId })
                 .value();
-            if (!action) throw new Error(`action not found`);
-            if (action.type !== 'warn') throw new Error(`action is not a warn`);
+            if (!action) throw new Error(`未找到该操作`);
+            if (action.type !== 'warn') throw new Error(`该操作不是警告`);
             action.acked = true;
             this.db.writeFlag(SavePriority.MEDIUM);
         } catch (error) {
@@ -210,18 +210,18 @@ export default class ActionsDao {
         author: string,
         allowedTypes: string[] | true = true
     ): DatabaseActionType {
-        if (typeof actionId !== 'string' || !actionId.length) throw new Error('Invalid actionId.');
-        if (typeof author !== 'string' || !author.length) throw new Error('Invalid author.');
-        if (allowedTypes !== true && !Array.isArray(allowedTypes)) throw new Error('Invalid allowedTypes.');
+        if (typeof actionId !== 'string' || !actionId.length) throw new Error('无效的 actionId。');
+        if (typeof author !== 'string' || !author.length) throw new Error('无效的作者。');
+        if (allowedTypes !== true && !Array.isArray(allowedTypes)) throw new Error('无效的 allowedTypes。');
 
         try {
             const action = this.chain.get('actions')
                 .find({ id: actionId })
                 .value();
 
-            if (!action) throw new Error(`action not found`);
+            if (!action) throw new Error(`未找到该操作`);
             if (allowedTypes !== true && !allowedTypes.includes(action.type)) {
-                throw new Error(`you do not have permission to revoke this action`);
+                throw new Error(`你没有权限撤销此操作`);
             }
 
             action.revocation = {

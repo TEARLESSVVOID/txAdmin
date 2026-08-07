@@ -93,7 +93,7 @@ const FullPerfChart = memo(({ threadName, apiData, apiDataAge, width, height, is
             setRenderError('');
             console.timeEnd('drawFullPerfChart');
         } catch (error) {
-            setRenderError((error as Error).message ?? 'Unknown error.');
+            setRenderError((error as Error).message ?? '未知错误。');
         } finally {
             console.groupEnd();
         }
@@ -103,7 +103,7 @@ const FullPerfChart = memo(({ threadName, apiData, apiDataAge, width, height, is
     if (!width || !height) return null;
     if (renderError) {
         return <div className="absolute inset-0 p-4 flex flex-col gap-4 items-center justify-center text-center text-lg font-mono text-destructive-inline">
-            Render Error: {renderError}
+            渲染错误：{renderError}
             <br />
             <Button
                 size={'sm'}
@@ -114,7 +114,7 @@ const FullPerfChart = memo(({ threadName, apiData, apiDataAge, width, height, is
                     setRenderError('');
                 }}
             >
-                Retry{errorRetry ? ` (${errorRetry})` : ''}
+                重试{errorRetry ? ` (${errorRetry})` : ''}
             </Button>
         </div>
     }
@@ -146,13 +146,13 @@ const FullPerfChart = memo(({ threadName, apiData, apiDataAge, width, height, is
 
 function ChartErrorMessage({ error }: { error: Error | string }) {
     const errorMessageMaps: Record<string, ReactNode> = {
-        bad_request: 'Chart data loading failed: bad request.',
-        invalid_thread_name: 'Chart data loading failed: invalid thread name.',
-        data_unavailable: 'Chart data loading failed: data not yet available.',
+        bad_request: '图表数据加载失败：请求无效。',
+        invalid_thread_name: '图表数据加载失败：线程名称无效。',
+        data_unavailable: '图表数据加载失败：数据尚未可用。',
         not_enough_data: (<p className='text-center'>
-            <strong>There is not enough data to display the chart just yet.</strong><br />
+            <strong>目前数据不足，无法显示图表。</strong><br />
             <span className='text-base italic'>
-                The chart requires at least 30 minutes of server runtime data to be available.
+                图表需要至少 30 分钟的服务器运行数据才能生成。
             </span>
         </p>),
     };
@@ -160,13 +160,13 @@ function ChartErrorMessage({ error }: { error: Error | string }) {
     if (typeof error === 'string') {
         return (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-2xl text-muted-foreground">
-                {errorMessageMaps[error] ?? 'Unknown BackendApiError'}
+                {errorMessageMaps[error] ?? '未知的后端 API 错误'}
             </div>
         );
     } else {
         return (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-2xl text-destructive-inline">
-                Error: {error.message ?? 'Unknown Error'}
+                错误：{error.message ?? '未知错误'}
             </div>
         );
     }
@@ -227,12 +227,12 @@ export default function FullPerfCard() {
         <div className="w-full h-[28rem] pt-2 md:rounded-xl border bg-card shadow-sm flex flex-col fill-primary">
             <div className="px-4 flex flex-row items-center justify-between space-y-0 pb-2 text-muted-foreground">
                 <h3 className="tracking-tight text-sm font-medium line-clamp-1">
-                    Server performance
+                    服务器性能
                 </h3>
                 <div className="flex gap-4">
                     <Select defaultValue={selectedThread} onValueChange={setSelectedThread}>
                         <SelectTrigger className="w-32 grow md:grow-0 h-6 px-3 py-1 text-sm" >
-                            <SelectValue placeholder="Filter by admin" />
+                            <SelectValue placeholder="按管理员筛选" />
                         </SelectTrigger>
                         <SelectContent className="px-0">
                             <SelectItem value={'svMain'} className="cursor-pointer">

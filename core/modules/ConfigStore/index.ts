@@ -197,7 +197,7 @@ export default class ConfigStore /*does not extend TxModuleBase*/ {
      * FIXME: ignore banlist.templates? or join consequent changes?
      */
     private logChanges(author: string, keysUpdated: string[]) {
-        txCore.logger.admin.write(author, `Config changes: ${keysUpdated.join(', ')}`);
+        txCore.logger.admin.write(author, `配置变更：${keysUpdated.join(', ')}`);
         this.changelog.push({
             author,
             ts: Date.now(),

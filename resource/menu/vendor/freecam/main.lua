@@ -72,19 +72,19 @@ end
 
 -------------------------------------------------------------------------------
 local keysTable = {
-  {'Slower', CONTROLS.MOVE_SLOW},
-  {'Faster', CONTROLS.MOVE_FAST},
-  {'Down', CONTROLS.MOVE_Z[2]},
-  {'Up', CONTROLS.MOVE_Z[1]},
-  {'Left/Right', CONTROLS.MOVE_X},
-  {'Fwd/Back', CONTROLS.MOVE_Y},
+  {'减速', CONTROLS.MOVE_SLOW},
+  {'加速', CONTROLS.MOVE_FAST},
+  {'下降', CONTROLS.MOVE_Z[2]},
+  {'上升', CONTROLS.MOVE_Z[1]},
+  {'左右', CONTROLS.MOVE_X},
+  {'前后', CONTROLS.MOVE_Y},
 }
 local redmInstructionGroup, redmPromptTitle
 
 
 function StartFreecamThread()
   if IS_REDM then
-    redmPromptTitle = CreateVarString(10, 'LITERAL_STRING', 'NoClip')
+    redmPromptTitle = CreateVarString(10, 'LITERAL_STRING', '穿墙')
     redmInstructionGroup = makeRedmInstructionalGroup(keysTable)
   end
   -- Camera/Pos updating thread

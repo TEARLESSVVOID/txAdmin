@@ -50,34 +50,34 @@ export default class AdminStore {
         //FIXME: if not using enums, definitely use some other type of type safety
         //FIXME: maybe rename all_permissions to `administrator` (just like discord) or `super_admin` and rename the `Admins` page to `Users`. This fits better with how people use txAdmin as "mods" are not really admins
         this.registeredPermissions = {
-            'all_permissions': 'All Permissions',
-            'manage.admins': 'Manage Admins', //will enable the "set admin" button in the player modal
-            'settings.view': 'Settings: View (no tokens)',
-            'settings.write': 'Settings: Change',
-            'console.view': 'Console: View',
-            'console.write': 'Console: Write',
-            'control.server': 'Start/Stop Server + Scheduler', //FIXME: horrible name
-            'announcement': 'Send Announcements',
-            'commands.resources': 'Start/Stop Resources',
-            'server.cfg.editor': 'Read/Write server.cfg', //FIXME: rename to server.cfg_editor
-            'txadmin.log.view': 'View System Logs', //FIXME: rename to system.log.view
-            'server.log.view': 'View Server Logs',
-            'players.remove_ids': 'Remove Player IDs',
+            'all_permissions': '所有权限',
+            'manage.admins': '管理管理员', //will enable the "set admin" button in the player modal
+            'settings.view': '设置：查看（不含令牌）',
+            'settings.write': '设置：修改',
+            'console.view': '控制台：查看',
+            'console.write': '控制台：操作',
+            'control.server': '启动/停止服务器 + 调度', //FIXME: horrible name
+            'announcement': '发送公告',
+            'commands.resources': '启动/停止资源',
+            'server.cfg.editor': '读写 server.cfg', //FIXME: rename to server.cfg_editor
+            'txadmin.log.view': '查看系统日志', //FIXME: rename to system.log.view
+            'server.log.view': '查看服务器日志',
+            'players.remove_ids': '移除玩家 ID',
 
-            'menu.vehicle': 'Spawn / Fix Vehicles',
-            'menu.clear_area': 'Reset world area',
-            'menu.viewids': 'View Player IDs in-game', //be able to see the ID of the players
-            'players.direct_message': 'Direct Message',
-            'players.whitelist': 'Allowlist',
-            'players.warn': 'Warn',
-            'players.kick': 'Kick',
-            'players.ban': 'Ban',
-            'players.freeze': 'Freeze Players',
-            'players.heal': 'Heal', //self, everyone, and the "heal" button in player modal
-            'players.playermode': 'NoClip / God Mode', //self playermode, and also the player spectate option
-            'players.spectate': 'Spectate', //self playermode, and also the player spectate option
-            'players.teleport': 'Teleport', //self teleport, and the bring/go to on player modal
-            'players.troll': 'Troll Actions', //all the troll options in the player modal
+            'menu.vehicle': '生成 / 修理载具',
+            'menu.clear_area': '重置世界区域',
+            'menu.viewids': '在游戏中查看玩家 ID', //be able to see the ID of the players
+            'players.direct_message': '私信',
+            'players.whitelist': '准入名单',
+            'players.warn': '警告',
+            'players.kick': '踢出',
+            'players.ban': '封禁',
+            'players.freeze': '冻结玩家',
+            'players.heal': '治疗', //self, everyone, and the "heal" button in player modal
+            'players.playermode': '无碰撞 / 上帝模式', //self playermode, and also the player spectate option
+            'players.spectate': '旁观', //self playermode, and also the player spectate option
+            'players.teleport': '传送', //self teleport, and the bring/go to on player modal
+            'players.troll': '恶搞操作', //all the troll options in the player modal
         };
         //FIXME: pode remover, hardcode na cron function
         this.hardConfigs = {
@@ -153,8 +153,8 @@ export default class AdminStore {
      */
     createAdminsFile(username, fivemId, discordId, password, isPlainTextPassword) {
         //Sanity check
-        if (this.admins !== false && this.admins !== null) throw new Error('Admins file already exists.');
-        if (typeof username !== 'string' || username.length < 3) throw new Error('Invalid username parameter.');
+        if (this.admins !== false && this.admins !== null) throw new Error('管理员文件已存在。');
+        if (typeof username !== 'string' || username.length < 3) throw new Error('无效的用户名参数。');
 
         //Handling password
         let password_hash, password_temporary;
@@ -356,10 +356,10 @@ export default class AdminStore {
      * @param {array} permissions
      */
     async addAdmin(name, citizenfxData, discordData, password, permissions) {
-        if (this.admins == false) throw new Error('Admins not set');
+        if (this.admins == false) throw new Error('管理员未设置');
 
         //Check if username is already taken
-        if (this.getAdminByName(name)) throw new Error('Username already taken');
+        if (this.getAdminByName(name)) throw new Error('用户名已被占用');
 
         //Preparing admin
         const admin = {
@@ -375,7 +375,7 @@ export default class AdminStore {
         //Check if provider uid already taken and inserting into admin object
         if (citizenfxData) {
             const existingCitizenFX = this.getAdminByProviderUID(citizenfxData.id);
-            if (existingCitizenFX) throw new Error('CitizenFX ID already taken');
+            if (existingCitizenFX) throw new Error('CitizenFX ID 已被占用');
             admin.providers.citizenfx = {
                 id: citizenfxData.id,
                 identifier: citizenfxData.identifier,
@@ -384,7 +384,7 @@ export default class AdminStore {
         }
         if (discordData) {
             const existingDiscord = this.getAdminByProviderUID(discordData.id);
-            if (existingDiscord) throw new Error('Discord ID already taken');
+            if (existingDiscord) throw new Error('Discord ID 已被占用');
             admin.providers.discord = {
                 id: discordData.id,
                 identifier: discordData.identifier,
@@ -398,7 +398,7 @@ export default class AdminStore {
         try {
             return await this.writeAdminsFile();
         } catch (error) {
-            throw new Error(`Failed to save admins.json with error: ${error.message}`);
+            throw new Error(`保存 admins.json 失败，错误信息：${error.message}`);
         }
     }
 
@@ -412,14 +412,14 @@ export default class AdminStore {
      * @param {string[]} [permissions]
      */
     async editAdmin(name, password, citizenfxData, discordData, permissions) {
-        if (this.admins == false) throw new Error('Admins not set');
+        if (this.admins == false) throw new Error('管理员未设置');
 
         //Find admin index
         let username = name.toLowerCase();
         let adminIndex = this.admins.findIndex((user) => {
             return (username === user.name.toLowerCase());
         });
-        if (adminIndex == -1) throw new Error('Admin not found');
+        if (adminIndex == -1) throw new Error('未找到管理员');
 
         //Editing admin
         if (password !== null) {
@@ -461,7 +461,7 @@ export default class AdminStore {
             await this.writeAdminsFile();
             return (password !== null) ? this.admins[adminIndex].password_hash : true;
         } catch (error) {
-            throw new Error(`Failed to save admins.json with error: ${error.message}`);
+            throw new Error(`保存 admins.json 失败，错误信息：${error.message}`);
         }
     }
 
@@ -471,7 +471,7 @@ export default class AdminStore {
      * @param {string} name
      */
     async deleteAdmin(name) {
-        if (this.admins == false) throw new Error('Admins not set');
+        if (this.admins == false) throw new Error('管理员未设置');
 
         //Delete admin
         let username = name.toLowerCase();
@@ -484,14 +484,14 @@ export default class AdminStore {
                 return false;
             }
         });
-        if (!found) throw new Error('Admin not found');
+        if (!found) throw new Error('未找到管理员');
 
         //Saving admin file
         this.refreshOnlineAdmins().catch((e) => { });
         try {
             return await this.writeAdminsFile();
         } catch (error) {
-            throw new Error(`Failed to save admins.json with error: ${error.message}`);
+            throw new Error(`保存 admins.json 失败，错误信息：${error.message}`);
         }
     }
 
@@ -508,17 +508,17 @@ export default class AdminStore {
         const callError = (reason) => {
             let details;
             if (reason === 'cannot read file') {
-                details = ['This means the file  doesn\'t exist or txAdmin doesn\'t have permission to read it.'];
+                details = ['这意味着该文件不存在，或者 txAdmin 没有权限读取它。'];
             } else {
                 details = [
-                    'This likely means the file got somehow corrupted.',
-                    'You can try restoring it or you can delete it and let txAdmin create a new one.',
+                    '这可能意味着文件以某种方式损坏了。',
+                    '你可以尝试恢复它，或者删除它让 txAdmin 创建一个新的。',
                 ];
             }
             fatalError.AdminStore(0, [
-                ['Unable to load admins.json', reason],
+                ['无法加载 admins.json', reason],
                 ...details,
-                ['Admin File Path', this.adminsFile],
+                ['管理员文件路径', this.adminsFile],
             ]);
         };
 
@@ -674,7 +674,7 @@ export default class AdminStore {
      * TODO: maybe use enums for the purpose
      */
     getAdminPublicName(name, purpose) {
-        if (!name || !purpose) throw new Error('Invalid parameters');
+        if (!name || !purpose) throw new Error('无效的参数');
         const replacer = txConfig.general.serverName ?? 'txAdmin';
 
         if (purpose === 'punishment') {
@@ -682,7 +682,7 @@ export default class AdminStore {
         } else if (purpose === 'message') {
             return txConfig.gameFeatures.hideAdminInMessages ? replacer : name;
         } else {
-            throw new Error(`Invalid purpose: ${purpose}`);
+            throw new Error(`无效的用途：${purpose}`);
         }
     }
 };

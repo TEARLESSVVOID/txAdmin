@@ -13,7 +13,7 @@ export default async function SystemLogs(ctx: AuthedCtx) {
 
     //Check permissions
     if (!ctx.admin.hasPermission('txadmin.log.view')) {
-        return sendTypedResp({ error: 'You don\'t have permission to call this endpoint.' });
+        return sendTypedResp({ error: '你没有权限调用此接口。' });
     }
 
     //Returning the data
@@ -23,11 +23,11 @@ export default async function SystemLogs(ctx: AuthedCtx) {
         });
     } else if (scope === 'action') {
         const rawActions = await txCore.logger.admin.getRecentBuffer();
-        if (!rawActions) return sendTypedResp({ error: 'Error fetching actions' });
+        if (!rawActions) return sendTypedResp({ error: '获取操作日志时出错' });
         return sendTypedResp({
             data: rawActions,
         });
     } else {
-        return sendTypedResp({ error: 'Invalid scope' });
+        return sendTypedResp({ error: '无效的作用域' });
     }
 };

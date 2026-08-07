@@ -13,7 +13,7 @@ const console = consoleFactory(modulename);
 export default async function FXServerControls(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.request.body?.action !== 'string') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const { action } = ctx.request.body;
 
@@ -21,7 +21,7 @@ export default async function FXServerControls(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('control.server', modulename)) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'You don\'t have permission to execute this action.',
+            msg: '你没有权限执行此操作。',
         });
     }
 
@@ -38,30 +38,30 @@ export default async function FXServerControls(ctx: AuthedCtx) {
             );
             return ctx.send<ApiToastResp>({
                 type: 'warning',
-                msg: `The server is will restart with delay of ${durationStr}.`
+                msg: `服务器将在 ${durationStr} 后重启。`
             });
         } else {
             const restartError = await txCore.fxRunner.restartServer('admin request', ctx.admin.name);
             if (restartError !== null) {
                 return ctx.send<ApiToastResp>({ type: 'error', md: true, msg: restartError });
             } else {
-                return ctx.send<ApiToastResp>({ type: 'success', msg: 'The server is now restarting.' });
+                return ctx.send<ApiToastResp>({ type: 'success', msg: '服务器正在重启中。' });
             }
         }
 
     } else if (action === 'stop') {
         if (txCore.fxRunner.isIdle) {
-            return ctx.send<ApiToastResp>({ type: 'success', msg: 'The server is already stopped.' });
+            return ctx.send<ApiToastResp>({ type: 'success', msg: '服务器已停止。' });
         }
         ctx.admin.logCommand('STOP SERVER');
         await txCore.fxRunner.killServer('admin request', ctx.admin.name, false);
-        return ctx.send<ApiToastResp>({ type: 'success', msg: 'Server stopped.' });
+        return ctx.send<ApiToastResp>({ type: 'success', msg: '服务器已停止。' });
 
     } else if (action === 'start') {
         if (!txCore.fxRunner.isIdle) {
             return ctx.send<ApiToastResp>({
                 type: 'error',
-                msg: 'The server is already running. If it\'s not working, press RESTART.'
+                msg: '服务器已在运行。如果无法正常工作，请按重启（RESTART）。'
             });
         }
         ctx.admin.logCommand('START SERVER');
@@ -69,13 +69,13 @@ export default async function FXServerControls(ctx: AuthedCtx) {
         if (spawnError !== null) {
             return ctx.send<ApiToastResp>({ type: 'error', md: true, msg: spawnError });
         } else {
-            return ctx.send<ApiToastResp>({ type: 'success', msg: 'The server is now starting.' });
+            return ctx.send<ApiToastResp>({ type: 'success', msg: '服务器正在启动中。' });
         }
 
     } else {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: `Unknown control action '${action}'.`,
+            msg: `未知的服务器控制操作：'${action}'。`,
         });
     }
 };

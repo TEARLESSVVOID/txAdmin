@@ -25,7 +25,7 @@ export type ApiRemoveIdsReqSchema = z.infer<typeof removeIdsBodySchema>;
 export default async function PlayerActions(ctx: AuthedCtx) {
     //Sanity check
     if (anyUndefined(ctx.params.action)) {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const action = ctx.params.action;
     const { mutex, netid, license } = ctx.query;
@@ -56,7 +56,7 @@ export default async function PlayerActions(ctx: AuthedCtx) {
     } else if (action === 'kick') {
         return sendTypedResp(await handleKick(ctx, player));
     } else {
-        return sendTypedResp({ error: 'unknown action' });
+        return sendTypedResp({ error: '未知操作' });
     }
 };
 
@@ -70,7 +70,7 @@ async function handleSaveNote(ctx: AuthedCtx, player: PlayerClass): Promise<Gene
         ctx.request.body,
         ctx.request.body.note,
     )) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
     const note = ctx.request.body.note.trim();
 
@@ -79,7 +79,7 @@ async function handleSaveNote(ctx: AuthedCtx, player: PlayerClass): Promise<Gene
         ctx.admin.logAction(`Set notes for ${player.license}`);
         return { success: true };
     } catch (error) {
-        return { error: `Failed to save note: ${(error as Error).message}` };
+        return { error: `保存备注失败：${(error as Error).message}` };
     }
 }
 
@@ -93,19 +93,19 @@ async function handleWarning(ctx: AuthedCtx, player: PlayerClass): Promise<Gener
         ctx.request.body,
         ctx.request.body.reason,
     )) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
-    const reason = ctx.request.body.reason.trim() || 'no reason provided';
+    const reason = ctx.request.body.reason.trim() || '未提供原因';
 
     //Check permissions
     if (!ctx.admin.testPermission('players.warn', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' };
+        return { error: '你没有权限执行此操作。' };
     }
 
     //Validating server & player
     const allIds = player.allIdentifiers;
     if (!allIds.length) {
-        return { error: 'Cannot warn a player with no identifiers.' };
+        return { error: '无法警告没有标识符的玩家。' };
     }
 
     //Register action
@@ -118,7 +118,7 @@ async function handleWarning(ctx: AuthedCtx, player: PlayerClass): Promise<Gener
             player.displayName,
         );
     } catch (error) {
-        return { error: `Failed to warn player: ${(error as Error).message}` };
+        return { error: `警告玩家失败：${(error as Error).message}` };
     }
     ctx.admin.logAction(`Warned player "${player.displayName}": ${reason}`);
 
@@ -135,7 +135,7 @@ async function handleWarning(ctx: AuthedCtx, player: PlayerClass): Promise<Gener
     if (eventSent) {
         return { success: true };
     } else {
-        return { error: `Warn saved, but likely failed to send the warn in game (stdin error).` };
+        return { error: `警告已保存，但可能未能在游戏中发送警告（stdin 错误）。` };
     }
 }
 
@@ -152,10 +152,10 @@ async function handleBan(ctx: AuthedCtx, player: PlayerClass): Promise<GenericAp
             ctx.request.body.reason,
         )
     ) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
     const durationInput = ctx.request.body.duration.trim();
-    const reason = (ctx.request.body.reason as string).trim() || 'no reason provided';
+    const reason = (ctx.request.body.reason as string).trim() || '未提供原因';
 
     //Calculating expiration/duration
     let calcResults;
@@ -168,14 +168,14 @@ async function handleBan(ctx: AuthedCtx, player: PlayerClass): Promise<GenericAp
 
     //Check permissions
     if (!ctx.admin.testPermission('players.ban', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' }
+        return { error: '你没有权限执行此操作。' }
     }
 
     //Validating player - hwids.length can be zero 
     const allIds = player.allIdentifiers;
     const allHwids = player.allHardwareIdentifiers;
     if (!allIds.length) {
-        return { error: 'Cannot ban a player with no identifiers.' }
+        return { error: '无法封禁没有标识符的玩家。' }
     }
 
     //Register action
@@ -190,7 +190,7 @@ async function handleBan(ctx: AuthedCtx, player: PlayerClass): Promise<GenericAp
             allHwids
         );
     } catch (error) {
-        return { error: `Failed to ban player: ${(error as Error).message}` };
+        return { error: `封禁玩家失败：${(error as Error).message}` };
     }
     ctx.admin.logAction(`Banned player "${player.displayName}": ${reason}`);
 
@@ -235,7 +235,7 @@ async function handleBan(ctx: AuthedCtx, player: PlayerClass): Promise<GenericAp
     if (eventSent) {
         return { success: true };
     } else {
-        return { error: `Player banned, but likely failed to kick player (stdin error).` };
+        return { error: `玩家已被封禁，但可能未能踢出玩家（stdin 错误）。` };
     }
 }
 
@@ -249,13 +249,13 @@ async function handleSetWhitelist(ctx: AuthedCtx, player: PlayerClass): Promise<
         ctx.request.body,
         ctx.request.body.status,
     )) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
     const status = (ctx.request.body.status === 'true' || ctx.request.body.status === true);
 
     //Check permissions
     if (!ctx.admin.testPermission('players.whitelist', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' }
+        return { error: '你没有权限执行此操作。' }
     }
 
     try {
@@ -276,7 +276,7 @@ async function handleSetWhitelist(ctx: AuthedCtx, player: PlayerClass): Promise<
 
         return { success: true };
     } catch (error) {
-        return { error: `Failed to save whitelist status: ${(error as Error).message}` };
+        return { error: `保存白名单状态失败：${(error as Error).message}` };
     }
 }
 
@@ -288,31 +288,31 @@ async function handleRemoveIds(ctx: AuthedCtx, player: PlayerClass): Promise<Gen
     //Checking request
     const schemaRes = removeIdsBodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
-        return { error: 'Invalid request body.' };
+        return { error: '无效的请求体。' };
     }
     const { ids: idsToDelete } = schemaRes.data;
 
     //Check permissions
     if (!ctx.admin.testPermission('players.remove_ids', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' }
+        return { error: '你没有权限执行此操作。' }
     }
 
     //Checking IDs
     if (!player.license || !player.isRegistered) {
-        return { error: 'This player is not registered in the database, so there is no saved ID to delete.' };
+        return { error: '该玩家未在数据库中注册，因此没有已保存的 ID 可以删除。' };
     }
     if (idsToDelete.includes(player.license)) {
-        return { error: 'You cannot remove the player\'s license from their IDs.' };
+        return { error: '你不能从玩家的 ID 中移除其许可证（license）。' };
     }
     if (player instanceof ServerPlayer && player.isConnected) {
         // If the player is connected, player.ids/hwids only contain the active IDs
         const onlineIdFound = idsToDelete.find(id => player.idsOnline.includes(id));
         if (onlineIdFound) {
-            return { error: `The player #${player.netid} currently has the ID ${shortenId(onlineIdFound)}, so you need to wait for them to disconnect from the server to be able to delete it from the player history.` };
+            return { error: `玩家 #${player.netid} 当前正在使用 ID ${shortenId(onlineIdFound)}，你需要等待其从服务器断开后才能将其从玩家历史中删除。` };
         }
         const onlineHwidFound = idsToDelete.find(id => player.hwidsOnline.includes(id));
         if (onlineHwidFound) {
-            return { error: `The player #${player.netid} currently has the HWID ${shortenId(onlineHwidFound, 6)}, so you need to wait for them to disconnect from the server to be able to delete it from the player history.` };
+            return { error: `玩家 #${player.netid} 当前正在使用 HWID ${shortenId(onlineHwidFound, 6)}，你需要等待其从服务器断开后才能将其从玩家历史中删除。` };
         }
     }
 
@@ -323,7 +323,7 @@ async function handleRemoveIds(ctx: AuthedCtx, player: PlayerClass): Promise<Gen
 
         return { success: true };
     } catch (error) {
-        return { error: `Failed to save whitelist status: ${(error as Error).message}` };
+        return { error: `保存白名单状态失败：${(error as Error).message}` };
     }
 }
 
@@ -337,24 +337,24 @@ async function handleDirectMessage(ctx: AuthedCtx, player: PlayerClass): Promise
         ctx.request.body,
         ctx.request.body.message,
     )) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
     const message = ctx.request.body.message.trim();
     if (!message.length) {
-        return { error: 'Cannot send a DM with empty message.' };
+        return { error: '无法发送内容为空的消息。' };
     }
 
     //Check permissions
     if (!ctx.admin.testPermission('players.direct_message', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' };
+        return { error: '你没有权限执行此操作。' };
     }
 
     //Validating server & player
     if (!txCore.fxRunner.child?.isAlive) {
-        return { error: 'The server is not running.' };
+        return { error: '服务器未运行。' };
     }
     if (!(player instanceof ServerPlayer) || !player.isConnected) {
-        return { error: 'This player is not connected to the server.' };
+        return { error: '该玩家未连接到服务器。' };
     }
 
     try {
@@ -369,7 +369,7 @@ async function handleDirectMessage(ctx: AuthedCtx, player: PlayerClass): Promise
 
         return { success: true };
     } catch (error) {
-        return { error: `Failed to save dm player: ${(error as Error).message}` };
+        return { error: `发送玩家私信失败：${(error as Error).message}` };
     }
 }
 
@@ -383,21 +383,21 @@ async function handleKick(ctx: AuthedCtx, player: PlayerClass): Promise<GenericA
         ctx.request.body,
         ctx.request.body.reason,
     )) {
-        return { error: 'Invalid request.' };
+        return { error: '无效请求。' };
     }
     const kickReason = ctx.request.body.reason.trim() || txCore.translator.t('kick_messages.unknown_reason');
 
     //Check permissions
     if (!ctx.admin.testPermission('players.kick', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' };
+        return { error: '你没有权限执行此操作。' };
     }
 
     //Validating server & player
     if (!txCore.fxRunner.child?.isAlive) {
-        return { error: 'The server is not running.' };
+        return { error: '服务器未运行。' };
     }
     if (!(player instanceof ServerPlayer) || !player.isConnected) {
-        return { error: 'This player is not connected to the server.' };
+        return { error: '该玩家未连接到服务器。' };
     }
 
     try {
@@ -417,6 +417,6 @@ async function handleKick(ctx: AuthedCtx, player: PlayerClass): Promise<GenericA
 
         return { success: true };
     } catch (error) {
-        return { error: `Failed to save kick player: ${(error as Error).message}` };
+        return { error: `踢出玩家失败：${(error as Error).message}` };
     }
 }

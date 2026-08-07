@@ -71,7 +71,7 @@ local function refreshPlayerList()
         -- Updating TX_PLAYERLIST
         if type(TX_PLAYERLIST[serverID]) ~= 'table' then
             TX_PLAYERLIST[serverID] = {
-                name = sub(GetPlayerName(serverID) or "unknown", 1, 75),
+                name = sub(GetPlayerName(serverID) or "未知", 1, 75),
                 health = health,
                 vType = vType,
                 xCoord = xCoord,
@@ -150,7 +150,7 @@ AddEventHandler('playerJoining', function(srcString, _oldID)
     end
 
     local playerData = {
-        name = sub(playerDetectedName or "unknown", 1, 128),
+        name = sub(playerDetectedName or "未知", 1, 128),
         ids = GetPlayerIdentifiers(source),
         hwids = GetPlayerTokens(source),
     }

@@ -39,7 +39,7 @@ const processHistoryLog = (hist: DatabaseActionType[]) => {
 export default async function PlayerModal(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.query === 'undefined') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const { mutex, netid, license } = ctx.query;
     const sendTypedResp = (data: PlayerModalResp) => ctx.send(data);
@@ -83,7 +83,7 @@ export default async function PlayerModal(ctx: AuthedCtx) {
             playerData.notes = playerDbData.notes.text;
             const lastEditObj = new Date(playerDbData.notes.tsLastEdit * 1000);
             const lastEditString = dateFormat(lastEditObj, 'longDate');
-            playerData.notesLog = `Last modified by ${playerDbData.notes.lastAdmin} at ${lastEditString}`;
+            playerData.notesLog = `最后由 ${playerDbData.notes.lastAdmin} 于 ${lastEditString} 修改`;
         }
     }
 

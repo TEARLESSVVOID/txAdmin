@@ -31,10 +31,10 @@ function PendingServerConfigure({ txConfigState }: PendingServerConfigureProps) 
         let newHref = '';
         if (txConfigState === TxConfigState.Setup && !currLocation.startsWith('/server/setup')) {
             newHref = '/server/setup';
-            linkText.current = 'Go to the setup page!';
+            linkText.current = '前往设置页面！';
         } else if (txConfigState === TxConfigState.Deployer && !currLocation.startsWith('/server/deployer')) {
             newHref = '/server/deployer';
-            linkText.current = 'Go to the deployer page!';
+            linkText.current = '前往部署页面！';
         } else {
             newHref = '';
         }
@@ -54,7 +54,7 @@ function PendingServerConfigure({ txConfigState }: PendingServerConfigureProps) 
         <div className='absolute inset-0 flex flex-col items-center justify-center gap-4'>
             <HourglassIcon className='h-12 w-12 opacity-75 animate-pulse' />
             <p className='text-center text-lg tracking-wider font-light opacity-75'>
-                You need to configure your server to be able to start it.
+                您需要先配置服务器才能启动它。
             </p>
             {linkHref ? (
                 <TxAnchor href={linkHref} className='animate-toastbar-enter'>
@@ -82,28 +82,28 @@ export default function ServerMenu() {
             </h2>
             <div className="space-y-1 select-none">
                 <MenuNavLink href="/">
-                    <LayoutDashboardIcon className="mr-2 h-4 w-4" />Dashboard
+                    <LayoutDashboardIcon className="mr-2 h-4 w-4" />仪表盘
                 </MenuNavLink>
                 <MenuNavLink href="/server/console" disabled={!hasPerm('console.view')}>
-                    <ChevronRightSquareIcon className="mr-2 h-4 w-4" />Live Console
+                    <ChevronRightSquareIcon className="mr-2 h-4 w-4" />实时控制台
                 </MenuNavLink>
                 <MenuNavLink href="/server/resources">
-                    <BoxIcon className="mr-2 h-4 w-4" />Resources
+                    <BoxIcon className="mr-2 h-4 w-4" />资源
                 </MenuNavLink>
                 <MenuNavLink href="/server/server-log" disabled={!hasPerm('server.log.view')}>
-                    <EyeIcon className="mr-2 h-4 w-4" />Server Log
+                    <EyeIcon className="mr-2 h-4 w-4" />服务器日志
                 </MenuNavLink>
                 <MenuNavLink href="/server/cfg-editor" disabled={!hasPerm('server.cfg.editor')}>
-                    <FileEditIcon className="mr-2 h-4 w-4" />CFG Editor
+                    <FileEditIcon className="mr-2 h-4 w-4" />CFG 编辑器
                 </MenuNavLink>
                 {window.txConsts.showAdvanced && (
                     <MenuNavLink href="/advanced" className='text-accent' disabled={!hasPerm('all_permisisons')}>
-                        <DnaIcon className="mr-2 h-4 w-4" />Advanced
+                        <DnaIcon className="mr-2 h-4 w-4" />高级
                     </MenuNavLink>
                 )}
                 {import.meta.env.DEV && (
                     <MenuNavLink href="/test" className='text-accent'>
-                        <DnaIcon className="mr-2 h-4 w-4" />Test
+                        <DnaIcon className="mr-2 h-4 w-4" />测试
                     </MenuNavLink>
                 )}
             </div>

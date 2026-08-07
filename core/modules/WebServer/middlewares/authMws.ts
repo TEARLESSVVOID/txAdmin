@@ -25,8 +25,8 @@ body {
 }
 </style>
     <p class="notice">
-        User logged out. <br>
-        Redirecting to <a href="/login#expired" target="_parent">login page</a>...
+        用户已注销。 <br>
+        正在重定向到<a href="/login#expired" target="_parent">登录页面</a>...
     </p>
 <script>
     // Notify parent window that auth failed
@@ -52,8 +52,8 @@ export const hostAuthMw = async (ctx: InitializedCtx, next: Function) => {
     //Token undefined
     if (!txHostConfig.hostApiToken) {
         return ctx.send({
-            error: 'token not configured',
-            desc: 'need to configure the TXHOST_API_TOKEN environment variable to be able to use the status endpoint',
+            error: '未配置令牌',
+            desc: '需要配置 TXHOST_API_TOKEN 环境变量才能使用状态接口',
             docs,
         });
     }
@@ -70,22 +70,22 @@ export const hostAuthMw = async (ctx: InitializedCtx, next: Function) => {
     }
     if (headerToken && paramsToken) {
         return ctx.send({
-            error: 'token conflict',
-            desc: 'cannot use both header and query token',
+            error: '令牌冲突',
+            desc: '不能同时使用请求头和查询字符串中的令牌',
             docs,
         });
     }
     if (!tokenProvided) {
         return ctx.send({
-            error: 'token missing',
-            desc: 'a token needs to be provided in the header or query string',
+            error: '缺少令牌',
+            desc: '需要在请求头或查询字符串中提供令牌',
             docs,
         });
     }
     if (tokenProvided !== txHostConfig.hostApiToken) {
         return ctx.send({
-            error: 'invalid token',
-            desc: 'the token provided does not match the TXHOST_API_TOKEN environment variable',
+            error: '无效的令牌',
+            desc: '提供的令牌与 TXHOST_API_TOKEN 环境变量不匹配',
             docs,
         });
     }
@@ -104,7 +104,7 @@ export const intercomAuthMw = async (ctx: InitializedCtx, next: Function) => {
         typeof ctx.request.body?.txAdminToken !== 'string'
         || ctx.request.body.txAdminToken !== txCore.webServer.luaComToken
     ) {
-        return ctx.send({ error: 'invalid token' });
+        return ctx.send({ error: '无效的令牌' });
     }
 
     await next();
@@ -154,7 +154,7 @@ export const apiAuthMw = async (ctx: InitializedCtx, next: Function) => {
         }
         return sendTypedResp({
             logout: true,
-            reason: authResult.rejectReason ?? 'no session'
+            reason: authResult.rejectReason ?? '无会话'
         });
     }
 
@@ -166,8 +166,8 @@ export const apiAuthMw = async (ctx: InitializedCtx, next: Function) => {
         if (!sessToken || !headerToken || sessToken !== headerToken) {
             console.verbose.warn(`Invalid CSRF token: ${ctx.path}`);
             const msg = (headerToken)
-                ? 'Error: Invalid CSRF token, please refresh the page or try to login again.'
-                : 'Error: Missing HTTP header \'x-txadmin-csrftoken\'. This likely means your files are not updated or you are using some reverse proxy that is removing this header from the HTTP request.';
+                ? '错误：CSRF 令牌无效，请刷新页面或重新登录。'
+                : '错误：缺少 HTTP 请求头 \'x-txadmin-csrftoken\'。这可能意味着你的文件未更新，或者你使用了某个会从 HTTP 请求中移除该请求头的反向代理。';
 
             //Doing ApiAuthErrorResp & GenericApiErrorResp to maintain compatibility with all routes
             //"error" is used by diagnostic, masterActions, playerlist, whitelist and possibly more

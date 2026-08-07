@@ -56,7 +56,7 @@ export const usePlayerListListener = () => {
 
   useNuiEvent<LuaPlayerData[]>("setPlayerList", (playerList) => {
     const newPlayerList = playerList.map((player) => {
-      let displayName = 'Unknown';
+      let displayName = '未知玩家';
       let pureName = 'unknown';
       try {
         const res = cleanPlayerName(player.name);

@@ -124,13 +124,13 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
         if (!banTemplates.length) {
             banTemplatesContentNode = (
                 <div className="text-warning-inline text-center p-4">
-                    You do not have any template configured. <br />
+                    您尚未配置任何模板。 <br />
                     <Link
                         href="/settings/ban-templates"
                         className="cursor-pointer underline hover:text-accent"
                         onClick={() => { closeModal(); }}
                     >
-                        Add Ban Template
+                        添加封禁模板
                         <ExternalLinkIcon className="inline mr-1 h-4" />
                     </Link>
                 </div>
@@ -142,7 +142,7 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
                     value={ADD_NEW_SELECT_OPTION}
                     className="font-bold text-warning-inline"
                 >
-                    Add Ban Template
+                    添加封禁模板
                     <ExternalLinkIcon className="inline mr-1 h-4" />
                 </DropDownSelectItem>
             </>;
@@ -153,13 +153,13 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
                 <Label htmlFor="banReason">
-                    Reason
+                    原因
                 </Label>
                 <div className="flex gap-1">
                     <Input
                         id="banReason"
                         ref={reasonRef}
-                        placeholder="The reason for the ban, rule violated, etc."
+                        placeholder="封禁原因，如违反的规则等。"
                         className="w-full"
                         disabled={disabled}
                         autoFocus
@@ -186,7 +186,7 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
             </div>
             <div className="flex flex-col gap-3">
                 <Label htmlFor="durationSelect">
-                    Duration
+                    时长
                 </Label>
                 <div className="space-y-1">
                     <Select
@@ -195,17 +195,17 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
                         disabled={disabled}
                     >
                         <SelectTrigger id="durationSelect" className="tracking-wide">
-                            <SelectValue placeholder="Select Duration" />
+                            <SelectValue placeholder="选择时长" />
                         </SelectTrigger>
                         <SelectContent className="tracking-wide">
-                            <SelectItem value="custom" className="font-bold">Custom (set below)</SelectItem>
-                            <SelectItem value="2 hours">2 HOURS</SelectItem>
-                            <SelectItem value="8 hours">8 HOURS</SelectItem>
-                            <SelectItem value="1 day">1 DAY</SelectItem>
-                            <SelectItem value="2 days">2 DAYS</SelectItem>
-                            <SelectItem value="1 week">1 WEEK</SelectItem>
-                            <SelectItem value="2 weeks">2 WEEKS</SelectItem>
-                            <SelectItem value="permanent" className="font-bold">Permanent</SelectItem>
+                            <SelectItem value="custom" className="font-bold">自定义（在下方设置）</SelectItem>
+                            <SelectItem value="2 hours">2 小时</SelectItem>
+                            <SelectItem value="8 hours">8 小时</SelectItem>
+                            <SelectItem value="1 day">1 天</SelectItem>
+                            <SelectItem value="2 days">2 天</SelectItem>
+                            <SelectItem value="1 week">1 周</SelectItem>
+                            <SelectItem value="2 weeks">2 周</SelectItem>
+                            <SelectItem value="permanent" className="font-bold">永久</SelectItem>
                         </SelectContent>
                     </Select>
                     <div className="flex flex-row gap-2">
@@ -229,10 +229,10 @@ export default forwardRef(function BanForm({ banTemplates, disabled, onNavigateA
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="tracking-wide">
-                                <SelectItem value="hours">HOURS</SelectItem>
-                                <SelectItem value="days">DAYS</SelectItem>
-                                <SelectItem value="weeks">WEEKS</SelectItem>
-                                <SelectItem value="months">MONTHS</SelectItem>
+                                <SelectItem value="hours">小时</SelectItem>
+                                <SelectItem value="days">天</SelectItem>
+                                <SelectItem value="weeks">周</SelectItem>
+                                <SelectItem value="months">月</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

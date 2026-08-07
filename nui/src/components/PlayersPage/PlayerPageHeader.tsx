@@ -76,7 +76,7 @@ export const PlayerPageHeader: React.FC = () => {
   const playerTranslation = t("nui_menu.page_players.misc.players");
   const oneSyncStatus = serverCtx.oneSync.status 
     ? `OneSync (${serverCtx.oneSync.type})` 
-    : `OneSync Off`;
+    : `OneSync 已关闭`;
   const playerCountText = `${allPlayers.length}/${serverCtx.maxClients} ${playerTranslation} - ${oneSyncStatus}`;
 
   return (

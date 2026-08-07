@@ -72,38 +72,38 @@ export default function ConfigCardGameMenu({ cardCtx, pageCtx }: SettingsCardPro
             advancedVisible={showAdvanced}
             advancedSetter={setShowAdvanced}
         >
-            <SettingItem label="Game Menu">
+            <SettingItem label="游戏菜单">
                 <SwitchText
                     id={cfg.menuEnabled.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     variant="checkedGreen"
                     checked={states.menuEnabled}
                     onCheckedChange={cfg.menuEnabled.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    When enabled, admins will be able to open the menu by typing <InlineCode>/tx</InlineCode> or using the keybind configured in the FiveM/RedM settings.
+                    启用后，管理员可以通过输入 <InlineCode>/tx</InlineCode> 或使用 FiveM/RedM 设置中配置的按键来打开菜单。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Align Menu Right">
+            <SettingItem label="菜单右对齐">
                 <SwitchText
                     id={cfg.alignRight.eid}
-                    checkedLabel="Right aligned"
-                    uncheckedLabel="Left aligned"
+                    checkedLabel="右对齐"
+                    uncheckedLabel="左对齐"
                     checked={states.alignRight}
                     onCheckedChange={cfg.alignRight.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Move menu to the right side of the screen.
+                    将菜单移至屏幕右侧。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Menu Page Switch Key" htmlFor={cfg.pageKey.eid} required>
+            <SettingItem label="菜单页面切换键" htmlFor={cfg.pageKey.eid} required>
                 <Input
                     id={cfg.pageKey.eid}
                     value={states.pageKey}
-                    placeholder='click here and use the key to change'
+                    placeholder='点击此处并按键以更改'
                     onKeyDown={handlePageKey}
                     className="font-mono"
                     readOnly
@@ -111,27 +111,27 @@ export default function ConfigCardGameMenu({ cardCtx, pageCtx }: SettingsCardPro
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    The key used to to switch tabs in the menu. <br />
-                    Click above and press any key to change the configuration. <br />
-                    <strong>Note:</strong> The default is <InlineCode>Tab</InlineCode>, and you cannot use <InlineCode>Escape</InlineCode> or <InlineCode>Backspace</InlineCode>.
+                    用于在菜单中切换页面的按键。<br />
+                    点击上方输入框并按任意键即可更改配置。<br />
+                    <strong>注意：</strong>默认键为 <InlineCode>Tab</InlineCode>，不能使用 <InlineCode>Escape</InlineCode> 或 <InlineCode>Backspace</InlineCode>。
                 </SettingItemDesc>
             </SettingItem>
 
             {showAdvanced && <AdvancedDivider />}
 
-            <SettingItem label="Player Mode Change Effect" showIf={showAdvanced}>
+            <SettingItem label="玩家模式切换特效" showIf={showAdvanced}>
                 <SwitchText
                     id={cfg.playerModePtfx.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     variant="checkedGreen"
                     checked={states.playerModePtfx}
                     onCheckedChange={cfg.playerModePtfx.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Play a particle effect and sound when an admin uses NoClip, God Mode, etc. <br />
-                    <strong className="text-warning-inline">Warning:</strong> This options help prevent admin abuse during PvP by making it visible/audible to all players that an admin is using a special mode. We recommend keeping it enabled.
+                    当管理员使用 NoClip、无敌模式等时，播放粒子特效和音效。<br />
+                    <strong className="text-warning-inline">警告：</strong>此选项通过让所有玩家看到/听到管理员正在使用特殊模式，有助于防止 PvP 期间的管理员滥用。我们建议保持启用。
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

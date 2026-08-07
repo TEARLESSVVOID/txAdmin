@@ -31,45 +31,45 @@ export function GlobalMenuSheet() {
 
                     <div className="mb-4">
                         <h2 className="mb-1.5 text-lg font-semibold tracking-tight">
-                            Global Menu
+                            全局菜单
                         </h2>
                         <div className="flex flex-wrap flex-row xs:grid grid-cols-2 gap-4">
                             <MenuNavLink href="/players">
-                                <UsersIcon className="mr-2 h-4 w-4" />Players
+                                <UsersIcon className="mr-2 h-4 w-4" />玩家
                             </MenuNavLink>
                             <MenuNavLink href="/history">
-                                <ScrollIcon className="mr-2 h-4 w-4" />History
+                                <ScrollIcon className="mr-2 h-4 w-4" />历史记录
                             </MenuNavLink>
                             <MenuNavLink href="/insights/player-drops">
-                                <DoorOpenIcon className="mr-2 h-4 w-4" />Player Drops
+                                <DoorOpenIcon className="mr-2 h-4 w-4" />玩家掉线
                             </MenuNavLink>
                             <MenuNavLink href="/allowlist">
-                                <ClipboardCheckIcon className="mr-2 h-4 w-4" />Allowlist
+                                <ClipboardCheckIcon className="mr-2 h-4 w-4" />白名单
                             </MenuNavLink>
                             <MenuNavLink href="/admins" disabled={!hasPerm('manage.admins')}>
-                                <UserSquare2Icon className="mr-2 h-4 w-4" />Admins
+                                <UserSquare2Icon className="mr-2 h-4 w-4" />管理员
                             </MenuNavLink>
                             <MenuNavLink href="/settings" disabled={!hasPerm('settings.view')}>
-                                <SettingsIcon className="mr-2 h-4 w-4" />Settings
+                                <SettingsIcon className="mr-2 h-4 w-4" />设置
                             </MenuNavLink>
                         </div>
                     </div>
                     <div className="mb-4">
                         <h2 className="mb-1.5 text-lg font-semibold tracking-tight">
-                            System Menu
+                            系统菜单
                         </h2>
                         <div className="flex flex-wrap flex-row xs:grid grid-cols-2 gap-4">
                             <MenuNavLink href="/system/master-actions">
-                                <ZapIcon className="mr-2 h-4 w-4" />Master Actions
+                                <ZapIcon className="mr-2 h-4 w-4" />主控操作
                             </MenuNavLink>
                             <MenuNavLink href="/system/diagnostics">
-                                <PieChartIcon className="mr-2 h-4 w-4" />Diagnostics
+                                <PieChartIcon className="mr-2 h-4 w-4" />诊断
                             </MenuNavLink>
                             <MenuNavLink href="/system/console-log" disabled={!hasPerm('txadmin.log.view')}>
-                                <ListIcon className="mr-2 h-4 w-4" />Console Log
+                                <ListIcon className="mr-2 h-4 w-4" />控制台日志
                             </MenuNavLink>
                             <MenuNavLink href="/system/action-log" disabled={!hasPerm('txadmin.log.view')}>
-                                <ListIcon className="mr-2 h-4 w-4" />Action Log
+                                <ListIcon className="mr-2 h-4 w-4" />操作日志
                             </MenuNavLink>
                         </div>
                     </div>

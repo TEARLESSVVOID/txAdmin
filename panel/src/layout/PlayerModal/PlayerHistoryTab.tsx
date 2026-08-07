@@ -16,18 +16,18 @@ function HistoryItem({ action, serverTime, modalOpener }: HistoryItemProps) {
     let footerNote, borderColorClass, actionMessage;
     if (action.type === 'ban') {
         borderColorClass = 'border-destructive';
-        actionMessage = `BANNED by ${action.author}`;
+        actionMessage = `被 ${action.author} 封禁`;
     } else if (action.type === 'warn') {
         borderColorClass = 'border-warning';
-        actionMessage = `WARNED by ${action.author}`;
+        actionMessage = `被 ${action.author} 警告`;
     }
     if (action.revokedBy) {
         borderColorClass = '';
         const revocationDate = tsToLocaleDateTimeString(action.revokedAt ?? 0, 'medium', 'short');
-        footerNote = `Revoked by ${action.revokedBy} on ${revocationDate}.`;
+        footerNote = `由 ${action.revokedBy} 于 ${revocationDate} 撤销。`;
     } else if (typeof action.exp === 'number') {
         const expirationDate = tsToLocaleDateTimeString(action.exp, 'medium', 'short');
-        footerNote = (action.exp < serverTime) ? `Expired on ${expirationDate}.` : `Expires in ${expirationDate}.`;
+        footerNote = (action.exp < serverTime) ? `于 ${expirationDate} 到期。` : `在 ${expirationDate} 到期。`;
     }
 
     return (
@@ -68,7 +68,7 @@ export default function PlayerHistoryTab({ actionHistory, serverTime, refreshMod
 
     if (!actionHistory.length) {
         return <ModalTabMessage>
-            No bans/warns found.
+            未找到封禁/警告记录。
         </ModalTabMessage>;
     }
 

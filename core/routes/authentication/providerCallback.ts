@@ -21,7 +21,7 @@ export default async function AuthProviderCallback(ctx: InitializedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<ApiOauthCallbackResp>({
-            errorTitle: 'Invalid request body',
+            errorTitle: '无效的请求体',
             errorMessage: schemaRes.error.message,
         });
     }
@@ -38,8 +38,8 @@ export default async function AuthProviderCallback(ctx: InitializedCtx) {
     const fivemIdentifier = getIdFromOauthNameid(userInfo.nameid);
     if(!fivemIdentifier){
         return ctx.send<ApiOauthCallbackResp>({
-            errorTitle: 'Invalid nameid identifier.',
-            errorMessage: `Could not extract the user identifier from the URL below. Please report this to the txAdmin dev team.\n${userInfo.nameid.toString()}`,
+            errorTitle: '无效的 nameid 标识符。',
+            errorMessage: `无法从下面的 URL 中提取用户标识符。请将此情况报告给 txAdmin 开发团队。\n${userInfo.nameid.toString()}`,
         });
     }
 
@@ -82,7 +82,7 @@ export default async function AuthProviderCallback(ctx: InitializedCtx) {
         ctx.sessTools.destroy();
         console.verbose.error(`Failed to login: ${(error as Error).message}`);
         return ctx.send<ApiOauthCallbackResp>({
-            errorTitle: 'Failed to login:',
+            errorTitle: '登录失败：',
             errorMessage: (error as Error).message,
         });
     }

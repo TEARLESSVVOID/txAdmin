@@ -18,7 +18,7 @@ import { usePermissionsValue } from "@nui/src/state/permissions.state";
 const NoHistoryBox = () => (
   <Box>
     <Typography color="textSecondary">
-      No history found for this player.
+      未找到此玩家的相关记录。
     </Typography>
   </Box>
 );
@@ -175,7 +175,7 @@ const DialogHistoryView: React.FC = () => {
   return (
     <Box p={2} height="100%" display="flex" flexDirection="column">
       <Typography variant="h6" style={{ paddingBottom: 5 }}>
-        Related History:
+        相关记录：
       </Typography>
       <Box flexGrow={1} overflow="auto" pr={1}>
         {!playerActionHistory?.length ? (

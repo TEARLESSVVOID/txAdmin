@@ -36,13 +36,13 @@ export default async function SendDiagnosticsReport(ctx: AuthedCtx) {
     const sendTypedResp = (data: SuccessResp | GenericApiErrorResp) => ctx.send(data);
 
     //FIXME: re-enable
-    return sendTypedResp({ error: 'The diagnostics report feature is temporarily disabled. Please check back later.' });
+    return sendTypedResp({ error: '诊断报告功能暂时禁用，请稍后再试。' });
 
     //Rate limit (and cache) report submissions
     const cachedReportId = reportIdCache.get();
     if (cachedReportId) {
         return sendTypedResp({
-            error: `You can send at most one report per minute. Your last report ID was ${cachedReportId}.`
+            error: `你每分钟最多只能发送一份报告。你上次的报告 ID 为 ${cachedReportId}。`
         });
     }
 
@@ -160,15 +160,15 @@ export default async function SendDiagnosticsReport(ctx: AuthedCtx) {
             return sendTypedResp({ reportId: apiResp.reportId });
         } else {
             console.verbose.dir(apiResp);
-            return sendTypedResp({ error: `Report failed: ${apiResp.message ?? apiResp.error}` });
+            return sendTypedResp({ error: `报告发送失败：${apiResp.message ?? apiResp.error}` });
         }
     } catch (error) {
         try {
             const apiErrorResp = JSON.parse((error as any)?.response?.body);
             const reason = apiErrorResp.message ?? apiErrorResp.error ?? (error as Error).message;
-            return sendTypedResp({ error: `Report failed: ${reason}` });
+            return sendTypedResp({ error: `报告发送失败：${reason}` });
         } catch (error2) {
-            return sendTypedResp({ error: `Report failed: ${(error as Error).message}` });
+            return sendTypedResp({ error: `报告发送失败：${(error as Error).message}` });
         }
     }
 };

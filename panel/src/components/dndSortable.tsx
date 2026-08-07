@@ -54,7 +54,7 @@ export function DndSortableItem({ id, disabled, className, children }: DndSortab
         >
             <div
                 {...listeners}
-                title="Drag to reorder"
+                title="拖动以排序"
                 className={cn(
                     "text-muted-foreground my-auto",
                     disabled

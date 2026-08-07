@@ -43,7 +43,7 @@ export default async function RunAdvancedCommand(ctx: AuthedCtx) {
     //Check permissions
     if (!ctx.admin.testPermission('all_permissions', modulename)) {
         return sendTypedResp({
-            error: 'You do not have permission to change the settings.'
+            error: '你没有权限更改设置。'
         });
     }
 
@@ -51,7 +51,7 @@ export default async function RunAdvancedCommand(ctx: AuthedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return sendTypedResp({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const cmdStr = schemaRes.data.cmd;
@@ -60,7 +60,7 @@ export default async function RunAdvancedCommand(ctx: AuthedCtx) {
     const [, cmd, rawArgs] = cmdStr.match(/^(?<cmd>\w+)(?:\s+(?<rawArgs>.*))?$/) || [];
     if (!cmd || !(cmd in handlers) || !handlers[cmd]) {
         return sendTypedResp({
-            error: `Invalid command: ${cmdStr}`,
+            error: `无效的命令：${cmdStr}`,
         });
     }
 
@@ -72,7 +72,7 @@ export default async function RunAdvancedCommand(ctx: AuthedCtx) {
         return sendTypedResp(result);
     } catch (error) {
         return sendTypedResp({
-            error: `Error running command: ${(error as any)?.message ?? 'Unknown error'}`,
+            error: `运行命令时出错：${(error as any)?.message ?? '未知错误'}`,
         });
     }
 };

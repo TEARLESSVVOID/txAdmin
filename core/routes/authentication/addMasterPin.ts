@@ -20,7 +20,7 @@ export default async function AuthAddMasterPin(ctx: InitializedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<ApiOauthRedirectResp>({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const { pin, origin } = schemaRes.data;
@@ -35,7 +35,7 @@ export default async function AuthAddMasterPin(ctx: InitializedCtx) {
     //Checking the PIN
     if (!pin.length || pin !== txCore.adminStore.addMasterPin) {
         return ctx.send<ApiOauthRedirectResp>({
-            error: `Wrong PIN.`,
+            error: 'PIN 错误。',
         });
     }
 

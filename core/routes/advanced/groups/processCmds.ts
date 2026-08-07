@@ -19,7 +19,7 @@ const printProcessMemoryUsage: AdvancedCommandHandler = (ctx, args) => {
     return {
         type: 'md',
         data: [
-            '## Process Memory:',
+            '## 进程内存：',
             ...outLines,
         ].join('\n'),
     }
@@ -31,7 +31,7 @@ const freezeProcess: AdvancedCommandHandler = (ctx, args) => {
     if (secs < 1) {
         return {
             type: 'md',
-            data: `Invalid argument: ${args}`,
+            data: `无效的参数：${args}`,
         }
     }
 
@@ -42,7 +42,7 @@ const freezeProcess: AdvancedCommandHandler = (ctx, args) => {
     }, 250); //grace period
     return {
         type: 'md',
-        data: `Freezing process for ${secs} seconds...`,
+        data: `正在冻结进程 ${secs} 秒...`,
     }
 }
 
@@ -54,7 +54,7 @@ const saveHeapSnapshot: AdvancedCommandHandler = (ctx, args) => {
     }, 250); //grace period
     return {
         type: 'md',
-        data: `Saving heap snapshot, check the terminal for more details.\nThis may take a while and has high chance of crashing the server.`,
+        data: `正在保存堆快照，请查看终端以了解更多详情。\n这可能需要一段时间，并且有很大几率导致服务器崩溃。`,
     }
 }
 

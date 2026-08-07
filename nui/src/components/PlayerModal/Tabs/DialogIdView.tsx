@@ -53,7 +53,7 @@ const DialogIdView: React.FC = () => {
 
   const getCurrentIds = () => {
     if (!Array.isArray(playerDetails.player.idsOnline) || !playerDetails.player.idsOnline.length) {
-      return <em>No identifiers online.</em>
+      return <em>该玩家当前没有在线标识符。</em>
     } else {
       return playerDetails.player.idsOnline.map((id) => (
         <Box className={classes.codeBlock} key={id}>
@@ -68,7 +68,7 @@ const DialogIdView: React.FC = () => {
 
   const getOldIds = () => {
     if (!Array.isArray(playerDetails.player.idsOffline) || !playerDetails.player.idsOffline.length) {
-      return <em>No previous identifiers saved.</em>
+      return <em>暂无历史标识符记录。</em>
     } else {
       return playerDetails.player.idsOffline.map((ids) => (
         <Box className={classes.codeBlock} key={ids}>
@@ -84,7 +84,7 @@ const DialogIdView: React.FC = () => {
   const getAllHwids = () => {
     const allHwids = [...playerDetails.player.hwidsOnline ?? [], ...playerDetails.player.hwidsOffline ?? []];
     if (!allHwids.length) {
-      return <em>No HWIDs saved.</em>
+      return <em>暂无 HWID 记录。</em>
     } else {
       return <Box className={classes.codeBlock}>
         <span className={classes.codeBlockHwids}>

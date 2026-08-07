@@ -15,7 +15,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
     ) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'Invalid request.',
+            msg: '无效请求。',
         });
     }
     const action = ctx.request.body.action;
@@ -25,7 +25,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
     if (!txCore.fxRunner.child?.isAlive) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'The server is not running.',
+            msg: '服务器未运行。',
         });
     }
 
@@ -34,7 +34,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
     if (unsafeActions.includes(action) && parameter.includes('runcode')) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'The resource "runcode" might be unsafe. <br> If you know what you are doing, run it via the Live Console.',
+            msg: '资源 "runcode" 可能不安全。 <br> 如果你确定自己在做什么，请通过实时控制台运行它。',
         });
     }
 
@@ -64,7 +64,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
 
         return ctx.send<ApiToastResp>({
             type: 'success',
-            msg: 'Announcement command sent.',
+            msg: '公告命令已发送。',
         });
 
     //==============================================
@@ -85,7 +85,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         });
         return ctx.send<ApiToastResp>({
             type: 'success',
-            msg: 'Kick All command sent.',
+            msg: '全员踢出命令已发送。',
         });
 
     //==============================================
@@ -95,7 +95,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         txCore.fxRunner.sendCommand('restart', [parameter], ctx.admin.name);
         return ctx.send<ApiToastResp>({
             type: 'warning',
-            msg: 'Resource restart command sent.',
+            msg: '资源重启命令已发送。',
         });
 
     //==============================================
@@ -105,7 +105,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         txCore.fxRunner.sendCommand('start', [parameter], ctx.admin.name);
         return ctx.send<ApiToastResp>({
             type: 'warning',
-            msg: 'Resource start command sent.',
+            msg: '资源启动命令已发送。',
         });
 
     //==============================================
@@ -115,7 +115,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         txCore.fxRunner.sendCommand('ensure', [parameter], ctx.admin.name);
         return ctx.send<ApiToastResp>({
             type: 'warning',
-            msg: 'Resource ensure command sent.',
+            msg: '资源 ensure 命令已发送。',
         });
 
     //==============================================
@@ -125,7 +125,7 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         txCore.fxRunner.sendCommand('stop', [parameter], ctx.admin.name);
         return ctx.send<ApiToastResp>({
             type: 'warning',
-            msg: 'Resource stop command sent.',
+            msg: '资源停止命令已发送。',
         });
 
     //==============================================
@@ -135,14 +135,14 @@ export default async function FXServerCommands(ctx: AuthedCtx) {
         txCore.fxRunner.sendCommand('refresh', [], ctx.admin.name);
         return ctx.send<ApiToastResp>({
             type: 'warning',
-            msg: 'Refresh command sent.',
+            msg: '刷新命令已发送。',
         });
 
     //==============================================
     } else {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'Unknown Action.',
+            msg: '未知操作。',
         });
     }
 };
@@ -158,7 +158,7 @@ function ensurePermission(ctx: AuthedCtx, perm: string) {
     } else {
         ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'You don\'t have permission to execute this action.',
+            msg: '你没有权限执行此操作。',
         });
         return false;
     }

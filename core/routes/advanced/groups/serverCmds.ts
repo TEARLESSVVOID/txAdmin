@@ -8,14 +8,14 @@ const forceUpdateMutableConvars: AdvancedCommandHandler = async (ctx, args) => {
     if (!convarList) {
         return {
             type: 'md',
-            data: `Failed to update mutable convars.\nCheck the terminal for more details.`,
+            data: `更新可变控制台变量（convar）失败。\n请查看终端以了解更多详情。`,
         }
     }
     const lines = convarList.map(([set, convar, value]) => `${set} ${convar} ${value}`);
     return {
         type: 'md',
         data: [
-            '## Convars Updated:',
+            '## 已更新的控制台变量：',
             mdCodeBlock(lines.join('\n'), 'txt'),
         ].join('\n'),
     }
@@ -34,7 +34,7 @@ const safelyRestartMonitorResource: AdvancedCommandHandler = (ctx, args) => {
     if (!setCmdResult) {
         return {
             type: 'md',
-            data: 'Failed to reset luaComToken.\nCheck the terminal for more details.',
+            data: '重置 luaComToken 失败。\n请查看终端以了解更多详情。',
         }
     }
     const ensureCmdResult = txCore.fxRunner.sendCommand(
@@ -45,12 +45,12 @@ const safelyRestartMonitorResource: AdvancedCommandHandler = (ctx, args) => {
     if (ensureCmdResult) {
         return {
             type: 'md',
-            data: 'Monitor restarted.',
+            data: '监控资源（monitor）已重启。',
         }
     } else {
         return {
             type: 'md',
-            data: 'Failed to restart monitor.\nCheck the terminal for more details.',
+            data: '重启监控资源失败。\n请查看终端以了解更多详情。',
         }
     }
 }
@@ -61,14 +61,14 @@ const forceReauthRecentPlayers: AdvancedCommandHandler = async (ctx, args) => {
     if (numPlayers < 1) {
         return {
             type: 'md',
-            data: `Invalid argument: ${args}`,
+            data: `无效的参数：${args}`,
         }
     }
     const netIds = txCore.fxPlayerlist.getPlayerList().map((p) => p.netid).slice(-numPlayers);
     txCore.fxRunner.sendEvent('adminsUpdated', netIds);
     return {
         type: 'md',
-        data: `Refreshed players with NetIDs: ${netIds.join(', ')}`,
+        data: `已刷新以下 NetID 的玩家：${netIds.join(', ')}`,
     }
 }
 

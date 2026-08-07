@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <base href="<%= basePath %>">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="txAdmin - remotely Manage & Monitor your GTA5 FiveM Server">
+    <meta name="description" content="txAdmin - 远程管理和监控你的 GTA5 FiveM 服务器">
     <meta name="author" content="André Tabarra">
     <title><%= headerTitle %></title>
     <link href="css/simple-line-icons.css?txVer=<%= txAdminVersion %>" rel="stylesheet">
@@ -143,18 +143,18 @@
 
                             <!-- Server Name -->
                             <li class="step <%= skipServerName ? 'done' : 'active' %>">
-                                <div class="step-title waves-effect">Server Name</div>
+                                <div class="step-title waves-effect">服务器名称</div>
                                 <div class="step-content">
-                                    A <strong>short</strong> server name to be used in txAdmin interface and
-                                    Chat/Discord messages.
+                                    一个<strong>简短</strong>的服务器名称，用于 txAdmin 界面和
+                                    聊天/Discord 消息中。
                                     <input type="text" class="form-control mt-2" id="frmName" maxlength="18"
-                                        minlength="1" placeholder="Happy Server" value="<%= serverName %>" required>
+                                        minlength="1" placeholder="我的服务器" value="<%= serverName %>" required>
                                     <span id="frmNameError" class="text-danger fade-in d-none"></span>
                                     <div class="step-actions">
                                         <button class="btn btn-pill btn-secondary previous-step"
-                                            type="button">Back</button>
+                                            type="button">返回</button>
                                         <button class="btn btn-pill btn-info next-step" type="button"
-                                            data-feedback="validateName" id="frmNameSubmitBtn">Next</button>
+                                            data-feedback="validateName" id="frmNameSubmitBtn">下一步</button>
                                     </div>
                                 </div>
                             </li>
@@ -162,45 +162,45 @@
 
                             <!-- Deployment Type -->
                             <li class="step <%= skipServerName ? 'active' : '' %>">
-                                <div class="step-title waves-effect">Deployment Type</div>
+                                <div class="step-title waves-effect">部署类型</div>
                                 <div class="step-content">
-                                    <strong>Select</strong> how you want to setup your server:
+                                    <strong>选择</strong>你希望如何设置你的服务器：
                                     <div class="bigbutton deployment-type-card border-dark next-step" onclick="selectDeploymentType('popular')">
-                                        <span class="title"><strong>⭐ Popular Recipes</strong> <span class="badge badge-danger">RECOMMENDED</span></span>
+                                        <span class="title"><strong>⭐ 热门配方</strong> <span class="badge badge-danger">推荐</span></span>
                                         <br>
                                         <span class="description">
-                                            Select a template from a curated list of community favorites. <br>
-                                            This includes QBCore, ESX and a Default template for you to customize.
+                                            从社区精选的模板列表中选择一个。 <br>
+                                            包括 QBCore、ESX 以及一个供你自定义的默认模板。
                                         </span>
                                     </div>
                                     <div class="bigbutton deployment-type-card border-dark next-step" onclick="selectDeploymentType('local')">
-                                        <span class="title"><strong>📁 Existing Server Data</strong></span>
+                                        <span class="title"><strong>📁 已有服务器数据</strong></span>
                                         <br>
                                         <span class="description">
-                                            Select an existing server data folder in the host. <br>
-                                            Only select this option if you already have a <code class="keep-original">server.cfg</code> and a <code class="keep-original">resources</code> folder. <br>
-                                            If you are not running fxserver in your computer, you need to first upload those files to the server's host.
+                                            在主机上选择一个已有的服务器数据文件夹。 <br>
+                                            仅当你已经拥有 <code class="keep-original">server.cfg</code> 和 <code class="keep-original">resources</code> 文件夹时才选择此选项。 <br>
+                                            如果你的电脑上并未运行 fxserver，你需要先将这些文件上传到服务器主机。
                                         </span>
                                     </div>
                                     <div class="bigbutton deployment-type-card border-dark next-step" onclick="selectDeploymentType('remote')">
-                                        <span class="title"><strong>📥 Remote URL Template</strong></span>
+                                        <span class="title"><strong>📥 远程 URL 模板</strong></span>
                                         <br>
                                         <span class="description">
-                                            Based on a Recipe URL in the YAML format. <br>
-                                            You will have the option to edit the Recipe before running it.
+                                            基于 YAML 格式的配方 URL。 <br>
+                                            运行前你将有机会编辑该配方。
                                         </span>
                                     </div>
                                     <div class="bigbutton deployment-type-card border-dark next-step" onclick="selectDeploymentType('custom')">
-                                        <span class="title"><strong>📑 Custom Template</strong></span>
+                                        <span class="title"><strong>📑 自定义模板</strong></span>
                                         <br>
                                         <span class="description">
-                                            This is recommended if you have a custom recipe-based server or if you are writing your own recipe. 
-                                            You will be asked for the recipe right after this page.
+                                            如果你使用的是基于自定义配方的服务器，或正在编写自己的配方，建议选择此选项。 
+                                            进入下一页后，系统将要求你提供配方。
                                         </span>
                                     </div>
                                     <div class="step-actions">
                                         <button class="btn btn-pill btn-secondary previous-step"
-                                            type="button">Back</button>
+                                            type="button">返回</button>
                                     </div>
                                 </div>
                             </li>
@@ -208,7 +208,7 @@
 
                             <!-- Step 4 -->
                             <li class="step">
-                                <div class="step-title waves-effect" id="s4Title"><i>please select deployment type</i></div>
+                                <div class="step-title waves-effect" id="s4Title"><i>请选择部署类型</i></div>
                                 <div class="step-content">
                                     <!-- select template buttons -->
                                     <template id="s4PopularTemplateCardTemplate">
@@ -227,64 +227,64 @@
                                         
                                         <div class="step-actions">
                                             <button class="btn btn-pill btn-secondary previous-step"
-                                                type="button">Back</button>
+                                                type="button">返回</button>
                                         </div>
                                     </div>
 
                                     <!-- input url with some minimal backend validation -->
                                     <div class="d-none" id="s4RemoteTemplateDiv">
-                                        The URL for the remote recipe, or the forum thread. <br>
-                                        You can discover new recipes by visiting the <a href="https://forum.cfx.re/c/development/releases/7" target="_blank" rel="noopener noreferrer">CFX Forum</a>.
+                                        远程配方或论坛帖子的 URL。 <br>
+                                        你可以访问 <a href="https://forum.cfx.re/c/development/releases/7" target="_blank" rel="noopener noreferrer">CFX 论坛</a> 发现新配方。
                                         <input type="text" class="form-control mt-2" id="s4RemoteTemplateInput"
                                             placeholder="https://raw.githubusercontent.com/tabarra/CFX-Default-recipe/main/recipe.yaml">
                                         <span id="s4RemoteTemplateInputError" class="text-danger fade-in d-none"></span>
                                         <div class="step-actions">
                                             <button class="btn btn-pill btn-secondary previous-step"
-                                                type="button">Back</button>
+                                                type="button">返回</button>
                                             <button class="btn btn-pill btn-info next-step" type="button"
-                                                data-feedback="validateRemoteTemplate">Next</button>
+                                                data-feedback="validateRemoteTemplate">下一步</button>
                                         </div>
                                     </div>
 
                                     <!-- explain and show some doc links -->
                                     <div class="d-none" id="s4CustomTemplateDiv">
                                         <p>
-                                            In the next page you will be prompted to insert your custom Recipe. <br>
-                                            If you are developing your own recipes, we highly recommend you to check the following:
+                                            在下一页中，系统将提示你输入自定义配方。 <br>
+                                            如果你正在开发自己的配方，我们强烈建议你查看以下内容：
                                             <ul class="font-weight-bold">
-                                                <li><a href="https://github.com/tabarra/txAdmin/blob/master/docs/recipe.md" target="_blank" rel="noopener">Recipe Documentation</a></li>
-                                                <li><a href="https://github.com/tabarra/txAdmin-recipes" target="_blank" rel="noopener">Example Recipes</a></li>
-                                                <li><a href="https://discord.gg/NsXGTszYjK" target="_blank" rel="noopener">Discord Support</a></li>
+                                                <li><a href="https://github.com/tabarra/txAdmin/blob/master/docs/recipe.md" target="_blank" rel="noopener">配方文档</a></li>
+                                                <li><a href="https://github.com/tabarra/txAdmin-recipes" target="_blank" rel="noopener">示例配方</a></li>
+                                                <li><a href="https://discord.gg/NsXGTszYjK" target="_blank" rel="noopener">Discord 支持</a></li>
                                             </ul>
                                         </p>
                                         
                                         <div class="step-actions">
                                             <button class="btn btn-pill btn-secondary previous-step"
-                                                type="button">Back</button>
+                                                type="button">返回</button>
                                             <button class="btn btn-pill btn-info next-step" 
-                                                type="button">Next</button>
+                                                type="button">下一步</button>
                                         </div>
                                     </div>
 
                                     <!-- input local data folder -->
                                     <div class="d-none" id="s4LocalDataPathDiv">
-                                        The folder that <strong>contains</strong> the <code>resources</code> and
-                                        <code>cache</code> folders, usually it's here that you put your <code>server.cfg</code>. <br>
-                                        Also known as Base Folder. <br>
+                                        该文件夹<strong>包含</strong><code>resources</code> 和
+                                        <code>cache</code> 文件夹，通常你的 <code>server.cfg</code> 也放在这里。 <br>
+                                        也称为基础文件夹。 <br>
                                         <% if (hasCustomDataPath) { %>
-                                            <span class="font-weight-bold"><%= hostConfigSource %>: this path should start with <code><%= dataPath %></code>.</span>
+                                            <span class="font-weight-bold"><%= hostConfigSource %>：此路径应以 <code><%= dataPath %></code> 开头。</span>
                                         <% } %>
                                         <input type="text" class="form-control mt-2" id="s4LocalDataPathInput"
                                             placeholder="C:/Users/Admin/Desktop/server01">
                                         <span id="s4LocalDataPathInputError" class="text-danger fade-in d-none"></span>
                                         <div class="step-actions">
                                             <button class="btn btn-pill btn-secondary previous-step"
-                                                type="button">Back</button>
+                                                type="button">返回</button>
                                             <button class="btn btn-pill btn-info next-step" type="button"
-                                                data-feedback="validateLocalDataFolder" id="s4LocalDataPathInputSubmitBtn">Next</button>
+                                                data-feedback="validateLocalDataFolder" id="s4LocalDataPathInputSubmitBtn">下一步</button>
                                             <button class="btn btn-pill btn-outline-primary d-none fade-in" type="button"
                                                 id="s4LocalDataPathInputFixBtn" 
-                                                data-target="s4LocalDataPathInput">Accept Fix</button>
+                                                data-target="s4LocalDataPathInput">接受修复</button>
                                         </div>
                                     </div>
 
@@ -294,50 +294,50 @@
 
                             <!-- Step 5 -->
                             <li class="step">
-                                <div class="step-title waves-effect" id="s5Title"><i>please select deployment type</i></div>
+                                <div class="step-title waves-effect" id="s5Title"><i>请选择部署类型</i></div>
                                 <div class="step-content" id="s5Content">
 
                                     <!-- input local data folder --> 
                                     <div class="d-none" id="s5DeployerTargetDiv">
-                                        The folder where the server will be deployed to. <br>
-                                        This folder will contain all your resources and configuration files. <br>
+                                        服务器将部署到的文件夹。 <br>
+                                        此文件夹将包含你所有的资源和配置文件。 <br>
                                         <% if (hasCustomDataPath) { %>
-                                            <span class="font-weight-bold"><%= hostConfigSource %>: this path must start with <code><%= dataPath %></code>.</span> <br>
+                                            <span class="font-weight-bold"><%= hostConfigSource %>：此路径必须以 <code><%= dataPath %></code> 开头。</span> <br>
                                         <% } %>
-                                        <strong>We strongly recommend using the path suggested below.</strong>                     
+                                        <strong>我们强烈建议使用下方建议的路径。</strong>                     
                                         <div class="input-group mt-2">
                                             <input type="text" class="form-control" id="s5DeployerTargetInput"
                                                 placeholder="C:/Users/Admin/Desktop/server01/server.cfg" disabled>
                                             <span class="input-group-append">
                                                 <button class="btn btn-sm btn-outline-dark" type="button" id="s5DeployerTargetChangeBtn"
-                                                    onclick="s5DeployerTargetEnablePath()">Change Path</button>
+                                                    onclick="s5DeployerTargetEnablePath()">更改路径</button>
                                             </span>
                                         </div>
                                         <span id="s5DeployerTargetError" class="text-danger fade-in d-none"></span>
                                         <div class="step-actions">
                                             <button class="btn btn-pill btn-secondary previous-step"
-                                                type="button">Back</button>
+                                                type="button">返回</button>
                                             <button class="btn btn-pill btn-info next-step" type="button"
-                                                data-feedback="validateLocalDeployPath" id="s5DeployerTargetSubmitBtn" autofocus>Save</button>
+                                                data-feedback="validateLocalDeployPath" id="s5DeployerTargetSubmitBtn" autofocus>保存</button>
                                         </div>
                                     </div>
 
                                     <!-- input server cfg file -->
                                     <div class="d-none" id="s5ServerCFGDiv">
-                                        The path to your server config file, usually named <code>server.cfg</code>. <br>
-                                        This can either be absolute, or relative to the Server Data folder.
+                                        服务器配置文件（通常名为 <code>server.cfg</code>）的路径。 <br>
+                                        该路径可以是绝对路径，也可以是相对于服务器数据文件夹的路径。
                                         <input type="text" class="form-control mt-2" id="s5ServerCFGInput"
                                             placeholder="C:/Users/Admin/Desktop/server01/server.cfg">
                                         <p class="text-success font-weight-bold mb-0 d-none" id="s5ServerCFGAutofill">
-                                            Config file detected! If this file is correct, just click on the save button below.
+                                            检测到配置文件！如果该文件正确，只需点击下方的保存按钮。
                                         </p>
                                         <span id="s5ServerCFGError" class="text-danger fade-in d-none"></span>
                                         <div class="step-actions">
                                             <div class="step-actions">
                                                 <button class="btn btn-pill btn-secondary previous-step"
-                                                    type="button">Back</button>
+                                                    type="button">返回</button>
                                                 <button class="btn btn-pill btn-info next-step" type="button"
-                                                    data-feedback="validateCFGFile" id="s5ServerCFGSubmitBtn">Save</button>
+                                                    data-feedback="validateCFGFile" id="s5ServerCFGSubmitBtn">保存</button>
                                             </div>
                                         </div>
                                     </div>
@@ -348,14 +348,14 @@
 
                             <!-- Finish -->
                             <li class="step">
-                                <div class="step-title waves-effect">Finish</div>
+                                <div class="step-title waves-effect">完成</div>
                                 <div class="step-content">
-                                    <h4 id="finishMessage">We are all set!</h4>
+                                    <h4 id="finishMessage">一切就绪！</h4>
                                     <span id="saveError" class="text-danger fade-in d-none"></span>
                                     <div class="step-actions">
                                         <button class="btn btn-pill btn-success next-step" type="button" 
                                             data-feedback="performSave" id="finishButton">
-                                            Save & Start Server</button>
+                                            保存并启动服务器</button>
                                     </div>
                                 </div>
                             </li>
@@ -386,7 +386,7 @@
         const deployerEngineVersion = parseInt('<%= deployerEngineVersion %>');
         const skipServerName = ('<%= skipServerName %>' === 'true');
         const SPINNER_HTMLSized = `<div style="min-height: 250px; margin: auto;">${SPINNER_HTML}</div>`;
-        const connectErrorMessage = `<b>Unable to connect to txAdmin.</b> <br> If you closed it, please start again and retry.`;
+        const connectErrorMessage = `<b>无法连接到 txAdmin。</b> <br> 如果你关闭了它，请重新启动后再试。`;
 
         //Vars
         const suggestions = {};
@@ -488,7 +488,7 @@
             const name = frmName.value.trim();
 
             if(name.length < 1 || name.length > 18){
-                frmNameError.innerHTML = `The name must have between 1 and 18 characters.`;
+                frmNameError.innerHTML = `名称长度必须在 1 到 18 个字符之间。`;
                 frmNameError.classList.remove('d-none');
                 frmName.classList.add('is-invalid');
                 stepperInstace.wrongStep();
@@ -505,10 +505,10 @@
             selectedDeploymentType = depType;
             selectedTemplateURL = null;
             if(depType == 'popular' || depType == 'remote'){
-                s4Title.textContent = "Select Template";
-                s5Title.textContent = "Data Location";
-                finishButton.textContent = "Go to Recipe Deployer";
-                finishMessage.textContent = "We are almost there!";
+                s4Title.textContent = "选择模板";
+                s5Title.textContent = "数据位置";
+                finishButton.textContent = "前往配方部署器";
+                finishMessage.textContent = "我们快完成了！";
                 s4PopularTemplateRow.innerHTML = SPINNER_HTMLSized;
                 s4CustomTemplateDiv.classList.add('d-none');
                 s4LocalDataPathDiv.classList.add('d-none');
@@ -529,10 +529,10 @@
                 s5DeployerTargetInput.value = deployData.path;
                 deploymentID = deployData.id;
 
-                s4Title.textContent = "Information";
-                s5Title.textContent = "Data Location";
-                finishButton.textContent = "Go to Recipe Deployer";
-                finishMessage.textContent = "We are almost there!";
+                s4Title.textContent = "信息";
+                s5Title.textContent = "数据位置";
+                finishButton.textContent = "前往配方部署器";
+                finishMessage.textContent = "我们快完成了！";
                 s4CustomTemplateDiv.classList.remove('d-none');
                 s4RemoteTemplateDiv.classList.add('d-none');
                 s4PopularTemplateDiv.classList.add('d-none');
@@ -541,10 +541,10 @@
                 s5ServerCFGDiv.classList.add('d-none');
                 
             }else if(depType == 'local'){
-                s4Title.textContent = "Existing Server Data";
-                s5Title.textContent = "Server CFG File";
-                finishButton.textContent = "Save & Start Server";
-                finishMessage.textContent = "We are all set!";
+                s4Title.textContent = "已有服务器数据";
+                s5Title.textContent = "服务器配置文件";
+                finishButton.textContent = "保存并启动服务器";
+                finishMessage.textContent = "一切就绪！";
                 s4PopularTemplateDiv.classList.add('d-none');
                 s4CustomTemplateDiv.classList.add('d-none');
                 s4RemoteTemplateDiv.classList.add('d-none');
@@ -552,7 +552,7 @@
                 s5DeployerTargetDiv.classList.add('d-none');
                 s5ServerCFGDiv.classList.remove('d-none');
             }else{
-                alert('Unknown deployment type!');
+                alert('未知的部署类型！');
                 window.location.reload(true);
             }
         }
@@ -588,7 +588,7 @@
             //         "url": "https://raw.githubusercontent.com/tabarra/PlumeESX-recipe/master/recipe.yaml"
             //     }
             // ];
-            s4PopularTemplateRow.innerText = `Loading templates...`;
+            s4PopularTemplateRow.innerText = `正在加载模板...`;
             loadedTemplates = [];
             $.ajax({
                 type: "GET",
@@ -596,8 +596,8 @@
                 dataType: 'json',
                 success: function (templates) {
                     if(!Array.isArray(templates)){
-                        s4PopularTemplateRow.innerText = `Failed to load recipe list. 
-                        Please click on the "back" button and try again.`;
+                        s4PopularTemplateRow.innerText = `配方列表加载失败。
+                        请点击"返回"按钮后重试。`;
                     }else{
                         loadedTemplates = templates;
                         // loadedTemplates = tmpGETResponse;
@@ -622,7 +622,7 @@
                                 newNode.querySelector('.bigbutton').classList.add('disabled');
                                 const newTag = document.createElement("span");
                                 newTag.classList.add('recipeTag', 'recipeTagDefault')
-                                newTag.textContent = 'INCOMPATIBLE';
+                                newTag.textContent = '不兼容';
                                 newNode.querySelector('.tagList').appendChild(newTag);
                             }else{
                                 newNode.querySelector('.bigbutton').onclick = () => {selectTemplate(key)};
@@ -639,15 +639,15 @@
                         });
                         if(hasIncompatible){
                             const warningNode = document.createElement("span");
-                            warningNode.innerHTML = `Some recipes are not compatible with your txAdmin version.<br> Please update txAdmin to be able to use them.`;
+                            warningNode.innerHTML = `部分配方与你的 txAdmin 版本不兼容。<br> 请更新 txAdmin 以使用它们。`;
                             warningNode.classList.add('text-danger', 'font-weight-bold', 'ml-3');
                             s4PopularTemplateRow.appendChild(warningNode);
                         }
                     }
                 },
                 error: function (xmlhttprequest, textstatus, message) {
-                    s4PopularTemplateRow.innerText = `Failed to load recipe list. 
-                    Please click on the "back" button and try again.`;
+                    s4PopularTemplateRow.innerText = `配方列表加载失败。
+                    请点击"返回"按钮后重试。`;
                 }
             });
 
@@ -657,7 +657,7 @@
         function selectTemplate(key){
             selectedTemplateIndex = key;
             if(!loadedTemplates[key]){
-                return alert('Invalid Template');
+                return alert('无效的模板');
             }
             const deployData = buildDeployName(loadedTemplates[key].name);
             s5DeployerTargetInput.value = deployData.path;
@@ -690,8 +690,8 @@
                         destroyFeedback(true);
                     }else{
                         stepperInstace.wrongStep();
-                        s4RemoteTemplateInputError.innerHTML = '<br><b>Error:</b> <span data-errmsg>Unknown error</span> <br>Make sure this is a valid Recipe URL.';
-                        s4RemoteTemplateInputError.querySelector('[data-errmsg]').textContent = data.message ?? 'Unknown error';
+                        s4RemoteTemplateInputError.innerHTML = '<br><b>错误：</b> <span data-errmsg>未知错误</span> <br>请确保这是一个有效的配方 URL。';
+                        s4RemoteTemplateInputError.querySelector('[data-errmsg]').textContent = data.message ?? '未知错误';
                         s4RemoteTemplateInputError.classList.remove('d-none');
                         s4RemoteTemplateInput.classList.add('is-invalid');
                         destroyFeedback(false);
@@ -699,8 +699,8 @@
                 },
                 error: function (xmlhttprequest, textstatus, message) {
                     stepperInstace.wrongStep();
-                    s4RemoteTemplateInputError.innerHTML = '<br><b>Error:</b> <span data-errmsg>Unknown error</span> <br>Make sure this is a valid Recipe URL.';
-                    s4RemoteTemplateInputError.querySelector('[data-errmsg]').textContent = message ?? 'Unknown error';
+                    s4RemoteTemplateInputError.innerHTML = '<br><b>错误：</b> <span data-errmsg>未知错误</span> <br>请确保这是一个有效的配方 URL。';
+                    s4RemoteTemplateInputError.querySelector('[data-errmsg]').textContent = message ?? '未知错误';
                     s4RemoteTemplateInputError.classList.remove('d-none');
                     s4RemoteTemplateInput.classList.add('is-invalid');
                     destroyFeedback(false);
@@ -737,8 +737,8 @@
                         destroyFeedback(true);
                     }else{
                         stepperInstace.wrongStep();
-                        s5DeployerTargetError.innerHTML = '<br><b>Error:</b> <span data-errmsg>Unknown error</span>';
-                        s5DeployerTargetError.querySelector('[data-errmsg]').textContent = data.message ?? 'Unknown error';
+                        s5DeployerTargetError.innerHTML = '<br><b>错误：</b> <span data-errmsg>未知错误</span>';
+                        s5DeployerTargetError.querySelector('[data-errmsg]').textContent = data.message ?? '未知错误';
                         s5DeployerTargetError.classList.remove('d-none');
                         s5DeployerTargetInput.classList.add('is-invalid');
                         destroyFeedback(false);
@@ -782,8 +782,8 @@
                         destroyFeedback(true)
                     }else{
                         if(data.suggestion){
-                            s4LocalDataPathInputError.innerHTML = 'The path provided is invalid. <br>But it looks like <code data-suggestion>unknown</code> is correct. <br>Do you want to use it instead?';
-                            s4LocalDataPathInputError.querySelector('[data-suggestion]').textContent = data.suggestion ?? 'unknown';
+                            s4LocalDataPathInputError.innerHTML = '提供的路径无效。<br>但看起来 <code data-suggestion>未知</code> 是正确的。<br>你希望改用它吗？';
+                            s4LocalDataPathInputError.querySelector('[data-suggestion]').textContent = data.suggestion ?? '未知';
                             suggestions['s4LocalDataPathInput'] = data.suggestion;
                             s4LocalDataPathInputFixBtn.classList.remove('d-none');
                         }else{
@@ -873,7 +873,7 @@
                 outData.cfgFile = s5ServerCFGInput.value.trim();
                 
             }else{
-                return alert('Unknown deployment type')
+                return alert('未知的部署类型')
             }
             
             txAdminAPI({
@@ -886,7 +886,7 @@
                     if (data.success == true){
                         navigateParentTo((selectedDeploymentType === 'local') ? '/server/console' : '/server/deployer');
                     }else{
-                        saveError.innerHTML = convertMarkdown(`${data.message}\nPlease refresh the page and start again.`, true);
+                        saveError.innerHTML = convertMarkdown(`${data.message}\n请刷新页面并重新开始。`, true);
                         saveError.classList.remove('d-none');
                         stepperInstace.wrongStep();
                         destroyFeedback(false)

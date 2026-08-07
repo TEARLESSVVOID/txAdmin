@@ -78,13 +78,13 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
 
         if (localConfigs.discordBot?.enabled) {
             if (!localConfigs.discordBot?.token) {
-                return txToast.error('You must provide a Discord Bot Token to enable the bot.');
+                return txToast.error('您必须提供 Discord 机器人令牌（Token）才能启用机器人。');
             }
             if (!localConfigs.discordBot?.guild) {
-                return txToast.error('You must provide a Server ID to enable the bot.');
+                return txToast.error('您必须提供服务器 ID 才能启用机器人。');
             }
             if (!localConfigs.discordBot?.embedJson || !localConfigs.discordBot?.embedConfigJson) {
-                return txToast.error('You must provide both the Embed JSON and Config JSON to enable the bot.');
+                return txToast.error('您必须同时提供嵌入 JSON 和配置 JSON 才能启用机器人。');
             }
         }
         pageCtx.saveChanges(cardCtx, localConfigs);
@@ -96,21 +96,21 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
             pageCtx={pageCtx}
             onClickSave={handleOnSave}
         >
-            <SettingItem label="Discord Bot">
+            <SettingItem label="Discord 机器人">
                 <SwitchText
                     id={cfg.botEnabled.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     variant="checkedGreen"
                     checked={states.botEnabled}
                     onCheckedChange={cfg.botEnabled.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Enable Discord Integration.
+                    启用 Discord 集成。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Token" htmlFor={cfg.botToken.eid} required={states.botEnabled}>
+            <SettingItem label="令牌（Token）" htmlFor={cfg.botToken.eid} required={states.botEnabled}>
                 <Input
                     id={cfg.botToken.eid}
                     ref={botTokenRef}
@@ -124,13 +124,13 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                     required
                 />
                 <SettingItemDesc>
-                    To get a token and the bot to join your server, follow these two guides: <br />
-                    <TxAnchor href="https://discordjs.guide/legacy/preparations/app-setup">Setting up a bot application</TxAnchor> and <TxAnchor href="https://discordjs.guide/legacy/preparations/adding-your-app">Adding your bot to servers</TxAnchor> <br />
-                    <strong>Note:</strong> Do not reuse the same token for another bot. <br />
-                    <strong>Note:</strong> The bot requires the <strong>Server Members</strong> intent, which can be set at the <TxAnchor href="https://discord.com/developers/applications">Discord Developer Portal</TxAnchor>.
+                    要获取令牌并让机器人加入您的服务器，请参考以下两个指南：<br />
+                    <TxAnchor href="https://discordjs.guide/legacy/preparations/app-setup">设置机器人应用</TxAnchor> 和 <TxAnchor href="https://discordjs.guide/legacy/preparations/adding-your-app">将机器人添加到服务器</TxAnchor><br />
+                    <strong>注意：</strong>不要在其他机器人上重复使用同一令牌。<br />
+                    <strong>注意：</strong>机器人需要 <strong>Server Members</strong>（服务器成员）意图，可在 <TxAnchor href="https://discord.com/developers/applications">Discord 开发者门户</TxAnchor> 中设置。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Guild/Server ID" htmlFor={cfg.discordGuild.eid} required={states.botEnabled}>
+            <SettingItem label="服务器（Guild）ID" htmlFor={cfg.discordGuild.eid} required={states.botEnabled}>
                 <Input
                     id={cfg.discordGuild.eid}
                     ref={discordGuildRef}
@@ -140,11 +140,11 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                     placeholder='000000000000000000'
                 />
                 <SettingItemDesc>
-                    The ID of the Discord Server (also known as Discord Guild). <br />
-                    To get the Server ID, go to Discord's settings and <TxAnchor href="https://support.discordapp.com/hc/article_attachments/115002742731/mceclip0.png">enable developer mode</TxAnchor>, then right-click on the guild icon select "Copy ID".
+                    Discord 服务器（也称为 Discord Guild）的 ID。<br />
+                    要获取服务器 ID，请进入 Discord 设置并<TxAnchor href="https://support.discordapp.com/hc/article_attachments/115002742731/mceclip0.png">启用开发者模式</TxAnchor>，然后右键单击服务器图标，选择"复制 ID"。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Warnings Channel ID" htmlFor={cfg.warningsChannel.eid} showOptional>
+            <SettingItem label="警告频道 ID" htmlFor={cfg.warningsChannel.eid} showOptional>
                 <Input
                     id={cfg.warningsChannel.eid}
                     ref={warningsChannelRef}
@@ -154,9 +154,9 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                     placeholder='000000000000000000'
                 />
                 <SettingItemDesc>
-                    The ID of the channel to send Announcements (eg server restarts). <br />
-                    You can leave it blank to disable this feature. <br />
-                    To get the channel ID, go to Discord's settings and <TxAnchor href="https://support.discordapp.com/hc/article_attachments/115002742731/mceclip0.png">enable developer mode</TxAnchor>, then right-click on the channel name and select "Copy ID".
+                    用于发送公告（例如服务器重启）的频道 ID。<br />
+                    您可以将其留空以禁用此功能。<br />
+                    要获取频道 ID，请进入 Discord 设置并<TxAnchor href="https://support.discordapp.com/hc/article_attachments/115002742731/mceclip0.png">启用开发者模式</TxAnchor>，然后右键单击频道名称，选择"复制 ID"。
                 </SettingItemDesc>
             </SettingItem>
             {/* <SettingItem label="Status Embed">
@@ -183,7 +183,7 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                     <strong>Note:</strong> Use the command <InlineCode>/status add</InlineCode> on a channel that the bot has the "Send Message" permission to setup the embed.
                 </SettingItemDesc>
             </SettingItem> */}
-            <SettingItem label="Status Embed JSON" htmlFor={cfg.embedJson.eid} required={states.botEnabled}>
+            <SettingItem label="状态嵌入 JSON" htmlFor={cfg.embedJson.eid} required={states.botEnabled}>
                 <div className="flex flex-col gap-2">
                     <Textarea
                         id={cfg.embedJson.eid}
@@ -202,7 +202,7 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                             onClick={() => cfg.embedJson.state.discard()}
                             disabled={pageCtx.isReadOnly}
                         >
-                            <XIcon className="mr-2 h-4 w-4" /> Discard Changes
+                            <XIcon className="mr-2 h-4 w-4" /> 放弃更改
                         </Button>
                         <Button
                             className="grow border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
@@ -210,16 +210,16 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                             onClick={() => cfg.embedJson.state.default()}
                             disabled={pageCtx.isReadOnly}
                         >
-                            <RotateCcwIcon className="mr-2 h-4 w-4" /> Reset to Default
+                            <RotateCcwIcon className="mr-2 h-4 w-4" /> 重置为默认
                         </Button>
                     </div>
                 </div>
                 <SettingItemDesc>
-                    The server status embed is customizable by editing the JSON above. <br />
-                    <strong>Note:</strong> Use the command <InlineCode>/status add</InlineCode> on a channel that the bot has the "Send Message" permission to setup the embed.
+                    服务器状态嵌入可通过编辑上面的 JSON 进行自定义。<br />
+                    <strong>注意：</strong>请在机器人拥有"发送消息"权限的频道中使用 <InlineCode>/status add</InlineCode> 命令来设置嵌入。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Status Config JSON" htmlFor={cfg.embedConfigJson.eid} required={states.botEnabled}>
+            <SettingItem label="状态配置 JSON" htmlFor={cfg.embedConfigJson.eid} required={states.botEnabled}>
                 <div className="flex flex-col gap-2">
                     <Textarea
                         id={cfg.embedConfigJson.eid}
@@ -238,7 +238,7 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                             onClick={() => cfg.embedConfigJson.state.discard()}
                             disabled={pageCtx.isReadOnly}
                         >
-                            <XIcon className="mr-2 h-4 w-4" /> Discard Changes
+                            <XIcon className="mr-2 h-4 w-4" /> 放弃更改
                         </Button>
                         <Button
                             className="grow border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
@@ -246,13 +246,13 @@ export default function ConfigCardDiscord({ cardCtx, pageCtx }: SettingsCardProp
                             onClick={() => cfg.embedConfigJson.state.default()}
                             disabled={pageCtx.isReadOnly}
                         >
-                            <RotateCcwIcon className="mr-2 h-4 w-4" /> Reset to Default
+                            <RotateCcwIcon className="mr-2 h-4 w-4" /> 重置为默认
                         </Button>
                     </div>
                 </div>
                 <SettingItemDesc>
-                    The server status embed is customizable by editing the JSON above. <br />
-                    <strong>Note:</strong> Use the command <InlineCode>/status add</InlineCode> on a channel that the bot has the "Send Message" permission to setup the embed.
+                    服务器状态嵌入可通过编辑上面的 JSON 进行自定义。<br />
+                    <strong>注意：</strong>请在机器人拥有"发送消息"权限的频道中使用 <InlineCode>/status add</InlineCode> 命令来设置嵌入。
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

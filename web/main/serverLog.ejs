@@ -76,24 +76,24 @@
         <div class="card" >
             <div class="card-body text-center">
                 <div id="cardstatus">
-                    <h4>Mode: <span class="text-success" id="modeLabel">LIVE</span></h4>
+                    <h4>模式： <span class="text-success" id="modeLabel">实时</span></h4>
                     <p>
-                        <strong>From:</strong> <span id="histLogStart">--</span> <br>
-                        <strong>To:</strong> <span id="histLogEnd">--</span> <br>
+                        <strong>开始时间：</strong> <span id="histLogStart">--</span> <br>
+                        <strong>结束时间：</strong> <span id="histLogEnd">--</span> <br>
                     </p>
                     <button type="button" class="btn btn-outline-dark btn-sm mb-2" id="viewOlderBtn">
-                        &lt; View Older
+                        &lt; 查看更早
                     </button>
                     <button type="button" class="btn btn-outline-dark btn-sm mb-2" id="viewNewerBtn">
-                        View Newer &gt;
+                        查看更新 &gt;
                     </button>
                     <br>
                     <button type="button" id="clearConsole" class="btn btn-outline-dark btn-sm mb-2">
-                        Clear Console
+                        清空控制台
                     </button>
                     <!-- TODO: add modal -->
                     <button type="button" id="showLogsModalBtn" class="btn btn-outline-dark btn-sm mb-2 d-none">
-                        Download Log
+                        下载日志
                     </button>
                 </div>
 
@@ -107,80 +107,80 @@
                       role='button'
                       aria-expanded='false'
                       aria-controls='collapseControls'>
-                        Show Log Filters
+                        显示日志筛选
                     </button>
                 </div>
                 <div class='filter-controls-container' id='filter-control-container'>
-                    <h4>Logger Filters</h4>
+                    <h4>日志筛选</h4>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Player Joins</label>
+                        <label class="col-sm-8 col-form-label">玩家加入</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="PlayerJoin">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Player Leaves</label>
+                        <label class="col-sm-8 col-form-label">玩家离开</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="playerDropped">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Chat Messages</label>
+                        <label class="col-sm-8 col-form-label">聊天消息</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="ChatMessage">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Player Death</label>
+                        <label class="col-sm-8 col-form-label">玩家死亡</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="DeathNotice">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Menu Actions</label>
+                        <label class="col-sm-8 col-form-label">菜单操作</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="MenuEvent">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Explosions</label>
+                        <label class="col-sm-8 col-form-label">爆炸事件</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="explosionEvent">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">Commands</label>
+                        <label class="col-sm-8 col-form-label">命令</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="CommandExecuted">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group row mb-1">
-                        <label class="col-sm-8 col-form-label">System Events</label>
+                        <label class="col-sm-8 col-form-label">系统事件</label>
                         <div class="col-sm-4">
                             <label class="c-switch c-switch-sm c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input class="c-switch-input e-filter-sw" type="checkbox" checked data-e-type="System">
-                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                             </label>
                         </div>
                     </div>
@@ -292,7 +292,7 @@
             logContainer.innerHTML = logContainerSpinner;
             modeLabel.classList.remove('text-warning');
             modeLabel.classList.add('text-success');
-            modeLabel.textContent = 'LIVE';
+            modeLabel.textContent = '实时';
             viewOlderBtn.disabled = false;
             viewNewerBtn.disabled = true;
             if (!pageSocket.connected) pageSocket.connect();
@@ -311,7 +311,7 @@
             logContainer.innerHTML = logContainerSpinner;
             modeLabel.classList.add('text-warning');
             modeLabel.classList.remove('text-success');
-            modeLabel.textContent = 'LOG';
+            modeLabel.textContent = '日志';
             viewOlderBtn.disabled = false;
             viewNewerBtn.disabled = false;
 
@@ -323,14 +323,14 @@
                 success: function (data) {
                     logContainer.innerHTML = '';
                     if(!Array.isArray(data.log)){
-                        logContainer.innerHTML = 'Failed to load log. Please refresh the page and try again.';
+                        logContainer.innerHTML = '日志加载失败。请刷新页面后重试。';
                         return;
                     }
                     //FIXME: reorganize this mess
                     if(data.boundry){
                         if(direction === 'older'){
                             if(!data.log.length){
-                                logContainer.innerHTML = 'No more log entries to show.';
+                                logContainer.innerHTML = '没有更多日志可显示了。';
                             }else{
                                 processLog(data.log);
                             }
@@ -345,7 +345,7 @@
                     // TODO: da até pra depois do processLog() adicionar um <a> pra ir older ou newer
                 },
                 error: function (xmlhttprequest, textstatus, message) {
-                    logContainer.innerHTML = 'Failed to load log. Please refresh the page and try again.';
+                    logContainer.innerHTML = '日志加载失败。请刷新页面后重试。';
                 },
             });
         }

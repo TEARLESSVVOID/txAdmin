@@ -36,7 +36,7 @@ export default function DrilldownOverviewSubcard({ dropTypes }: DrilldownOvervie
     }, [dropTypes]);
 
     if (!categories.length) {
-        return <PlayerDropsMessage message="No player drops within this time window." />;
+        return <PlayerDropsMessage message="该时间段内没有玩家掉线。" />;
     }
 
     return (

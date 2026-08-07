@@ -20,7 +20,7 @@ export default async function WhitelistList(ctx: AuthedCtx) {
     } else if (table === 'approvals') {
         return await handleApprovals(ctx);
     } else {
-        return ctx.send({ error: 'unknown table' });
+        return ctx.send({ error: '未知的数据表' });
     }
 };
 
@@ -62,10 +62,10 @@ async function handleRequests(ctx: AuthedCtx) {
         if (/^\d+$/.test(pageinput)) {
             currPage = parseInt(pageinput);
             if (currPage < 1) {
-                return sendTypedResp({error: 'page should be >= 1'});
+                return sendTypedResp({error: '页码应该 >= 1'});
             }
         } else {
-            return sendTypedResp({error: 'page should be a number'});
+            return sendTypedResp({error: '页码应该是一个数字'});
         }
     }
     const skip = (currPage - 1) * pageSize;

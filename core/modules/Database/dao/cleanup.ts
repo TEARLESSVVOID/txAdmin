@@ -13,12 +13,12 @@ export default class CleanupDao {
     constructor(private readonly db: DbInstance) { }
 
     private get dbo() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj;
     }
 
     private get chain() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj.chain;
     }
 
@@ -31,8 +31,8 @@ export default class CleanupDao {
         tableName: 'players' | 'actions' | 'whitelistApprovals' | 'whitelistRequests',
         filterFunc: Function
     ): number {
-        if (!Array.isArray(this.dbo.data[tableName])) throw new Error('Table selected isn\'t an array.');
-        if (typeof filterFunc !== 'function') throw new Error('filterFunc must be a function.');
+        if (!Array.isArray(this.dbo.data[tableName])) throw new Error('选择的表不是数组。');
+        if (typeof filterFunc !== 'function') throw new Error('filterFunc 必须是一个函数。');
 
         try {
             this.db.writeFlag(SavePriority.HIGH);
@@ -41,7 +41,7 @@ export default class CleanupDao {
                 .value();
             return removed.length;
         } catch (error) {
-            const msg = `Failed to clean database with error: ${(error as Error).message}`;
+            const msg = `清理数据库失败，错误信息：${(error as Error).message}`;
             console.verbose.error(msg);
             throw new Error(msg);
         }
@@ -56,9 +56,9 @@ export default class CleanupDao {
         fromPlayers: boolean,
         fromBans: boolean,
     ): number {
-        if (!Array.isArray(this.dbo.data.players)) throw new Error('Players table isn\'t an array yet.');
-        if (!Array.isArray(this.dbo.data.players)) throw new Error('Actions table isn\'t an array yet.');
-        if (typeof fromPlayers !== 'boolean' || typeof fromBans !== 'boolean') throw new Error('The parameters should be booleans.');
+        if (!Array.isArray(this.dbo.data.players)) throw new Error('玩家表还不是数组。');
+        if (!Array.isArray(this.dbo.data.players)) throw new Error('操作表还不是数组。');
+        if (typeof fromPlayers !== 'boolean' || typeof fromBans !== 'boolean') throw new Error('参数应为布尔值。');
 
         try {
             this.db.writeFlag(SavePriority.HIGH);
@@ -86,7 +86,7 @@ export default class CleanupDao {
                     .value();
             return removed;
         } catch (error) {
-            const msg = `Failed to clean database with error: ${(error as Error).message}`;
+            const msg = `清理数据库失败，错误信息：${(error as Error).message}`;
             console.verbose.error(msg);
             throw new Error(msg);
         }

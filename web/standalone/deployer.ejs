@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <base href="<%= basePath %>">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="txAdmin - remotely Manage & Monitor your GTA5 FiveM Server">
+    <meta name="description" content="txAdmin - 远程管理和监控你的 GTA5 FiveM 服务器">
     <meta name="author" content="André Tabarra">
-    <title>Server Deployer</title>
+    <title>服务器部署器</title>
     <link href="css/simple-line-icons.css?txVer=<%= txAdminVersion %>" rel="stylesheet">
     <link href="css/coreui.min.css?txVer=<%= txAdminVersion %>" rel="stylesheet">
     <link href="css/dark.css?txVer=<%= txAdminVersion %>" rel="stylesheet">
@@ -59,22 +59,22 @@
                                 max-height: 300px;
                             }
                         </style>
-                        <div class="card-header font-weight-bold">Step 1: Review Recipe</div>
+                        <div class="card-header font-weight-bold">第 1 步：检查配方</div>
                         <div class="card-body">
                             <div class="row mb-1 mt-0 text-center">
                                 <div class="col-8 mx-auto card d-block border-primary p-2 mb-1">
-                                    Please review the Recipe below and apply any changes you want, <br>
-                                    then press the <strong>Run Recipe</strong> button below.
+                                    请检查下方的配方并按需修改， <br>
+                                    然后点击下方的<strong>运行配方</strong>按钮。
         
                                     <% if (!recipe.isTrustedSource) { %>
-                                        <br><span class="text-danger font-weight-bold">Warning: Only run Recipes from trusted sources!</span>
+                                        <br><span class="text-danger font-weight-bold">警告：只运行来自可信来源的配方！</span>
                                     <% } %>
                                 </div>
                             </div>
                             <p class="mb-1">
                                 <strong style="word-wrap: break-word;"><%= recipe.name %></strong>
                                 <% if (recipe.author !== '') { %>
-                                    by <%= recipe.author %>
+                                    由 <%= recipe.author %>
                                 <% } %>
                                 <% if (recipe.description !== '') { %>
                                     <br>
@@ -91,134 +91,134 @@
                             </textarea>
                             <div class="row justify-content-center m-2">
                                 <button class="btn btn-outline-danger" type="button" 
-                                    onclick="cancelAction()">Cancel and Return to Setup</button>
+                                    onclick="cancelAction()">取消并返回设置</button>
                                 &nbsp; &nbsp;
                                 <button class="btn btn-info" type="button" 
-                                    onclick="step1Action();" autofocus>Next</button>
+                                    onclick="step1Action();" autofocus>下一步</button>
                             </div>
                         </div>
-                        <div class="card-footer text-muted">Step 2: Input Parameters</div>
-                        <div class="card-footer text-muted">Step 3: Run Recipe</div>
-                        <div class="card-footer text-muted">Step 4: Configure server.cfg</div>
+                        <div class="card-footer text-muted">第 2 步：输入参数</div>
+                        <div class="card-footer text-muted">第 3 步：运行配方</div>
+                        <div class="card-footer text-muted">第 4 步：配置 server.cfg</div>
         
                     <% } else if (step === 'input') { %>
-                        <div class="card-header">Step 1: Review Recipe ✔️</div>
-                        <div class="card-header font-weight-bold ">Step 2: Input Parameters</div>
+                        <div class="card-header">第 1 步：检查配方 ✔️</div>
+                        <div class="card-header font-weight-bold ">第 2 步：输入参数</div>
                         <div class="card-body">
                             <% if (defaults.autofilled) { %>
                                 <div class="row mb-3 mt-0 text-center">
                                     <div class="col-8 mx-auto card d-block border-warning p-2 mb-1">
-                                        <strong>Note:</strong> The following configs were auto-filled by <strong><%= hostConfigSource %></strong>. <br>
-                                        You <i>may</i> edit those, but it's strongly disencouraged.
+                                        <strong>注意：</strong> 以下配置已由 <strong><%= hostConfigSource %></strong> 自动填写。 <br>
+                                        你可以编辑这些配置，但强烈不建议这样做。
                                     </div>
                                 </div>
                             <% } %>
                             <form id="step2-form" style="max-width: 732px; margin-left: auto; margin-right: auto;">
                                 <div class="form-group row">
                                     <label for="step2-svLicense" class="col-md-3 col-form-label">
-                                        Server Registration Key
+                                        服务器注册密钥
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control blur-input" id="step2-svLicense" maxlength="86" 
                                             autocomplete="off" placeholder="cfxk_xxxxxxxxxxxxxxxxxxxx_xxxxx" 
                                             value="<%= defaults.license %>" required autofocus>
-                                        <span class="form-text text-muted">
-                                            Formely known as <strong>License Key</strong>, it can be obtained in the <a href="https://portal.cfx.re/servers/registration-keys" target="_blank" rel="noopener noreferrer">Cfx.re Portal</a>. <br>
-                                            For more info, check the guide: <a href="https://support.cfx.re/hc/en-us/articles/16539369935900-How-to-create-a-registration-key" target="_blank" rel="noopener noreferrer">How to create a registration key</a>.
-                                        </span>
+                                            <span class="form-text text-muted">
+                                                以前称为<strong>许可证密钥</strong>，可在 <a href="https://portal.cfx.re/servers/registration-keys" target="_blank" rel="noopener noreferrer">Cfx.re 门户</a> 获取。 <br>
+                                                更多信息请参阅指南：<a href="https://support.cfx.re/hc/en-us/articles/16539369935900-How-to-create-a-registration-key" target="_blank" rel="noopener noreferrer">如何创建注册密钥</a>。
+                                            </span>
                                     </div>
                                 </div>
                                 <% if (requireDBConfig) { %>
                                 <div class="row justify-content-center m-2">
                                     <a class="btn btn-small btn-outline-secondary" data-toggle="collapse" href="#collapseDbOptions" aria-expanded="true"  aria-controls="collapseDbOptions">
-                                        Show/Hide Database options (advanced)
+                                        显示/隐藏数据库选项（高级）
                                     </a>
                                 </div>
                                 <div class="collapse" id="collapseDbOptions">
                                     <div class="form-group row">
                                         <label for="step2-dbHost" class="col-md-3 col-form-label">
-                                            Database Host
+                                            数据库主机
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" id="step2-dbHost"
                                                 placeholder="<%= defaults.mysqlHost %>" value="<%= defaults.mysqlHost %>" required>
                                             <span class="form-text text-muted">
-                                                The IP/Hostname for the database server (usually <code><%= defaults.mysqlHost %></code>).
+                                                数据库服务器的 IP/主机名（通常为 <code><%= defaults.mysqlHost %></code>）。
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="step2-dbPort" class="col-md-3 col-form-label">
-                                            Database Port
+                                            数据库端口
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-9">
                                             <input type="number" class="form-control" id="step2-dbPort"
                                                 placeholder="<%= defaults.mysqlPort %>" value="<%= defaults.mysqlPort %>" required>
                                             <span class="form-text text-muted">
-                                                The port for the database server (usually <code><%= defaults.mysqlPort %></code>).
+                                                数据库服务器的端口（通常为 <code><%= defaults.mysqlPort %></code>）。
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="step2-dbUsername" class="col-md-3 col-form-label">
-                                            Database Username
+                                            数据库用户名
                                             <span class="text-danger">*</span>
                                         </label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" id="step2-dbUsername"
                                                 placeholder="<%= defaults.mysqlUser %>" value="<%= defaults.mysqlUser %>" required>
                                             <span class="form-text text-muted">
-                                                The database username (usually <code>root</code>).
+                                                数据库用户名（通常为 <code>root</code>）。
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="step2-dbPassword" class="col-md-3 col-form-label">
-                                            Database Password
+                                            数据库密码
                                         </label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control blur-input" id="step2-dbPassword"
-                                                autocomplete="off" placeholder="leave it blank" value="<%= defaults.mysqlPassword %>">
+                                                autocomplete="off" placeholder="留空" value="<%= defaults.mysqlPassword %>">
                                             <span class="form-text text-muted">
-                                                The database password (usually blank).
+                                                数据库密码（通常为空）。
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="step2-dbName" class="col-md-3 col-form-label">
-                                            Database Name
+                                            数据库名称
                                         </label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" id="step2-dbName"
                                                 placeholder="<%= defaults.mysqlDatabase %>" value="<%= defaults.mysqlDatabase %>">
                                             <span class="form-text text-muted">
-                                                The name of the database to be used or created. <br>
-                                                If left empty, the deployment ID (<code><%= deploymentID %></code>) will be used instead.
+                                                要使用或创建的数据库名称。 <br>
+                                                如果留空，将使用部署 ID（<code><%= deploymentID %></code>）。
                                             </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="step2-dbDelete" class="col-md-3 col-form-label">
-                                            Delete Database
+                                            删除数据库
                                         </label>
                                         <div class="col-md-9">
                                             <label class="c-switch c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                                 <input class="c-switch-input" type="checkbox" id="step2-dbDelete" checked>
-                                                <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
+                                                <span class="c-switch-slider" data-checked="开" data-unchecked="关"></span>
                                             </label>
                                             <span class="form-text text-muted">
-                                                If already exists, automatically deletes the database with the name provided above. <br>
-                                                <strong>Warning:</strong> all data will be lost.
+                                                如果数据库已存在，将自动删除上述名称对应的数据库。 <br>
+                                                <strong>警告：</strong> 所有数据都将丢失。
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                                 <% } %>
                                 <% if (inputVars.length) { %>
-                                    <div class="hrsep hrsep-small mb-3">Custom Variables</div>
+                                    <div class="hrsep hrsep-small mb-3">自定义变量</div>
                                     <% for (const [key, inputVar] of inputVars.entries()) { %>
                                         <div class="form-group row">
                                             <label for="step2-customVar<%= key %>" class="col-md-3 col-form-label">
@@ -239,23 +239,23 @@
                             </form>
                             <div class="row justify-content-center m-2 mt-3">
                                 <button class="btn btn-outline-danger" type="button" 
-                                    onclick="cancelAction()">Cancel and Return to Setup</button>
+                                    onclick="cancelAction()">取消并返回设置</button>
                                 &nbsp; &nbsp;
                                 <button class="btn btn-success" type="button" 
-                                    onclick="step2Action();">Run Recipe</button>
+                                    onclick="step2Action();">运行配方</button>
                             </div>
                         </div>
-                        <div class="card-footer text-muted">Step 3: Run Recipe</div>
-                        <div class="card-footer text-muted">Step 4: Configure server.cfg</div>
+                        <div class="card-footer text-muted">第 3 步：运行配方</div>
+                        <div class="card-footer text-muted">第 4 步：配置 server.cfg</div>
 
                     <% } else if (step === 'run') { %>
-                        <div class="card-header">Step 1: Review Recipe ✔️</div>
-                        <div class="card-header">Step 2: Input Parameters ✔️</div>
-                        <div class="card-header font-weight-bold ">Step 3: Run Recipe</div>
+                        <div class="card-header">第 1 步：检查配方 ✔️</div>
+                        <div class="card-header">第 2 步：输入参数 ✔️</div>
+                        <div class="card-header font-weight-bold ">第 3 步：运行配方</div>
                         <div class="card-body">
                             <div class="row mb-1 mt-0 text-center">
                                 <div class="col-8 mx-auto card d-block border-primary p-2 mb-1">
-                                    Your recipe is being executed, the server will be deployed to: <br>
+                                    你的配方正在执行中，服务器将部署到： <br>
                                     <code class="inline-code"><%= deployPath %></code>
                                 </div>
                             </div>
@@ -274,12 +274,12 @@
                             </div>
                             <div class="row justify-content-center m-2">
                                 <button class="btn btn-outline-danger d-none" type="button" 
-                                    onclick="cancelAction();" id="step3CancelButton">Cancel and Return to Setup</button>
+                                    onclick="cancelAction();" id="step3CancelButton">取消并返回设置</button>
                                 <button type="button" class="btn btn-info d-none"
-                                    onclick="window.location.reload();" id="step3NextButton">Next</button>
+                                    onclick="window.location.reload();" id="step3NextButton">下一步</button>
                             </div>
                         </div>
-                        <div class="card-footer text-muted">Step 3: Configure server.cfg</div>
+                        <div class="card-footer text-muted">第 3 步：配置 server.cfg</div>
         
                     <% } else if (step === 'configure') { %>
                         <style>
@@ -287,29 +287,29 @@
                                 height: auto;
                             }
                         </style>
-                        <div class="card-header">Step 1: Review Recipe ✔️</div>
-                        <div class="card-header">Step 2: Input Parameters ✔️</div>
-                        <div class="card-header">Step 3: Run Recipe ✔️</div>
-                        <div class="card-header font-weight-bold">Step 4: Configure server.cfg</div>
+                        <div class="card-header">第 1 步：检查配方 ✔️</div>
+                        <div class="card-header">第 2 步：输入参数 ✔️</div>
+                        <div class="card-header">第 3 步：运行配方 ✔️</div>
+                        <div class="card-header font-weight-bold">第 4 步：配置 server.cfg</div>
                         <div class="card-body">
                             <div class="row mb-1 mt-0 text-center">
                                 <div class="col-8 mx-auto card d-block border-primary p-2 mb-1">
-                                    Configure your <code class="inline-code">server.cfg</code> file to your liking, <br>
-                                    then press the <strong>Save & Run Server</strong> button below.
+                                    请按你的喜好配置 <code class="inline-code">server.cfg</code> 文件， <br>
+                                    然后点击下方的<strong>保存并启动服务器</strong>按钮。
                                 </div>
                             </div>
         
                             <textarea id="codeMirrorTarget" style="width: 100%;" class="cms-s-lucario" name="code"><%= serverCFG %></textarea>
                             <div class="row justify-content-center m-2">
-                                <button class="btn btn-outline-danger" type="button" onclick="cancelAction()">Cancel and Return to Setup</button>
+                                <button class="btn btn-outline-danger" type="button" onclick="cancelAction()">取消并返回设置</button>
                                 &nbsp; &nbsp;
-                                <button class="btn btn-success" type="button" onclick="step4Action();">Save & Run Server</button>
+                                <button class="btn btn-success" type="button" onclick="step4Action();">保存并启动服务器</button>
                             </div>
                         </div>
         
                     <% } else { %>
                         <div class="card-body text-center">
-                            Something is wrong 🤔
+                            出问题了 🤔
                         </div>
                     <% } %>
                 </div>
@@ -356,14 +356,14 @@
         function step1Action(){
             const editor = window.CMInstance;
             if(editor.getValue().includes('This is just a placeholder')){
-                return $.notify({ message: `If you are not trying to write a recipe, click on the cancel button below to return to the setup page, where you can select a recommended template. Otherwise, jut remove the placeholder warning comment.` }, { type: 'warning' });
+                return $.notify({ message: `如果你不是要编写配方，请点击下方的取消按钮返回设置页面，在那里你可以选择推荐的模板。否则，请移除占位警告注释。` }, { type: 'warning' });
             }
             editor.setValue(editor.getValue().replace(/\t/g, ' '.repeat(4)));
             const recipe = editor.getValue();
             if(recipe.length < 256){
-                return $.notify({ message: `Your Recipe file is too small, there is a good chance you deleted something you shouldn't.` }, { type: 'warning' });
+                return $.notify({ message: `你的配方文件太小了，很可能你删除了一些不该删除的内容。` }, { type: 'warning' });
             }
-            const notify = $.notify({ message: '<p class="text-center">Saving...</p>' }, {});
+            const notify = $.notify({ message: '<p class="text-center">保存中...</p>' }, {});
 
             txAdminAPI({
                 type: "POST",
@@ -433,7 +433,7 @@
                     postData.dbName = step2elements.dbName.placeholder;
                 }
                 if(!postData.dbHost || !postData.dbPort || !postData.dbUsername){
-                    return $.notify({ message: `The database host, port and username are required.` }, { type: 'warning' });
+                    return $.notify({ message: `数据库主机、端口和用户名均为必填项。` }, { type: 'warning' });
                 }
             }
 
@@ -444,7 +444,7 @@
                 postData[input.dataset.varname] = input.value.trim();
             }
 
-            const notify = $.notify({ message: '<p class="text-center">Saving...</p>' }, {});
+            const notify = $.notify({ message: '<p class="text-center">保存中...</p>' }, {});
             txAdminAPI({
                 type: "POST",
                 url: '/deployer/recipe/setVariables',
@@ -493,7 +493,7 @@
                         step3elements.nextButton.classList.remove('d-none');
                         step3elements.progress.ariaValueNow = 100;
                         step3elements.progress.style.width = '100%';
-                        step3elements.progress.innerText = 'DONE';
+                        step3elements.progress.innerText = '完成';
                         
                     }else if(data.status == 'failed'){
                         step3elements.progress.classList.remove('progress-bar-animated', 'progress-bar-striped');
@@ -501,7 +501,7 @@
                         step3elements.cancelButton.classList.remove('d-none');
                         step3elements.progress.ariaValueNow = 100;
                         step3elements.progress.style.width = '100%';
-                        step3elements.progress.innerText = 'FAILED';
+                        step3elements.progress.innerText = '失败';
 
                     }else{
                         const ariaMin = (data.progress > 5)? data.progress : 5;
@@ -513,7 +513,7 @@
                     }
                 },
                 error: function (xmlhttprequest, textstatus, message) {
-                    step3elements.error.innerText = `Error: ${textstatus}`;
+                    step3elements.error.innerText = `错误：${textstatus}`;
                     step3elements.error.classList.remove('d-none');
                 }
             });
@@ -526,12 +526,12 @@
         function step4Action(){
             const serverCFG = window.CMInstance.getValue();
             if(serverCFG.length < 256){
-                return $.notify({ message: `Your settings.cfg file is too small, there is a good chance it is not valid.` }, { type: 'warning' });
+                return $.notify({ message: `你的 settings.cfg 文件太小了，很可能无效。` }, { type: 'warning' });
             }
-            const notify = $.notify({ message: '<p class="text-center">Saving...</p>' }, {});
+            const notify = $.notify({ message: '<p class="text-center">保存中...</p>' }, {});
 
             if(serverCFG.includes(`sv_licenseKey "changeme"`)){
-                return $.notify({ message: `Please change the <strong>sv_licenseKey</strong>.` }, { type: 'danger' });
+                return $.notify({ message: `请修改 <strong>sv_licenseKey</strong>。` }, { type: 'danger' });
             }
 
             txAdminAPI({
@@ -557,7 +557,7 @@
 
         //============================================== cancel action
         function cancelAction(){
-            const notify = $.notify({ message: '<p class="text-center">Cancelling...</p>' }, {});
+            const notify = $.notify({ message: '<p class="text-center">正在取消...</p>' }, {});
             txAdminAPI({
                 type: "POST",
                 url: '/deployer/recipe/cancel',

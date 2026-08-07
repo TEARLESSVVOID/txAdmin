@@ -65,10 +65,10 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
         if (!hasChanges) return;
 
         if (!localConfigs.general?.serverName) {
-            return txToast.error('The Server Name is required.');
+            return txToast.error('服务器名称是必填项。');
         }
         if (localConfigs.general?.serverName?.length > 18) {
-            return txToast.error('The Server Name is too big.');
+            return txToast.error('服务器名称过长。');
         }
         pageCtx.saveChanges(cardCtx, localConfigs);
     }
@@ -86,7 +86,7 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
             } else if (lang.code === browserLanguage) {
                 browserData = {
                     code: lang.code,
-                    label: `${lang.label} (browser)`
+                    label: `${lang.label}（浏览器）`
                 };
             } else {
                 otherData.push(lang);
@@ -98,7 +98,7 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
             'sep1',
             ...otherData,
             'sep2',
-            { code: 'custom', label: 'Custom (txData/locale.json)' }
+            { code: 'custom', label: '自定义（txData/locale.json）' }
         ].filter(Boolean);
     }, [pageCtx.apiData]);
 
@@ -108,21 +108,21 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
             pageCtx={pageCtx}
             onClickSave={handleOnSave}
         >
-            <SettingItem label="Server Name" htmlFor={cfg.serverName.eid} required>
+            <SettingItem label="服务器名称" htmlFor={cfg.serverName.eid} required>
                 <Input
                     id={cfg.serverName.eid}
                     ref={serverNameRef}
                     defaultValue={cfg.serverName.initialValue}
-                    placeholder={'Example RP'}
+                    placeholder={'示例：RP'}
                     onInput={updatePageState}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    A <strong>short</strong> server name to be used in the txAdmin interface and Server/Discord messages. <br />
-                    The name must be between 1 and 18 characters.
+                    用于 txAdmin 界面及服务器/Discord 消息的<strong>简短</strong>服务器名称。<br />
+                    名称长度必须在 1 到 18 个字符之间。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Language" htmlFor={cfg.language.eid} required>
+            <SettingItem label="语言" htmlFor={cfg.language.eid} required>
                 {/* TODO: add a "Edit xxx" button besides the language for easy custom.json locale */}
                 <Select
                     value={states.language}
@@ -130,7 +130,7 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
                     disabled={pageCtx.isReadOnly}
                 >
                     <SelectTrigger id={cfg.language.eid}>
-                        <SelectValue placeholder="Select..." />
+                        <SelectValue placeholder="请选择..." />
                     </SelectTrigger>
                     <SelectContent>
                         {localeData?.map((locale) => (
@@ -141,9 +141,9 @@ export default function ConfigCardGeneral({ cardCtx, pageCtx }: SettingsCardProp
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
-                    The language to use on Chat/Discord messages. <br />
-                    You can customize the phrases/words by using the <InlineCode>Custom</InlineCode> option. <br />
-                    For more information, please read the <TxAnchor href="https://github.com/tabarra/txAdmin/blob/master/docs/translation.md">documentation</TxAnchor>.
+                    用于聊天/Discord 消息的语言。<br />
+                    您可以使用<InlineCode>自定义</InlineCode>选项自定义短语/词汇。<br />
+                    更多信息请参阅<TxAnchor href="https://github.com/tabarra/txAdmin/blob/master/docs/translation.md">文档</TxAnchor>。
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

@@ -179,9 +179,9 @@ end
 
 -- Instructional stuff
 local keysTable = {
-    {'Exit Spectate', CONTROLS.exit},
-    {'Previous Player', CONTROLS.prev},
-    {'Next Player', CONTROLS.next},
+    {'退出观察', CONTROLS.exit},
+    {'上一个玩家', CONTROLS.prev},
+    {'下一个玩家', CONTROLS.next},
 }
 local redmInstructionGroup, redmPromptTitle
 
@@ -200,13 +200,13 @@ end
 
 --- Key press checking (redm)
 local function redmCheckControls()
-    if PromptIsJustPressed(redmInstructionGroup.prompts['Next Player']) then
+    if PromptIsJustPressed(redmInstructionGroup.prompts['下一个玩家']) then
         handleSpecCycle(true)
     end
-    if PromptIsJustPressed(redmInstructionGroup.prompts['Previous Player']) then
+    if PromptIsJustPressed(redmInstructionGroup.prompts['上一个玩家']) then
         handleSpecCycle(false)
     end
-    if PromptIsJustPressed(redmInstructionGroup.prompts['Exit Spectate']) then
+    if PromptIsJustPressed(redmInstructionGroup.prompts['退出观察']) then
         debugPrint('exit spectate button pressed')
         stopSpectating()
     end
@@ -265,7 +265,7 @@ end)
 -- Client-side event handler for an authorized spectate request
 RegisterNetEvent('txcl:spectate:start', function(targetServerId, targetCoords)
     if IS_REDM then
-        redmPromptTitle = CreateVarString(10, 'LITERAL_STRING', 'Spectate')
+        redmPromptTitle = CreateVarString(10, 'LITERAL_STRING', '观察')
         redmInstructionGroup = makeRedmInstructionalGroup(keysTable)
     end
 

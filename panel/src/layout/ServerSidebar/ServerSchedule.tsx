@@ -14,25 +14,25 @@ import { useAdminPerms } from '@/hooks/auth';
 const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const timezoneDiffMessage = (
     <p className='text-destructive'>
-        Server's timezone: <b>{window.txConsts.serverTimezone}</b> <br />
-        Your timezone: <b>{browserTimezone}</b> <br />
-        Either use relative times, or make sure the scheduled is based on the server timezone.
+        服务器时区： <b>{window.txConsts.serverTimezone}</b> <br />
+        您的时区： <b>{browserTimezone}</b> <br />
+        请使用相对时间，或确保计划时间基于服务器时区。
     </p>
 )
 const promptCommonProps = {
     suggestions: ['+5', '+10', '+15', '+30'],
-    title: 'When should the server restart?',
+    title: '服务器应在何时重启？',
     message: (<>
         <p>
-            Possible formats: <br />
+            支持的格式： <br />
             <ul className='list-disc ml-4'>
                 <li>
-                    <InlineCode>+MM</InlineCode> relative time in minutes
-                    (example: <InlineCode>+15</InlineCode> for 15 minutes from now.)
+                    <InlineCode>+MM</InlineCode> 相对时间（分钟）
+                    （示例：<InlineCode>+15</InlineCode> 表示从现在起 15 分钟后。）
                 </li>
                 <li>
-                    <InlineCode>HH:MM</InlineCode> absolute 24-hour time
-                    (example: <InlineCode>23:30</InlineCode> for 11:30 PM.)
+                    <InlineCode>HH:MM</InlineCode> 24 小时制的绝对时间
+                    （示例：<InlineCode>23:30</InlineCode> 表示晚上 11:30。）
                 </li>
             </ul>
         </p>
@@ -76,29 +76,29 @@ export default function ServerSchedule() {
     if (!globalStatus) {
         return <div>
             <h2 className="mb-1 text-lg font-semibold tracking-tight">
-                Next Restart:
+                下次重启：
             </h2>
-            <span className='font-light text-muted-foreground italic'>loading...</span>
+            <span className='font-light text-muted-foreground italic'>加载中...</span>
         </div>
     }
 
     //Processing status
     const { scheduler } = globalStatus;
-    let nextScheduledText = 'nothing scheduled';
+    let nextScheduledText = '未安排';
     let nextScheduledClasses = 'text-muted-foreground italic';
     let disableAddEditBtn = false;
     let showCancelBtn = false;
     let showEnableBtn = false;
     const hasScheduledRestart = typeof scheduler.nextRelativeMs === 'number';
     if (hasScheduledRestart) {
-        const tempFlag = (scheduler.nextIsTemp) ? '(temp)' : '';
+        const tempFlag = (scheduler.nextIsTemp) ? '（临时）' : '';
         const relativeTime = msToDuration(scheduler.nextRelativeMs, { units: ['h', 'm'] });
         const isLessThanMinute = scheduler.nextRelativeMs < 60_000;
         if (isLessThanMinute) {
             disableAddEditBtn = true;
-            nextScheduledText = `right now ${tempFlag}`;
+            nextScheduledText = `即将执行 ${tempFlag}`;
         } else {
-            nextScheduledText = `in ${relativeTime} ${tempFlag}`;
+            nextScheduledText = `${relativeTime} 后 ${tempFlag}`;
         }
 
         if (scheduler.nextSkip) {
@@ -120,46 +120,46 @@ export default function ServerSchedule() {
         closeAllSheets();
         if (input.includes(',')) {
             txToast.error({
-                title: 'Invalid scheduled restart time.',
-                msg: 'It looks like you are trying to schedule multiple restart times, which can only be done in the Settings page.\nThis input is for just the next (not persistent) restart.',
+                title: '计划重启时间无效。',
+                msg: '您似乎试图安排多个重启时间，这只能在设置页面中完成。\n此输入仅用于安排下一次（非持久）重启。',
             }, { duration: 10000 });
             return;
         }
         if (!validateSchedule(input)) {
-            txToast.error(`Invalid schedule time: ${input}`)
+            txToast.error(`无效的计划时间：${input}`)
             return;
         }
         schedulerApi({
             data: { action: 'setNextTempSchedule', parameter: input },
-            toastLoadingMessage: 'Scheduling server restart...',
+            toastLoadingMessage: '正在安排服务器重启...',
         });
     }
     const handleEdit = () => {
         openPromptDialog({
             ...promptCommonProps,
             onSubmit: onScheduleSubmit,
-            submitLabel: 'Edit',
+            submitLabel: '编辑',
         });
     }
     const handleAddSchedule = () => {
         openPromptDialog({
             ...promptCommonProps,
             onSubmit: onScheduleSubmit,
-            submitLabel: 'Schedule',
+            submitLabel: '安排',
         });
     }
     const handleCancel = () => {
         closeAllSheets();
         schedulerApi({
             data: { action: 'setNextSkip', parameter: true },
-            toastLoadingMessage: 'Cancelling next server restart...',
+            toastLoadingMessage: '正在取消下一次服务器重启...',
         });
     }
     const handleEnable = () => {
         closeAllSheets();
         schedulerApi({
             data: { action: 'setNextSkip', parameter: false },
-            toastLoadingMessage: 'Enabling next server restart...',
+            toastLoadingMessage: '正在启用下一次服务器重启...',
         });
     }
 
@@ -167,7 +167,7 @@ export default function ServerSchedule() {
 
     return <div>
         <h2 className="mb-1 text-lg font-semibold tracking-tight">
-            Next Restart:
+            下次重启：
         </h2>
         <span className={cn('font-light', nextScheduledClasses)}>{nextScheduledText}</span>
         <div className='flex flex-row justify-between gap-2 mt-2 flex-wrap'>
@@ -179,7 +179,7 @@ export default function ServerSchedule() {
                     disabled={!hasSchedulePerms || disableAddEditBtn}
                     onClick={handleEdit}
                 >
-                    <PenLineIcon className='h-4 w-4 mr-1' /> Edit
+                    <PenLineIcon className='h-4 w-4 mr-1' /> 编辑
                 </Button>
             ) : (
                 <Button
@@ -189,7 +189,7 @@ export default function ServerSchedule() {
                     disabled={!hasSchedulePerms || disableAddEditBtn}
                     onClick={handleAddSchedule}
                 >
-                    <PlusCircleIcon className='h-4 w-4 mr-1' /> Schedule Restart
+                    <PlusCircleIcon className='h-4 w-4 mr-1' /> 安排重启
                 </Button>
             )}
             {showCancelBtn && (
@@ -200,7 +200,7 @@ export default function ServerSchedule() {
                     onClick={handleCancel}
                     disabled={!hasSchedulePerms}
                 >
-                    <XCircleIcon className='h-4 w-4 mr-1' /> Cancel
+                    <XCircleIcon className='h-4 w-4 mr-1' /> 取消
                 </Button>
             )}
             {showEnableBtn && (
@@ -211,7 +211,7 @@ export default function ServerSchedule() {
                     onClick={handleEnable}
                     disabled={!hasSchedulePerms}
                 >
-                    <PlayCircleIcon className='h-4 w-4 mr-1' /> Enable
+                    <PlayCircleIcon className='h-4 w-4 mr-1' /> 启用
                 </Button>
             )}
         </div>

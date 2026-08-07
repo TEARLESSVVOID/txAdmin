@@ -18,7 +18,7 @@ export type ApiChangePasswordReqSchema = z.infer<typeof bodySchema>;
 export default async function AuthGetIdentifiers(ctx: AuthedCtx) {
     //Get vault admin
     const vaultAdmin = txCore.adminStore.getAdminByName(ctx.admin.name);
-    if (!vaultAdmin) throw new Error('Wait, what? Where is that admin?');
+    if (!vaultAdmin) throw new Error('等等，什么？那个管理员在哪？');
     
     return ctx.send({
         cfxreId: (vaultAdmin.providers.citizenfx) ? vaultAdmin.providers.citizenfx.identifier : '',

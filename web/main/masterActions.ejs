@@ -5,12 +5,12 @@
     <div class="col-lg-6 col-md-8 col-sm-12">
         <% if (!isMasterAdmin) { %>
             <div class="alert alert-warning text-center" role="alert">
-                <strong>Warning:</strong> You MUST be the Master Admin to be able to use the options below.
+                <strong>警告：</strong> 你必须以主管理员（Master Admin）身份登录才能使用以下选项。
             </div>
         <% } %>
         <% if (!isWebInterface) { %>
             <div class="alert alert-warning text-center" role="alert">
-                <strong>Warning:</strong> These functions are disabled for the in-game menu, please use the Web version.
+                <strong>警告：</strong> 这些功能在游戏内菜单中已禁用，请使用网页版。
             </div>
         <% } %>
     </div>
@@ -33,13 +33,13 @@
                     <li class="nav-item">
                         <a class="nav-item nav-link" id="nav-cleandb-tab" data-toggle="tab" href="#nav-cleandb"
                             role="tab" aria-controls="nav-cleandb" aria-selected="true">
-                            Clean Database
+                            清理数据库
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-item nav-link" id="nav-revokewl-tab" data-toggle="tab" href="#nav-revokewl"
                             role="tab" aria-controls="nav-revokewl" aria-selected="true">
-                            Revoke Allowlists
+                            撤销白名单
                         </a>
                     </li>
                 </ul>
@@ -53,15 +53,15 @@
                         <!-- Reset FXServer -->
                         <div class="row text-center pb-2">
                             <div class="col-lg-9 text-lg-left">
-                                <h5>Reset FXServer</h5>
+                                <h5>重置 FXServer</h5>
                                 <p class="text-warning">
-                                    This option has been moved to the <a href="#" onclick="navigateParentTo('/settings#fxserver')" class="text-warning" style="font-weight: 700; text-decoration: underline;">Settings -> FXServer</a> page.
+                                    此选项已移至<a href="#" onclick="navigateParentTo('/settings#fxserver')" class="text-warning" style="font-weight: 700; text-decoration: underline;">设置 -> FXServer</a>页面。
                                 </p>
                             </div>
                             <div class="col-lg-3 text-lg-right">
                                 <button class="btn btn-sm btn-outline-secondary" type="button" 
                                 onclick="navigateParentTo('/settings#fxserver')">
-                                    Go To Settings
+                                    前往设置
                                 </button>
                             </div>
                         </div>
@@ -70,14 +70,14 @@
                         <!-- Backup Database -->
                         <div class="row text-center pt-2">
                             <div class="col-lg-9 text-lg-left">
-                                <h5>Backup Database</h5>
-                                Download a copy of the <code>playersDB.json</code> file containing all players, actions (bans, warns), and join requests for allowlisted servers.  
-                                You should do this every once in a while.
+                                <h5>备份数据库</h5>
+                                下载包含所有玩家、操作记录（封禁、警告）以及白名单服务器加入申请的 <code>playersDB.json</code> 文件副本。
+                                建议你定期进行备份。
                             </div>
                             <div class="col-lg-3 text-lg-right">
                                 <button class="btn btn-sm btn-outline-danger" type="button" 
                                 id="general-btnBackupDatabase" <%= disableActions %>>
-                                    Backup Database
+                                    备份数据库
                                 </button>
                             </div>
                         </div>
@@ -87,82 +87,82 @@
                     <!-- Clean Database Tab -->
                     <div class="tab-pane fade" id="nav-cleandb" role="tabpanel" aria-labelledby="nav-cleandb-tab">
                         <div class="alert alert-warning text-center" role="alert">
-                            <strong>Warning:</strong> this action is irreversible and we strongly suggest that you save a database backup first.
+                            <strong>警告：</strong> 此操作不可逆，我们强烈建议你先保存数据库备份。
                         </div>
                         <div class="form-group row">
                             <label for="cleandb-players" class="col-sm-3 col-form-label">
-                                Players
+                                玩家
                             </label>
                             <div class="col-sm-9">
                                 <select id="cleandb-players" name="players" class="form-control" required>
-                                    <option value="none">none</option>
-                                    <option value="60d" selected>inactive over 60 days</option>
-                                    <option value="30d">inactive over 30 days</option>
-                                    <option value="15d">inactive over 15 days</option>
+                                    <option value="none">无</option>
+                                    <option value="60d" selected>超过 60 天未活跃</option>
+                                    <option value="30d">超过 30 天未活跃</option>
+                                    <option value="15d">超过 15 天未活跃</option>
                                 </select>
                                 <span class="form-text text-muted">
-                                    Remove from the database players based on how much time since they last connected to the server.
-                                    This will not remove players with saved notes, neither will erase bans/warns logs.
+                                    根据玩家距上次连接服务器的时间，从数据库中移除相应玩家。
+                                    此操作不会移除带有已保存备注的玩家，也不会删除封禁/警告日志。
                                 </span>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="cleandb-bans" class="col-sm-3 col-form-label">
-                                Bans
+                                封禁
                             </label>
                             <div class="col-sm-9">
                                 <select id="cleandb-bans" name="bans" class="form-control" required>
-                                    <option value="none">none</option>
-                                    <option value="revoked" selected>revoked</option>
-                                    <option value="revokedExpired">revoked or expired</option>
-                                    <option value="all" class="font-weight-bold text-danger">REMOVE ALL BANS</option>
+                                    <option value="none">无</option>
+                                    <option value="revoked" selected>已撤销</option>
+                                    <option value="revokedExpired">已撤销或已过期</option>
+                                    <option value="all" class="font-weight-bold text-danger">删除所有封禁</option>
                                 </select>
                                 <span class="form-text text-muted">
-                                    Remove expired or revoked bans from the database.
+                                    从数据库中移除已过期或已撤销的封禁。
                                 </span>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="cleandb-warns" class="col-sm-3 col-form-label">
-                                Warns
+                                警告
                             </label>
                             <div class="col-sm-9">
                                 <select id="cleandb-warns" name="warns" class="form-control" required>
-                                    <option value="none" >none</option>
-                                    <option value="revoked">revoked</option>
-                                    <option value="30d" selected>older than 30 days</option>
-                                    <option value="15d">older than 15 days</option>
-                                    <option value="7d">older than 7 days</option>
-                                    <option value="all" class="font-weight-bold text-danger">REMOVE ALL WARNS</option>
+                                    <option value="none" >无</option>
+                                    <option value="revoked">已撤销</option>
+                                    <option value="30d" selected>超过 30 天</option>
+                                    <option value="15d">超过 15 天</option>
+                                    <option value="7d">超过 7 天</option>
+                                    <option value="all" class="font-weight-bold text-danger">删除所有警告</option>
                                 </select>
                                 <span class="form-text text-muted">
-                                    Remove old or revoked warns from the database.
+                                    从数据库中移除旧的或已撤销的警告。
                                 </span>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="cleandb-hwids" class="col-sm-3 col-form-label">
-                                HWIDs
+                                HWID
                             </label>
                             <div class="col-sm-9">
                                 <select id="cleandb-hwids" name="hwids" class="form-control" required>
-                                    <option value="none" selected>none</option>
-                                    <option value="players">from players</option>
-                                    <option value="bans">from bans</option>
-                                    <option value="all" class="font-weight-bold text-danger">REMOVE ALL HWIDS</option>
+                                    <option value="none" selected>无</option>
+                                    <option value="players">来自玩家</option>
+                                    <option value="bans">来自封禁</option>
+                                    <option value="all" class="font-weight-bold text-danger">删除所有 HWID</option>
                                 </select>
                                 <span class="form-text text-muted">
-                                    Player Hardware ID Tokens (HWIDs) are tied to the server owner, and if it changes, no HWID will match anymore. And because of that, if you change your <code>sv_licenseKey</code> to one owned by another person, it is recommended that you wipe the existing HWIDs.
+                                    玩家硬件 ID 令牌（HWID）与服务器所有者绑定，如果所有者发生变化，所有 HWID 都将无法匹配。因此，如果你将 <code>sv_licenseKey</code> 更换为他人所有，建议你清除现有的 HWID。
                                 </span>
                             </div>
                         </div>
 
                         <div class="text-center mt-4">
                             <button class="btn btn-sm btn-outline-danger" id="cleandb-submitButton" <%= disableActions %>>
-                                <i class="icon-trash"></i> Clean Database
+                                <i class="icon-trash"></i> 清理数据库
                             </button>
                         </div>
                     </div>
@@ -172,25 +172,25 @@
                     <div class="tab-pane fade" id="nav-revokewl" role="tabpanel" aria-labelledby="nav-revokewl-tab">
                         <div class="form-group row">
                             <label for="revokewl-filter" class="col-sm-3 col-form-label">
-                                Filter
+                                筛选条件
                             </label>
                             <div class="col-sm-9">
                                 <select id="revokewl-filter" name="filter" class="form-control" required>
-                                    <option value="30d" selected>players that haven't joined in the last 30 days</option>
-                                    <option value="15d">players that haven't joined in the last 15 days</option>
-                                    <option value="7d">players that haven't joined in the last 7 days</option>
-                                    <option value="all" class="font-weight-bold text-danger">REVOKE ALL ALLOWLISTS</option>
+                                    <option value="30d" selected>近 30 天未加入的玩家</option>
+                                    <option value="15d">近 15 天未加入的玩家</option>
+                                    <option value="7d">近 7 天未加入的玩家</option>
+                                    <option value="all" class="font-weight-bold text-danger">撤销所有白名单</option>
                                 </select>
                                 <span class="form-text text-muted">
-                                    Revoke allowlist from players that have not joined the server the last X days. <br>
-                                    <strong>Note:</strong> This only applies to license allowlist, and not Discord member or Discord role allowlist.
+                                    撤销超过 X 天未加入服务器的玩家的白名单。 <br>
+                                    <strong>注意：</strong> 这仅适用于许可证白名单，不适用于 Discord 成员或 Discord 角色白名单。
                                 </span>
                             </div>
                         </div>
     
                         <div class="text-center mt-4">
                             <button class="btn btn-sm btn-outline-danger" id="revokewl-submitButton" <%= disableActions %>>
-                                <i class="icon-close"></i> Revoke From Allowlist
+                                <i class="icon-close"></i> 从白名单中撤销
                             </button>
                         </div>
                     </div>
@@ -244,24 +244,24 @@
             //Validate options
             const changes = [];
             if(frmPlayers.value !== 'none'){
-                changes.push(`Remove players ${frmPlayers.options[frmPlayers.selectedIndex].text}.`);
+                changes.push(`移除玩家：${frmPlayers.options[frmPlayers.selectedIndex].text}。`);
             }
             if(frmBans.value !== 'none'){
-                changes.push(`Remove bans ${frmBans.options[frmBans.selectedIndex].text}.`);
+                changes.push(`移除封禁：${frmBans.options[frmBans.selectedIndex].text}。`);
             }
             if(frmWarns.value !== 'none'){
-                changes.push(`Remove warns ${frmWarns.options[frmWarns.selectedIndex].text}.`);
+                changes.push(`移除警告：${frmWarns.options[frmWarns.selectedIndex].text}。`);
             }
             if(frmHwids.value !== 'none'){
-                changes.push(`Remove HWIDs ${frmHwids.options[frmHwids.selectedIndex].text}.`);
+                changes.push(`移除 HWID：${frmHwids.options[frmHwids.selectedIndex].text}。`);
             }
             if(!changes.length){
-                return $.notify({ message: 'You need to select at least one option.' }, {type: 'danger'});
+                return $.notify({ message: '你至少需要选择一个选项。' }, {type: 'danger'});
             }
 
             //Confirm action
             const confirmOptions = {
-                title: 'Are you sure wou want to:',
+                title: '你确定要执行以下操作吗：',
                 content: '<ul>' + changes.map(x => `<li>${x}</li>`).join('\n') + '</ul>'
             }
             if(!await txAdminConfirm(confirmOptions)) return;
@@ -280,23 +280,23 @@
                 success: function (data) {
                     if(data.error){
                         return txAdminAlert({
-                            title: 'Error:',
+                            title: '错误：',
                             modalColor: 'red',
                             content: data.error
                         });
                     }else{
                         return txAdminAlert({
-                            title: 'Result:',
-                            content: `<b>Players deleted: ${data.playersRemoved}</b> <br>
-                                <b>Actions deleted: ${data.actionsRemoved}</b> <br>
-                                <b>HWIDs deleted: ${data.hwidsRemoved}</b> <br>
-                                Process finished in ${data.msElapsed}ms.`
+                            title: '结果：',
+                            content: `<b>已删除玩家：${data.playersRemoved}</b> <br>
+                                <b>已删除操作记录：${data.actionsRemoved}</b> <br>
+                                <b>已删除 HWID：${data.hwidsRemoved}</b> <br>
+                                处理完成，耗时 ${data.msElapsed}ms。`
                         });
                     }
                 },
                 error: function (xmlhttprequest, textstatus, message) {
                     return txAdminAlert({
-                        title: 'Error:',
+                        title: '错误：',
                         modalColor: 'red',
                         content: message
                     });
@@ -314,10 +314,10 @@
         revokewlSubmitBtn.onclick = async (event) => {
             //Confirm action
             const actionText = (frmFilter.value === 'all')
-                ? `Revoke ALL Allowlisted Players.`
-                : `Revoke Allowlist from all players that have not joined in the past ${frmFilter.value}.`;
+                ? `撤销所有已批准白名单的玩家。`
+                : `撤销所有在过去 ${frmFilter.value} 内未加入服务器的玩家的白名单。`;
             const confirmOptions = {
-                title: 'Are you sure wou want to:',
+                title: '你确定要执行以下操作吗：',
                 content: actionText
             }
             if(!await txAdminConfirm(confirmOptions)) return;
@@ -333,21 +333,21 @@
                 success: function (data) {
                     if(data.error){
                         return txAdminAlert({
-                            title: 'Error:',
+                            title: '错误：',
                             modalColor: 'red',
                             content: data.error
                         });
                     }else{
                         return txAdminAlert({
-                            title: 'Result:',
-                            content: `<b>Allowlists revoked: ${data.cntRemoved}</b> <br>
-                                Process finished in ${data.msElapsed}ms.`
+                            title: '结果：',
+                            content: `<b>已撤销白名单：${data.cntRemoved}</b> <br>
+                                处理完成，耗时 ${data.msElapsed}ms。`
                         });
                     }
                 },
                 error: function (xmlhttprequest, textstatus, message) {
                     return txAdminAlert({
-                        title: 'Error:',
+                        title: '错误：',
                         modalColor: 'red',
                         content: message
                     });

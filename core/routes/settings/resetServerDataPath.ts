@@ -17,7 +17,7 @@ export default async function ResetServerDataPath(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('all_permissions', modulename)) {
         return sendTypedResp({
             type: 'error',
-            msg: 'You don\'t have permission to execute this action.',
+            msg: '你没有权限执行此操作。',
         });
     }
 
@@ -44,7 +44,7 @@ export default async function ResetServerDataPath(ctx: AuthedCtx) {
         return sendTypedResp({
             type: 'error',
             md: true,
-            title: `Error resetting the server data path.`,
+            title: `重置服务器数据路径时出错。`,
             msg: (error as any).message,
         });
     }
@@ -56,6 +56,6 @@ export default async function ResetServerDataPath(ctx: AuthedCtx) {
     ctx.admin.logAction('Resetting server data settings.');
     return sendTypedResp({
         type: 'success',
-        msg: 'Server data path reset.'
+        msg: '服务器数据路径已重置。'
     });
 };

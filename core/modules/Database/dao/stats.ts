@@ -12,12 +12,12 @@ export default class StatsDao {
     constructor(private readonly db: DbInstance) { }
 
     private get dbo() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj;
     }
 
     private get chain() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj.chain;
     }
 

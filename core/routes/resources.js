@@ -49,15 +49,15 @@ const getResourceSubPath = (resPath) => {
 export default async function Resources(ctx) {
     if (!txCore.fxRunner.child?.isAlive) {
         return ctx.utils.renderMessage(
-            'The resources list is only available when the server is running.',
+            '资源列表仅在服务器运行时可用。',
         );
     }
 
-    const timeoutMessage = `<strong>Couldn't load the resources list.</strong> <br>
-    - Make sure the server is online (try to join it). <br>
-    - Make sure you don't have more than 1000 resources. <br>
-    - Make sure you are not running the FXServer outside of txAdmin. <br>
-    - Check the <strong>Live Console</strong> for any errors which may indicate that some resource has a malformed <code>fxmanifest.lua</code> file.`;
+    const timeoutMessage = `<strong>无法加载资源列表。</strong> <br>
+    - 请确保服务器在线（尝试加入服务器）。 <br>
+    - 请确保资源数量不超过 1000 个。 <br>
+    - 请确保 FXServer 是通过 txAdmin 启动的。 <br>
+    - 请检查<strong>实时控制台</strong>中的错误，某些资源的 <code>fxmanifest.lua</code> 文件可能存在格式问题。`;
 
     //Send command request
     const cmdSuccess = txCore.fxRunner.sendCommand('txaReportResources', [], SYM_SYSTEM_AUTHOR);
@@ -79,7 +79,7 @@ export default async function Resources(ctx) {
                 clearTimeout(tErrorTimer);
                 const resGroups = processResources(txCore.fxResources.resourceReport.resources);
                 const renderData = {
-                    headerTitle: 'Resources',
+                    headerTitle: '资源',
                     resGroupsJS: JSON.stringify(resGroups),
                     resGroups,
                     disableActions: (ctx.admin.hasPermission('commands.resources')) ? '' : 'disabled',
@@ -104,7 +104,7 @@ export default async function Resources(ctx) {
     } else if (renderData) {
         return ctx.utils.render('main/resources', renderData);
     } else {
-        return ctx.utils.error(500, 'Invalid response from Promise.race');
+        return ctx.utils.error(500, 'Promise.race 响应无效');
     }
 };
 

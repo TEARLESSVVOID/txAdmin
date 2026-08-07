@@ -56,7 +56,7 @@ export default function AddMasterPin() {
 
     useEffect(() => {
         if (/^#\d{4}$/.test(window.location.hash)) {
-            setMessageText('Auto-filled ✔');
+            setMessageText('已自动填充 ✔');
             pinRef.current!.value = window.location.hash.substring(1);
         }
     }, []);
@@ -75,9 +75,9 @@ export default function AddMasterPin() {
             className='w-full'
         >
             <CardHeader className="space-y-1">
-                <CardTitle className="text-3xl">No Cfx.re account linked</CardTitle>
+                <CardTitle className="text-3xl">未关联 Cfx.re 账户</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
-                    Type in the PIN from the terminal.
+                    请输入终端中显示的 PIN 码。
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-2">
@@ -119,7 +119,7 @@ export default function AddMasterPin() {
             <CardFooter>
                 <Button className="w-full" disabled={disableInput}>
                     {disableInput && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Link Account
+                    关联账户
                 </Button>
             </CardFooter>
         </form>

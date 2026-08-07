@@ -55,7 +55,7 @@ function PlayerlistFilter({ filterString, setFilterString }: PlayerlistFilterPro
                 <Input
                     ref={inputRef}
                     className="h-8"
-                    placeholder="Filter by Name or ID"
+                    placeholder="按名称或 ID 过滤"
                     value={filterString}
                     onChange={(e) => setFilterString(e.target.value)}
                     onKeyDown={(e) => {
@@ -225,9 +225,8 @@ export default function Playerlist() {
                     filteredPlayerlist.length !== playerlist.length && virtualItems.length ? 'block' : 'hidden'
                 )}
             >
-                Showing {filteredPlayerlist.length} of {playerlist.length} players.
-            </div>
-            <div
+                正在显示 {filteredPlayerlist.length} / {playerlist.length} 名玩家。
+            </div>            <div
                 className={cn(
                     'text-center m-6 text-muted-foreground tracking-wider italic',
                     virtualItems.length ? 'hidden' : 'block'
@@ -235,13 +234,13 @@ export default function Playerlist() {
             >
                 {playerlist.length && filterString ? (
                     <p>
-                        No players to show.
-                        <span className="text-xs block opacity-75">Clear the filter to show all players.</span>
+                        没有可显示的玩家。
+                        <span className="text-xs block opacity-75">清除过滤器以显示所有玩家。</span>
                     </p>
                 ) : (
                     <p>
-                        No players online.
-                        <span className="text-xs block opacity-75">Invite some friends to join in!</span>
+                        当前没有在线玩家。
+                        <span className="text-xs block opacity-75">邀请一些朋友加入吧！</span>
                     </p>
                 )}
             </div>

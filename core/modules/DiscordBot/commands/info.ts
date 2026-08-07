@@ -35,7 +35,7 @@ export default async (interaction: CommandInteraction) => {
     if (adminInfoFlag) {
         const admin = txCore.adminStore.getAdminByProviderUID(interaction.user.id);
         if (!admin) {
-            return await interaction.reply(embedder.danger('You cannot use the `admininfo` option if you are not a txAdmin admin.'));
+            return await interaction.reply(embedder.danger('如果你不是 txAdmin 管理员，则无法使用 `admininfo` 选项。'));
         } else {
             includeAdminInfo = true;
         }
@@ -48,14 +48,14 @@ export default async (interaction: CommandInteraction) => {
     if (subcommand === 'self') {
         const targetId = interaction.member?.user.id;
         if (!targetId) {
-            return await interaction.reply(embedder.danger('Could not resolve your Discord ID.'));
+            return await interaction.reply(embedder.danger('无法解析你的 Discord ID。'));
         }
         searchId = `discord:${targetId}`;
 
     } else if (subcommand === 'member') {
         const member = interaction.options.getMember('member');
         if(!member || !('user' in member)){
-            return await interaction.reply(embedder.danger(`Failed to resolve member ID.`));
+            return await interaction.reply(embedder.danger(`无法解析成员 ID。`));
         }
         searchId = `discord:${member.user.id}`;
 
@@ -63,12 +63,12 @@ export default async (interaction: CommandInteraction) => {
         //@ts-ignore: somehow vscode is resolving interaction as CommandInteraction
         const input = interaction.options.getString('id', true).trim();
         if (!input.length) {
-            return await interaction.reply(embedder.danger('Invalid identifier.'));
+            return await interaction.reply(embedder.danger('无效的标识符。'));
         }
 
         const { isIdValid, idType, idValue, idlowerCased } = parsePlayerId(input);
         if (!isIdValid || !idType || !idValue || !idlowerCased) {
-            return await interaction.reply(embedder.danger(`The provided identifier (\`${input}\`) does not seem to be valid.`));
+            return await interaction.reply(embedder.danger(`提供的标识符（\`${input}\`）似乎无效。`));
         }
         searchId = idlowerCased;
 
@@ -79,9 +79,9 @@ export default async (interaction: CommandInteraction) => {
     //Searching for players
     const players = findPlayersByIdentifier(searchId);
     if (!players.length) {
-        return await interaction.reply(embedder.warning(`Identifier (\`${searchId}\`) does not seem to be associated to any player in the txAdmin Database.`));
+        return await interaction.reply(embedder.warning(`标识符（\`${searchId}\`）似乎未与 txAdmin 数据库中的任何玩家关联。`));
     } else if (players.length > 10) {
-        return await interaction.reply(embedder.warning(`The identifier (\`${searchId}\`) is associated with more than 10 players, please use the txAdmin Web Panel to search for it.`));
+        return await interaction.reply(embedder.warning(`标识符（\`${searchId}\`）关联的玩家超过 10 个，请使用 txAdmin Web 面板进行搜索。`));
     }
 
     //Format players
@@ -92,12 +92,12 @@ export default async (interaction: CommandInteraction) => {
 
         //Basic data
         const bodyText: Record<string, string> = {
-            'Play time': msToShortishDuration(dbData.playTime * 60 * 1000),
-            'Join date': tsToLocaleDate(dbData.tsJoined),
-            'Last connection': tsToLocaleDate(dbData.tsLastConnection),
-            'Whitelisted': (dbData.tsWhitelisted)
+            '游戏时长': msToShortishDuration(dbData.playTime * 60 * 1000),
+            '加入日期': tsToLocaleDate(dbData.tsJoined),
+            '最后连接': tsToLocaleDate(dbData.tsLastConnection),
+            '已白名单': (dbData.tsWhitelisted)
                 ? tsToLocaleDate(dbData.tsWhitelisted)
-                : 'not yet',
+                : '尚未',
         };
 
         //If admin query
@@ -109,20 +109,20 @@ export default async (interaction: CommandInteraction) => {
             for (const log of actionHistory) {
                 actionCount[log.type]++;
             }
-            const banText = (actionCount.ban === 1) ? '1 ban' : `${actionCount.ban} bans`;
-            const warnText = (actionCount.warn === 1) ? '1 warn' : `${actionCount.warn} warns`;
-            bodyText['Log'] = `${banText}, ${warnText}`;
+            const banText = (actionCount.ban === 1) ? '1 次封禁' : `${actionCount.ban} 次封禁`;
+            const warnText = (actionCount.warn === 1) ? '1 次警告' : `${actionCount.warn} 次警告`;
+            bodyText['记录'] = `${banText}，${warnText}`;
 
             //Filling notes + identifiers
-            const notesText = (dbData.notes) ? dbData.notes.text : 'nothing here';
-            const idsText = (dbData.ids.length) ? dbData.ids.join('\n') : 'nothing here';
+            const notesText = (dbData.notes) ? dbData.notes.text : '无内容';
+            const idsText = (dbData.ids.length) ? dbData.ids.join('\n') : '无内容';
             fields = [
                 {
-                    name: '• Notes:',
+                    name: '• 备注：',
                     value: `\`\`\`${notesText}\`\`\``
                 },
                 {
-                    name: '• Identifiers:',
+                    name: '• 标识符：',
                     value: `\`\`\`${idsText}\`\`\``
                 },
             ];

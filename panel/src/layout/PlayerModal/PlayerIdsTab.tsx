@@ -27,9 +27,9 @@ export default function PlayerIdsTab({ playerRef, player, refreshModalData }: Pl
         removePlayerIdsApi({
             queryParams: playerRef,
             data: { ids },
-            toastLoadingMessage: 'Deleting selected IDs/HWIDs...',
+            toastLoadingMessage: '正在删除选中的 ID/HWID...',
             genericHandler: {
-                successMsg: 'Player IDs/HWIDs deleted!',
+                successMsg: '玩家 ID/HWID 已删除！',
             },
             error: (error, toastId) => onError(),
             success: (data, toastId) => {

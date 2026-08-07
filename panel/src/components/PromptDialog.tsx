@@ -88,7 +88,7 @@ export default function PromptDialog() {
                                     }}
                                     variant="outline"
                                 >
-                                    <span className="sm:hidden mr-auto text-muted-foreground">Suggestion:</span>
+                                    <span className="sm:hidden mr-auto text-muted-foreground">建议：</span>
                                     {suggestion}
                                 </Button>
                             ))}
@@ -114,7 +114,7 @@ export default function PromptDialog() {
                             type="submit"
                             variant={dialogState.submitBtnVariant ?? 'default'}
                         >
-                            {dialogState.submitLabel ?? 'Submit'}
+                            {dialogState.submitLabel ?? '提交'}
                         </Button>
                     </DialogFooter>
                 </form>

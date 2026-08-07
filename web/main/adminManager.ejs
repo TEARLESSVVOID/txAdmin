@@ -35,9 +35,9 @@
         <!-- Global Card -->
         <div class="card card-accent-primary">
             <div class="card-header float-left">
-                <span style="font-size: large">All Admins (<%= admins.length %>)</span>
+                <span style="font-size: large">所有管理员 (<%= admins.length %>)</span>
                 <button class="btn btn-sm btn-success float-right" type="button" onclick="getAdminModal();">
-                    <i class="icon-plus"></i> Add
+                    <i class="icon-plus"></i> 添加
                 </button>
             </div>
             <div class="card-body">
@@ -46,10 +46,10 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Username</th>
-                                <th>Identifiers</th>
-                                <th>Permissions</th>
-                                <th>Actions</th>
+                                <th>用户名</th>
+                                <th>标识符</th>
+                                <th>权限</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,28 +83,28 @@
                                     <% if (admin.isSelf) { %>
                                         <button class="btn btn-sm btn-outline-primary"
                                             onclick="openAccountModal()">
-                                            <i class="icon-pencil"></i> Your Account
+                                            <i class="icon-pencil"></i> 你的账户
                                         </button>
                                     <% } else { %>
                                         <% if (admin.disableEdit) { %>
                                             <button class="btn btn-sm btn-outline-secondary" disabled>
-                                                <i class="icon-pencil"></i> Edit
+                                                <i class="icon-pencil"></i> 编辑
                                             </button>
                                         <% } else { %>
                                             <button class="btn btn-sm btn-outline-primary"
                                                 onclick="getAdminModal(<%= escapeHtmlRawText(JSON.stringify(admin.name)) %>)">
-                                                <i class="icon-pencil"></i> Edit
+                                                <i class="icon-pencil"></i> 编辑
                                             </button>
                                         <% } %>
                                         &nbsp;
                                         <% if (admin.disableDelete) { %>
                                             <button class="btn btn-sm btn-outline-secondary" disabled>
-                                                <i class="icon-trash"></i> Delete
+                                                <i class="icon-trash"></i> 删除
                                             </button>
                                         <% } else { %>
                                             <button class="btn btn-sm btn-outline-danger"
                                                 onclick="deleteAdmin(<%= escapeHtmlRawText(JSON.stringify(admin.name)) %>)">
-                                                <i class="icon-trash"></i> Delete
+                                                <i class="icon-trash"></i> 删除
                                             </button>
                                         <% } %>
                                     <% } %>
@@ -129,25 +129,25 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modAdminPasswordTitle">Add Admin</h5>
+                <h5 class="modal-title" id="modAdminPasswordTitle">添加管理员</h5>
             </div>
             <div class="modal-body text-center">
                 <div class="form-group row">
                     <div class="col-sm-8 mx-auto">
-                        <h4 class="text-success">Admin Saved!</h4>
-                        <h6>Please copy the following temporary password:</h6>
+                        <h4 class="text-success">管理员已保存！</h4>
+                        <h6>请复制以下临时密码：</h6>
                         <div class="input-group">
                             <input type="text" class="form-control text-center" id="modAdminPassword-pwd" readonly>
                         </div>
                         <span class="form-text text-muted">
-                            The admin will be prompted to change his password on first login.
+                            管理员将在首次登录时被要求更改密码。
                         </span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer text-center">
                 <div class="mx-auto">
-                    <button type="button" class="btn btn-primary" onclick="window.location.reload(false);">Close & Refresh</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.reload(false);">关闭并刷新</button>
                 </div>
             </div>
         </div>
@@ -161,16 +161,16 @@
     <div class="modal-dialog modal-dialog-centered modal-lgx" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modAdminTitle">Edit Admin</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="modAdminTitle">编辑管理员</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="关闭">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="modAdmin-body"></div>
             <div class="modal-footer text-center">
                 <div class="mx-auto">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" id="modAdmin-save">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="modAdmin-save">保存</button>
                 </div>
             </div>
         </div>
@@ -206,11 +206,11 @@
     function getAdminModal(name){
         let modalType, data;
         if(name){
-            $('#modAdminTitle').html('Edit Admin');
+            $('#modAdminTitle').html('编辑管理员');
             modalType = 'edit';
             data = {name}
         }else{
-            $('#modAdminTitle').html('New Admin');
+            $('#modAdminTitle').html('新管理员');
             modalType = 'add';
             data = {autofill: true}
         }
@@ -231,7 +231,7 @@
             },
             error: function (xmlhttprequest, textstatus, message) {
                 $('#modAdmin-body').html(`<div class="text-center pt-2">
-                    <h5 class="text-secondary">action failed, please refresh the page and try again</h5>
+                    <h5 class="text-secondary">操作失败，请刷新页面后重试</h5>
                 </div>`);
                 $('#modAdmin').modal('show');
             }
@@ -253,9 +253,9 @@
             permissions: (permissions.length)? permissions : false
         }
         if(formData.name.length < 3) {
-            return $.notify({ message: 'The Username is not long enough.' }, { type: 'warning' });
+            return $.notify({ message: '用户名长度不足。' }, { type: 'warning' });
         }
-        const notify = $.notify({ message: '<p class="text-center">Saving...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">保存中...</p>' }, {});
         const action = (isNewAdmin) ? 'add' : 'edit';
 
         txAdminAPI({
@@ -267,7 +267,7 @@
                 if(data.type == 'showPassword'){
                     notify.update('progress', 0);
                     notify.update('type', 'success');
-                    notify.update('message', 'Saved!');
+                    notify.update('message', '已保存！');
                     $('#modAdmin').modal('hide');
                     $('#modAdminPassword-pwd').val(data.password);
                     $('#modAdminPassword').modal('show');
@@ -287,11 +287,11 @@
     //============================================== Delete Admin
     async function deleteAdmin(name){
         const confirmation = await txAdminConfirm({
-            content: `Are you sure you want to delete <b>${xss(name)}</b>?`
+            content: `确定要删除 <b>${xss(name)}</b> 吗？`
         })
         if(!confirmation) return;
 
-        const notify = $.notify({ message: '<p class="text-center">Deleting...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">删除中...</p>' }, {});
         txAdminAPI({
             type: "POST",
             url: '/adminManager/delete',
@@ -303,7 +303,7 @@
                 notify.update('message', data.message);
             },
             error: function (xmlhttprequest, textstatus, message) {
-                $.notify({ message: '<p class="text-center">Error deleting admin</p>' })
+                $.notify({ message: '<p class="text-center">删除管理员时出错</p>' })
             }
         });
     }

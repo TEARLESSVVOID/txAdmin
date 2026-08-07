@@ -15,20 +15,20 @@ import { ModalTabInner } from "@/components/modal-tabs";
 
 
 function LogActionCounter({ type, count }: { type: 'Ban' | 'Warn', count: number }) {
-    const pluralLabel = (count > 1) ? `${type}s` : type;
+    const typeLabel = type === 'Ban' ? '封禁' : '警告';
     if (count === 0) {
         return <span className={cn(
             'h-max rounded-sm text-xs font-semibold px-1 py-[0.125rem] tracking-widest text-center inline-block',
             'bg-secondary text-secondary-foreground'
         )}>
-            0 {type}s
+            0 {typeLabel}
         </span>
     } else {
         return <span className={cn(
             'h-max rounded-sm text-xs font-semibold px-1 py-[0.125rem] tracking-widest text-center inline-block',
             type === 'Ban' ? 'bg-destructive text-destructive-foreground' : 'bg-warning text-warning-foreground'
         )}>
-            {count} {pluralLabel}
+            {count} {typeLabel}
         </span>
     }
 }
@@ -55,7 +55,7 @@ function PlayerNotesBox({ playerRef, player, refreshModalData }: PlayerNotesBoxP
     });
 
     const doSaveNotes = () => {
-        setNotesLogText('Saving...');
+        setNotesLogText('保存中...');
         playerNotesApi({
             queryParams: playerRef,
             data: {
@@ -82,7 +82,7 @@ function PlayerNotesBox({ playerRef, player, refreshModalData }: PlayerNotesBoxP
 
     return <>
         <Label htmlFor="playerNotes">
-            Notes: <span className="text-muted-foreground">{notesLogText}</span>
+            备注： <span className="text-muted-foreground">{notesLogText}</span>
         </Label>
         <Textarea
             ref={textAreaRef}
@@ -90,13 +90,13 @@ function PlayerNotesBox({ playerRef, player, refreshModalData }: PlayerNotesBoxP
             className="w-full mt-1"
             disabled={!player.isRegistered}
             defaultValue={player.notes}
-            onChange={() => setNotesLogText('Press enter to save.')}
+            onChange={() => setNotesLogText('按回车保存。')}
             onKeyDown={handleKeyDown}
             //1rem of padding + 1.25rem per line
             style={{ height: `${1 + 1.25 * textAreaLines}rem` }}
             placeholder={player.isRegistered
-                ? 'Type your notes about the player.'
-                : 'Cannot set notes for players that are not registered.'}
+                ? '输入关于此玩家的备注。'
+                : '无法为未注册的玩家设置备注。'}
         />
         {window.txIsMobile && <div className="mt-2 w-full">
             <Button
@@ -105,7 +105,7 @@ function PlayerNotesBox({ playerRef, player, refreshModalData }: PlayerNotesBoxP
                 onClick={doSaveNotes}
                 disabled={!player.isRegistered}
                 className="w-full"
-            >Save Note</Button>
+            >保存备注</Button>
         </div>}
     </>
 }
@@ -149,7 +149,7 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
         tsFetch={tsFetch}
         isDateOnly
     />;
-    const whitelistedText = !player.tsWhitelisted ? 'not yet' : <DateTimeCorrected
+    const whitelistedText = !player.tsWhitelisted ? '尚未' : <DateTimeCorrected
         className="opacity-75 cursor-help"
         serverTime={serverTime}
         tsObject={player.tsWhitelisted}
@@ -165,9 +165,9 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
             data: {
                 status: !player.tsWhitelisted
             },
-            toastLoadingMessage: 'Updating whitelist...',
+            toastLoadingMessage: '正在更新白名单...',
             genericHandler: {
-                successMsg: 'Whitelist changed.',
+                successMsg: '白名单已更改。',
             },
             success: (data, toastId) => {
                 if ('success' in data) {
@@ -187,13 +187,13 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
                     banExpiration = Math.max(banExpiration ?? 0, action.exp);
                 }
             } else {
-                return 'This player is permanently banned.';
+                return '该玩家已被永久封禁。';
             }
         }
 
         if (banExpiration !== undefined) {
             const str = tsToLocaleDateTimeString(banExpiration, 'short', 'short');
-            return `This player is banned until ${str}`;
+            return `该玩家被封禁至 ${str}`;
         }
     }, [player, serverTime]);
 
@@ -211,24 +211,24 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
             ) : null}
             <dl className="pb-2">
                 {player.isConnected && <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Session Time</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">本次会话时长</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{sessionTimeText}</dd>
                 </div>}
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Play Time</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">累计游戏时长</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{playTimeText}</dd>
                 </div>
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Join Date</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">加入日期</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{joinDateText}</dd>
                 </div>
                 {!player.isConnected && <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Last Connection</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">上次连接</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{lastConnectionText}</dd>
                 </div>}
 
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">ID Allowlisted</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">ID 白名单</dt>
                     <dd className="text-sm leading-6 mt-0">{whitelistedText}</dd>
                     <dd className="text-right">
                         <Button
@@ -238,12 +238,12 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
                             onClick={handleWhitelistClick}
                             disabled={!hasPerm('players.whitelist')}
                         >
-                            {player.tsWhitelisted ? 'Remove' : 'Allow'}
+                            {player.tsWhitelisted ? '移除' : '允许'}
                         </Button>
                     </dd>
                 </div>
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Sanctions</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">处罚记录</dt>
                     <dd className="text-sm leading-6 mt-0 flex flex-wrap gap-2">
                         <LogActionCounter type="Ban" count={banCount} />
                         <LogActionCounter type="Warn" count={warnCount} />
@@ -253,8 +253,8 @@ export default function PlayerInfoTab({ playerRef, player, serverTime, tsFetch, 
                             variant="outline"
                             size='inline'
                             style={{ minWidth: '8.25ch' }}
-                            onClick={() => { setSelectedTab('History') }}
-                        >View</Button>
+                            onClick={() => { setSelectedTab('历史记录') }}
+                        >查看</Button>
                     </dd>
                 </div>
             </dl>

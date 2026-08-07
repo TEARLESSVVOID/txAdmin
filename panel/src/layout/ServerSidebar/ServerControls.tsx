@@ -52,9 +52,14 @@ export default function ServerControls() {
 
     const handleServerControl = (action: 'start' | 'stop' | 'restart') => {
         const messageMap = {
-            start: 'Starting server',
-            stop: 'Stopping server',
-            restart: 'Restarting server',
+            start: '启动服务器',
+            stop: '停止服务器',
+            restart: '重启服务器',
+        }
+        const actionMap = {
+            start: '启动',
+            stop: '停止',
+            restart: '重启',
         }
         const toastLoadingMessage = `${messageMap[action]}...`;
         const callApi = () => {
@@ -70,7 +75,7 @@ export default function ServerControls() {
         } else {
             openConfirmDialog({
                 title: messageMap[action],
-                message: `Are you sure you want to ${action} the server?`,
+                message: `确定要${actionMap[action]}服务器吗？`,
                 onConfirm: callApi,
             });
         }
@@ -86,16 +91,16 @@ export default function ServerControls() {
     const handleAnnounce = () => {
         if (!fxRunnerState.isChildAlive) return;
         openPromptDialog({
-            title: 'Send Announcement',
-            message: 'Type the message to be broadcasted to all players.',
-            placeholder: 'announcement message',
-            submitLabel: 'Send',
+            title: '发送公告',
+            message: '输入要广播给所有玩家的消息。',
+            placeholder: '公告消息',
+            submitLabel: '发送',
             required: true,
             onSubmit: (input) => {
                 closeAllSheets();
                 fxsCommandsApi({
                     data: { action: 'admin_broadcast', parameter: input },
-                    toastLoadingMessage: 'Sending announcement...',
+                    toastLoadingMessage: '正在发送公告...',
                 });
             }
         });
@@ -104,15 +109,15 @@ export default function ServerControls() {
     const handleKickAll = () => {
         if (!fxRunnerState.isChildAlive) return;
         openPromptDialog({
-            title: 'Kick All Players',
-            message: 'Type the kick reason or leave it blank (press enter)',
-            placeholder: 'kick reason',
-            submitLabel: 'Send',
+            title: '踢出所有玩家',
+            message: '输入踢出原因，或留空（按回车键）',
+            placeholder: '踢出原因',
+            submitLabel: '发送',
             onSubmit: (input) => {
                 closeAllSheets();
                 fxsCommandsApi({
                     data: { action: 'kick_all', parameter: input },
-                    toastLoadingMessage: 'Kicking players...',
+                    toastLoadingMessage: '正在踢出玩家...',
                 });
             }
         });
@@ -124,7 +129,7 @@ export default function ServerControls() {
     if (txConfigState !== TxConfigState.Ready) {
         return (
             <div className='w-full h-8 text-center tracking-wider font-light opacity-75'>
-                Server not configured.
+                服务器尚未配置。
             </div>
         )
     }
@@ -155,11 +160,11 @@ export default function ServerControls() {
                 </TooltipTrigger>
                 <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
                     {hasControlPerms ? (
-                        <p>{fxRunnerState.isIdle ? 'Start the server! 🚀' : 'Stop the server'}</p>
+                        <p>{fxRunnerState.isIdle ? '启动服务器！🚀' : '停止服务器'}</p>
                     ) : (
                         <p>
-                            You do not have permission <br />
-                            to control the server.
+                            您没有权限 <br />
+                            控制服务器。
                         </p>
                     )}
                 </TooltipContent>
@@ -176,11 +181,11 @@ export default function ServerControls() {
                 </TooltipTrigger>
                 <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
                     {hasControlPerms ? (
-                        <p>Restart Server</p>
+                        <p>重启服务器</p>
                     ) : (
                         <p>
-                            You do not have permission <br />
-                            to control the server.
+                            您没有权限 <br />
+                            控制服务器。
                         </p>
                     )}
                 </TooltipContent>
@@ -197,11 +202,11 @@ export default function ServerControls() {
                 </TooltipTrigger>
                 <TooltipContent className={cn(!hasControlPerms && 'text-destructive-inline text-center')}>
                     {hasControlPerms ? (
-                        <p>Kick All Players</p>
+                        <p>踢出所有玩家</p>
                     ) : (
                         <p>
-                            You do not have permission <br />
-                            to control the server.
+                            您没有权限 <br />
+                            控制服务器。
                         </p>
                     )}
                 </TooltipContent>
@@ -218,11 +223,11 @@ export default function ServerControls() {
                 </TooltipTrigger>
                 <TooltipContent className={cn(!hasAnnouncementPerm && 'text-destructive-inline text-center')}>
                     {hasAnnouncementPerm ? (
-                        <p>Send Announcement</p>
+                        <p>发送公告</p>
                     ) : (
                         <p>
-                            You do not have permission <br />
-                            to send an Announcement.
+                            您没有权限 <br />
+                            发送公告。
                         </p>
                     )}
                 </TooltipContent>

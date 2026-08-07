@@ -32,48 +32,48 @@ export function AuthError({ error }: AuthErrorProps) {
         titleNode = error.errorTitle
         bodyNode = <ErrorText>{error.errorMessage}</ErrorText>;
     } else if (error.errorCode === 'invalid_session') {
-        titleNode = 'Invalid Browser Session.';
+        titleNode = '浏览器会话无效。';
         bodyNode = <ErrorText>
-            You may have restarted txAdmin right before entering this page. <br />
-            Please return and try again.
+            您可能在进入此页面之前刚刚重启了 txAdmin。 <br />
+            请返回后重试。
         </ErrorText>
     } else if (error.errorCode === 'clock_desync') {
-        titleNode = 'Please Update/Synchronize your VPS clock.';
+        titleNode = '请更新/同步您的 VPS 时钟。';
         bodyNode = <ErrorText>
-            Failed to login because this host's time is wrong. Please make sure to synchronize it with the internet.
+            登录失败，因为此主机的时间不正确。请确保与互联网时间同步。
         </ErrorText>
     } else if (error.errorCode === 'timeout') {
-        titleNode = 'Connection to FiveM servers timed out.';
+        titleNode = '连接 FiveM 服务器超时。';
         bodyNode = <ErrorText>
-            Please try again or login using your existing username and backup password.
+            请重试，或使用现有的用户名和备用密码登录。
         </ErrorText>
     } else if (error.errorCode === 'end_user_aborted') {
-        titleNode = 'Login Aborted';
+        titleNode = '登录已中止';
         bodyNode = <ErrorText>
-            The Cfx.re login process was aborted. <br />
-            Return to the login page to try again.
+            Cfx.re 登录流程已中止。 <br />
+            返回登录页面重试。
         </ErrorText>
     } else if (error.errorCode === 'end_user_logout') {
-        titleNode = 'Login Aborted';
+        titleNode = '登录已中止';
         bodyNode = <ErrorText>
-            The Cfx.re login process was aborted because you logged out of the Cfx.re account. <br />
-            Return to the login page to try again.
+            由于您已退出 Cfx.re 账户，Cfx.re 登录流程被中止。 <br />
+            返回登录页面重试。
         </ErrorText>
     } else if (error.errorCode === 'master_already_set') {
-        titleNode = 'Master Account Already Set';
+        titleNode = '主管理员账户已设置';
         bodyNode = <ErrorText>
-            Please go back to the login page to continue. <br />
+            请返回登录页面继续。 <br />
         </ErrorText>
     } else if (error.errorCode === 'not_admin') {
-        const fivemId = error.errorContext?.identifier ?? 'unknown';
-        const fivemName = error.errorContext?.name ?? 'unknown';
-        titleNode = `The Cfx.re account '${fivemName}' is not an admin.`;
+        const fivemId = error.errorContext?.identifier ?? '未知';
+        const fivemName = error.errorContext?.name ?? '未知';
+        titleNode = `Cfx.re 账户“${fivemName}”不是管理员。`;
         bodyNode = <ErrorText>
-            The account above with identifier <InlineCode>{fivemId}</InlineCode> is not assigned to any account registered on txAdmin. <br />
-            You can also try to login using your username and backup password.
+            上述标识符为 <InlineCode>{fivemId}</InlineCode> 的账户未关联到 txAdmin 中注册的任何账户。 <br />
+            您也可以尝试使用用户名和备用密码登录。
         </ErrorText>
     } else {
-        titleNode = 'Unknown Error:';
+        titleNode = '未知错误：';
         bodyNode = <div className="text-left rounded-sm text-muted-foreground bg-muted p-1">
             <pre className="text-left whitespace-pre-wrap">{JSON.stringify(error, null, 2)}</pre>
         </div>
@@ -89,7 +89,7 @@ export function AuthError({ error }: AuthErrorProps) {
                 <Link href={error.returnTo} asChild>
                     <Button className="x">
                         <ArrowLeftIcon className="inline mr-2 h-4 w-4" />
-                        Try Again
+                        重试
                     </Button>
                 </Link>
             </CardFooter>
@@ -119,17 +119,17 @@ export const checkCommonOauthErrors = () => {
 export const processFetchError = (error: any) => {
     if (error.message?.startsWith('NetworkError')) {
         return {
-            errorTitle: 'Network Error',
-            errorMessage: 'If you closed txAdmin, please restart it and try again.',
+            errorTitle: '网络错误',
+            errorMessage: '如果您关闭了 txAdmin，请重新启动后再试。',
         };
     } else if(error.message?.startsWith('AbortSignal.timeout')) {
         return {
-            errorTitle: 'Browser Outdated',
-            errorMessage: 'The version of this browser is too old to use txAdmin. Please download a new version of Edge, Chrome, Firefox, etc. and try again.',
+            errorTitle: '浏览器版本过旧',
+            errorMessage: '此浏览器版本过旧，无法使用 txAdmin。请下载新版 Edge、Chrome、Firefox 等浏览器后重试。',
         };
     } else {
         return {
-            errorTitle: 'Unknown Error',
+            errorTitle: '未知错误',
             errorMessage: error.message ?? '😵',
         };
     }

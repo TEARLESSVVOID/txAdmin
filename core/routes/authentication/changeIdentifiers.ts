@@ -27,7 +27,7 @@ export default async function AuthChangeIdentifiers(ctx: AuthedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<GenericApiResp>({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const { cfxreId, discordId } = schemaRes.data;
@@ -41,7 +41,7 @@ export default async function AuthChangeIdentifiers(ctx: AuthedCtx) {
                 const res = await got(`https://policy-live.fivem.net/api/getUserInfo/${id}`, cfxHttpReqOptions).json<any>();
                 if (!res.username || !res.username.length) {
                     return ctx.send<GenericApiResp>({
-                        error: `(ERR1) Invalid CitizenFX ID`,
+                        error: `(ERR1) 无效的 CitizenFX ID`,
                     });
                 }
                 citizenfxData = {
@@ -50,12 +50,12 @@ export default async function AuthChangeIdentifiers(ctx: AuthedCtx) {
                 };
             } else {
                 return ctx.send<GenericApiResp>({
-                    error: `(ERR3) Invalid CitizenFX ID`,
+                    error: `(ERR3) 无效的 CitizenFX ID`,
                 });
             }
         } catch (error) {
             return ctx.send<GenericApiResp>({
-                error: `Failed to resolve CitizenFX ID to game identifier with error: ${(error as Error).message}`,
+                error: `将 CitizenFX ID 解析为游戏标识符失败，错误信息：${(error as Error).message}`,
             });
         }
     }
@@ -65,7 +65,7 @@ export default async function AuthChangeIdentifiers(ctx: AuthedCtx) {
     if (discordId.length) {
         if (!consts.validIdentifiers.discord.test(discordId)) {
             return ctx.send<GenericApiResp>({
-                error: `The Discord ID needs to be the numeric "User ID" instead of the username.\n You can also leave it blank.`,
+                error: `Discord ID 需要是数字形式的"用户 ID"（User ID），而不是用户名。\n 你也可以将其留空。`,
             });
         }
         discordData = {
@@ -76,7 +76,7 @@ export default async function AuthChangeIdentifiers(ctx: AuthedCtx) {
 
     //Get vault admin
     const vaultAdmin = txCore.adminStore.getAdminByName(ctx.admin.name);
-    if (!vaultAdmin) throw new Error('Wait, what? Where is that admin?');
+    if (!vaultAdmin) throw new Error('等等，什么？那个管理员在哪？');
 
     //Prepare log message
     const changes: string[] = [];

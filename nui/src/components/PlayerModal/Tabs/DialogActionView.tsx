@@ -89,7 +89,7 @@ const DialogActionView: React.FC = () => {
   //Moderation
   const handleDM = () => {
     if (!userHasPerm("players.direct_message", playerPerms))
-      return showNoPerms("Direct Message");
+      return showNoPerms("私聊");
 
     openDialog({
       title: `${t(
@@ -119,7 +119,7 @@ const DialogActionView: React.FC = () => {
   };
 
   const handleWarn = () => {
-    if (!userHasPerm("players.warn", playerPerms)) return showNoPerms("Warn");
+    if (!userHasPerm("players.warn", playerPerms)) return showNoPerms("警告");
 
     openDialog({
       title: `${t(
@@ -149,7 +149,7 @@ const DialogActionView: React.FC = () => {
   };
 
   const handleKick = () => {
-    if (!userHasPerm("players.kick", playerPerms)) return showNoPerms("Kick");
+    if (!userHasPerm("players.kick", playerPerms)) return showNoPerms("踢出游戏");
 
     openDialog({
       title: `${t(
@@ -180,7 +180,7 @@ const DialogActionView: React.FC = () => {
 
   const handleSetAdmin = () => {
     if (!userHasPerm("manage.admins", playerPerms)) {
-      return showNoPerms("Manage Admins");
+      return showNoPerms("给管理员");
     }
     //If the playerDetails is available
     const params = new URLSearchParams();
@@ -204,7 +204,7 @@ const DialogActionView: React.FC = () => {
 
   //Interaction
   const handleHeal = () => {
-    if (!userHasPerm("players.heal", playerPerms)) return showNoPerms("Heal");
+    if (!userHasPerm("players.heal", playerPerms)) return showNoPerms("恢复状态");
 
     fetchNui("healPlayer", { id: assocPlayer.id });
     enqueueSnackbar(
@@ -215,7 +215,7 @@ const DialogActionView: React.FC = () => {
 
   const handleGoTo = () => {
     if (!userHasPerm("players.teleport", playerPerms))
-      return showNoPerms("Teleport");
+      return showNoPerms("传送");
 
     // Only works with onesync because server needs to know the player's coords
     if (!serverCtx.oneSync.status) {
@@ -234,7 +234,7 @@ const DialogActionView: React.FC = () => {
 
   const handleBring = () => {
     if (!userHasPerm("players.teleport", playerPerms))
-      return showNoPerms("Teleport");
+      return showNoPerms("传送");
 
     // Only works with onesync because server needs to know the player's coords
     if (!serverCtx.oneSync.status) {
@@ -253,7 +253,7 @@ const DialogActionView: React.FC = () => {
 
   const handleSpectate = () => {
     if (!userHasPerm("players.spectate", playerPerms))
-      return showNoPerms("Spectate");
+      return showNoPerms("观看");
 
     closeMenu();
     fetchNui("spectatePlayer", { id: assocPlayer.id });
@@ -261,25 +261,25 @@ const DialogActionView: React.FC = () => {
 
   const handleFreeze = () => {
     if (!userHasPerm("players.freeze", playerPerms))
-      return showNoPerms("Freeze");
+      return showNoPerms("冻结");
     fetchNui("togglePlayerFreeze", { id: assocPlayer.id });
   };
 
   //Troll
   const handleDrunk = () => {
-    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("Troll");
+    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("恶搞");
     fetchNui("drunkEffectPlayer", { id: assocPlayer.id });
     enqueueSnackbar(t("nui_menu.player_modal.actions.command_sent"));
   };
 
   const handleSetOnFire = () => {
-    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("Troll");
+    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("恶搞");
     fetchNui("setOnFire", { id: assocPlayer.id });
     enqueueSnackbar(t("nui_menu.player_modal.actions.command_sent"));
   };
 
   const handleWildAttack = () => {
-    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("Troll");
+    if (!userHasPerm("players.troll", playerPerms)) return showNoPerms("恶搞");
     fetchNui("wildAttack", { id: assocPlayer.id });
     enqueueSnackbar(t("nui_menu.player_modal.actions.command_sent"));
   };

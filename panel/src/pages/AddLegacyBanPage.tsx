@@ -37,13 +37,13 @@ export default function AddLegacyBanPage() {
         const { reason, duration } = banFormRef.current.getData();
 
         if (!reason || reason.length < 3) {
-            txToast.warning(`The reason must be at least 3 characters long.`);
+            txToast.warning(`原因至少需要 3 个字符。`);
             banFormRef.current.focusReason();
             return;
         }
         const rawIds = idsTextareaRef.current.value;
         if (!rawIds) {
-            txToast.warning(`You must enter at least one identifier.`);
+            txToast.warning(`您必须至少输入一个标识符。`);
             idsTextareaRef.current.focus();
             return;
         }
@@ -53,7 +53,7 @@ export default function AddLegacyBanPage() {
             .map(id => id.trim())
             .filter(Boolean);
         if (!identifiers.length) {
-            txToast.warning(`You must enter at least one valid identifier.`);
+            txToast.warning(`您必须至少输入一个有效的标识符。`);
             idsTextareaRef.current.focus();
             return;
         }
@@ -61,9 +61,9 @@ export default function AddLegacyBanPage() {
         setIsSaving(true);
         legacyBanApi({
             data: { identifiers, reason, duration },
-            toastLoadingMessage: 'Banning identifiers...',
+            toastLoadingMessage: '正在封禁标识符...',
             genericHandler: {
-                successMsg: 'Identifiers banned.',
+                successMsg: '标识符已封禁。',
             },
             finally: () => setIsSaving(false),
             success: (data) => {
@@ -86,13 +86,13 @@ export default function AddLegacyBanPage() {
     return (
         <div className="space-y-4 w-full max-w-screen-lg mx-auto px-2 md:px-0">
             <div className="px-2 md:px-0">
-                <h1 className="text-3xl mb-2">Ban Identifiers</h1>
+                <h1 className="text-3xl mb-2">封禁标识符</h1>
                 <p>
-                    Here you can ban specific player identifiers (like <InlineCode>license</InlineCode> and <InlineCode>discord</InlineCode>) without having to search for a registered player.<br />
-                    Bans without a single <InlineCode>license</InlineCode> identifier are considered <em>Legacy Bans</em> and should be avoided if possible. <br />
+                    您可以在此封禁特定的玩家标识符（如 <InlineCode>license</InlineCode> 和 <InlineCode>discord</InlineCode>），而无需搜索已注册的玩家。<br />
+                    不包含任何 <InlineCode>license</InlineCode> 标识符的封禁被视为<em>旧式封禁</em>，应尽量避免。 <br />
                     {!canBan ? (
                         <span className="text-warning-inline">
-                            You need the <InlineCode className="text-warning-inline">Player: Ban</InlineCode> permission to use this feature.
+                            您需要 <InlineCode className="text-warning-inline">Player: Ban</InlineCode> 权限才能使用此功能。
                         </span>
                     ) : null}
                 </p>
@@ -100,13 +100,13 @@ export default function AddLegacyBanPage() {
             <div className="grid lg:grid-cols-2 gap-4 border bg-card p-4 rounded-lg">
                 <div className="flex flex-col gap-3">
                     <Label htmlFor="banIdentifiers">
-                        Identifiers
+                        标识符
                     </Label>
                     <Textarea
                         ref={idsTextareaRef}
                         className="h-full"
                         disabled={isSaving || !canBan}
-                        placeholder="discord:xxxx, fivem:xxxx, license:xxxx, steam:xxxx, etc..."
+                        placeholder="discord:xxxx、fivem:xxxx、license:xxxx、steam:xxxx 等..."
                     />
                 </div>
                 <BanForm
@@ -124,7 +124,7 @@ export default function AddLegacyBanPage() {
                         banFormRef.current?.clearData()
                     }}
                 >
-                    Clear
+                    清空
                 </Button>
                 <Button
                     size="sm"
@@ -134,9 +134,9 @@ export default function AddLegacyBanPage() {
                 >
                     {isSaving ? (
                         <span className="flex items-center leading-relaxed">
-                            <Loader2Icon className="inline animate-spin h-4" /> Banning...
+                            <Loader2Icon className="inline animate-spin h-4" /> 封禁中...
                         </span>
-                    ) : 'Apply Ban'}
+                    ) : '执行封禁'}
                 </Button>
             </div>
         </div>

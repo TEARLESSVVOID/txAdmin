@@ -15,7 +15,7 @@ export default async function FXServerSchedule(ctx: AuthedCtx) {
     ) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: `invalid request`,
+            msg: `无效请求`,
         });
     }
     const {action, parameter} = ctx.request.body;
@@ -24,7 +24,7 @@ export default async function FXServerSchedule(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('control.server', modulename)) {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'You don\'t have permission to execute this action.',
+            msg: '你没有权限执行此操作。',
         });
     }
 
@@ -34,7 +34,7 @@ export default async function FXServerSchedule(ctx: AuthedCtx) {
             ctx.admin.logAction(`Scheduling server restart at ${parameter}`);
             return ctx.send<ApiToastResp>({
                 type: 'success',
-                msg: 'Restart scheduled.',
+                msg: '已安排重启。',
             });
         } catch (error) {
             return ctx.send<ApiToastResp>({
@@ -50,7 +50,7 @@ export default async function FXServerSchedule(ctx: AuthedCtx) {
             ctx.admin.logAction(`${logAct} next scheduled restart.`);
             return ctx.send<ApiToastResp>({
                 type: 'success',
-                msg: 'Schedule changed.',
+                msg: '计划已更改。',
             });
         } catch (error) {
             return ctx.send<ApiToastResp>({
@@ -62,7 +62,7 @@ export default async function FXServerSchedule(ctx: AuthedCtx) {
     } else {
         return ctx.send<ApiToastResp>({
             type: 'error',
-            msg: 'Unknown Action.',
+            msg: '未知操作。',
         });
     }
 };

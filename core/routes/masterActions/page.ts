@@ -9,7 +9,7 @@ const console = consoleFactory(modulename);
 export default async function MasterActionsPage(ctx: AuthedCtx) {
     const isMasterAdmin = (ctx.admin.hasPermission('master'));
     return ctx.utils.render('main/masterActions', {
-        headerTitle: 'Master Actions',
+        headerTitle: '主账户操作',
         isMasterAdmin,
         disableActions: (isMasterAdmin && ctx.txVars.isWebInterface) ? '' : 'disabled',
     });

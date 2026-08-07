@@ -93,7 +93,7 @@ AddEventHandler('explosionEvent', function(source, ev)
     end
 
     if ev.explosionType < -1 or ev.explosionType > 77 then
-        ev.explosionType = 'UNKNOWN'
+        ev.explosionType = '未知'
     else
         ev.explosionType = explosionTypes[ev.explosionType + 1]
     end
@@ -105,10 +105,10 @@ end)
 -- An internal server handler, this is NOT exposed to the client
 local function getLogPlayerName(src)
     if type(src) == 'number' then 
-        local name = sub(GetPlayerName(src) or "unknown", 1, 75)
+        local name = sub(GetPlayerName(src) or "未知", 1, 75)
         return '[#'..src..'] '..name
     else
-        return '[??] '.. (src or "unknown")
+        return '[??] '.. (src or "未知")
     end
 end
 
@@ -119,60 +119,60 @@ AddEventHandler('txsv:logger:menuEvent', function(source, action, allowed, data)
     --SELF menu options
     if action == 'playerModeChanged' then
         if data == 'godmode' then
-            message = "enabled god mode"
+            message = "开启了无敌模式"
         elseif data == 'noclip' then
-            message = "enabled noclip"
+            message = "开启了穿墙（幽灵模式）"
         elseif data == 'superjump' then
-            message = "enabled super jump"
+            message = "开启了超级跳跃"
         elseif data == 'none' then
-            message = "became mortal (standard mode)"
+            message = "恢复为普通模式（标准模式）"
         else
-            message = "changed playermode to unknown"
+            message = "将玩家模式更改为未知"
         end
 
     elseif action == 'teleportWaypoint' then
-        message = "teleported to a waypoint"
+        message = "传送到了路点"
 
     elseif action == 'teleportCoords' then
         if type(data) ~= 'table' then return end
         local x = data.x
         local y = data.y
         local z = data.z
-        message = ("teleported to coordinates (x=%.3f, y=%0.3f, z=%0.3f)"):format(x or 0.0, y or 0.0, z or 0.0)
+        message = ("传送到坐标 (x=%.3f, y=%0.3f, z=%0.3f)"):format(x or 0.0, y or 0.0, z or 0.0)
 
     elseif action == 'spawnVehicle' then
         if type(data) ~= 'string' then return end
-        message = "spawned a vehicle (model: " .. data .. ")"
+        message = "生成了一辆载具 (模型: " .. data .. ")"
 
     elseif action == 'deleteVehicle' then
-        message = "deleted a vehicle"
+        message = "删除了一辆载具"
 
     elseif action == 'vehicleRepair' then
-        message = "repaired their vehicle"
+        message = "修理了自己的载具"
 
     elseif action == 'vehicleBoost' then
-        message = "boosted their vehicle"
+        message = "给自己的载具加速了"
 
     elseif action == 'healSelf' then
-        message = "healed themself"
+        message = "治愈了自己"
 
     elseif action == 'healAll' then
-        message = "healed all players!"
+        message = "治愈了所有玩家！"
 
     elseif action == 'announcement' then
         if type(data) ~= 'string' then return end
-        message = "made a server-wide announcement: " .. data
+        message = "发布了一条全服公告: " .. data
 
     elseif action == 'clearArea' then
         if type(data) ~= 'number' then return end
-        message = "cleared an area with ".. data .."m radius"
+        message = "清理了半径为 ".. data .." 米的区域"
 
     --INTERACTION modal options
     elseif action == 'spectatePlayer' then
-        message = 'started spectating player ' .. getLogPlayerName(data)
+        message = '开始观察玩家 ' .. getLogPlayerName(data)
 
     elseif action == 'freezePlayer' then
-        message = 'toggled freeze on player ' .. getLogPlayerName(data)
+        message = '切换了玩家 ' .. getLogPlayerName(data) .. ' 的冻结状态'
 
     elseif action == 'teleportPlayer' then
         if type(data) ~= 'table' then return end
@@ -180,35 +180,35 @@ AddEventHandler('txsv:logger:menuEvent', function(source, action, allowed, data)
         local x = data.x or 0.0
         local y = data.y or 0.0
         local z = data.z or 0.0
-        message = ("teleported to player %s (x=%.3f, y=%.3f, z=%.3f)"):format(playerName, x, y, z)
+        message = ("传送到玩家 %s 的位置 (x=%.3f, y=%.3f, z=%.3f)"):format(playerName, x, y, z)
 
     elseif action == 'healPlayer' then
-        message = "healed player " .. getLogPlayerName(data)
+        message = "治愈了玩家 " .. getLogPlayerName(data)
 
     elseif action == 'summonPlayer' then
-        message = "summoned player " .. getLogPlayerName(data)
+        message = "召唤了玩家 " .. getLogPlayerName(data)
 
     --TROLL modal options
     elseif action == 'drunkEffect' then
-        message = "triggered drunk effect on " .. getLogPlayerName(data)
+        message = "对 " .. getLogPlayerName(data) .. " 施加了醉酒效果"
 
     elseif action == 'setOnFire' then
-        message = "set ".. getLogPlayerName(data) .." on fire" 
+        message = "使 ".. getLogPlayerName(data) .." 着火" 
 
     elseif action == 'wildAttack' then
-        message = "triggered wild attack on " .. getLogPlayerName(data)
+        message = "对 " .. getLogPlayerName(data) .. " 发起了野兽袭击"
 
     elseif action == 'showPlayerIDs' then
         if type(data) ~= 'boolean' then return end
         if data then
-            message = "turned show player IDs on"
+            message = "开启了玩家 ID 显示"
         else
-            message = "turned show player IDs off"
+            message = "关闭了玩家 ID 显示"
         end
 
     --In case of unknown event
     else
-        logger(source, 'DebugMessage', "unknown menu event "..action)
+        logger(source, 'DebugMessage', "未知菜单事件 "..action)
         return
     end
 

@@ -21,7 +21,7 @@ const noHandlerResponse = async (interaction: Interaction) => {
         //@ts-ignore
         const identifier = interaction?.commandName ?? interaction?.customId ?? 'unknown';
         await interaction.reply({
-            content: `No handler available for this interaction (${InteractionType[interaction.type]} > ${identifier})`,
+            content: `此交互没有可用的处理器（${InteractionType[interaction.type]} > ${identifier}）`,
             ephemeral: true,
         });
     }
@@ -60,7 +60,7 @@ export default async (interaction: Interaction) => {
         //FIXME:NEXT:UPDATE drop this
         if (interaction.commandName === 'whitelist') {
             await interaction.reply({
-                content: 'The `/whitelist` command has been renamed to `/allowlist`.\nPlease use that instead.',
+                content: '`/whitelist` 命令已重命名为 `/allowlist`。\n请改用该命令。',
                 ephemeral: true,
             });
             return;
@@ -79,7 +79,7 @@ export default async (interaction: Interaction) => {
             await handler(interaction);
             return;
         } catch (error) {
-            const msg = `Error executing ${interaction.commandName}: ${(error as Error).message}`;
+            const msg = `执行 ${interaction.commandName} 时出错：${(error as Error).message}`;
             console.error(msg);
             await interaction.reply(embedder.danger(msg, true));
             return ;

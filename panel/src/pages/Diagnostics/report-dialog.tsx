@@ -26,44 +26,44 @@ interface ReportDialogProps {
 const InfoContent = () => (
     <div className="space-y-4 text-sm">
         <p className="text-sm">
-            This <u>optional</u> feature sends a diagnostics report to the Cfx.re team, and may be required to diagnose a wide range of server issues.
-            After sending the data, you will receive a Report ID you can send in the support channels.
+            此<u>可选</u>功能会向 Cfx.re 团队发送诊断报告，可能用于排查各种服务器问题。
+            发送数据后，您将获得一个报告 ID，可在支持频道中使用。
         </p>
 
         <div className="space-y-4">
             <div>
                 <h4 className="font-semibold text-warning-inline">
-                    Who can access the data?
+                    谁可以访问这些数据？
                 </h4>
                 <p>
-                    The data will be available for up to 24 hours to the Cfx.re team.
+                    数据将在最多 24 小时内对 Cfx.re 团队可见。
                 </p>
             </div>
 
             <div>
-                <h4 className="font-semibold text-warning-inline">Which data will be sent?</h4>
+                <h4 className="font-semibold text-warning-inline">将发送哪些数据？</h4>
                 <ul className="list-disc list-inside ml-4 space-y-1">
-                    <li>All diagnostics page data</li>
-                    <li>Recent txAdmin (system), live console and server log</li>
-                    <li>Environment variables</li>
-                    <li>Server performance (dashboard chart) data</li>
-                    <li>Player database statistics</li>
-                    <li>txAdmin settings (no bot token)</li>
-                    <li>List of admins (no passwords/hashes)</li>
-                    <li>List of files/folders in server data and monitor folders</li>
-                    <li>Config files in server data folder</li>
+                    <li>诊断页面的所有数据</li>
+                    <li>最近的 txAdmin（系统）日志、实时控制台日志和服务器日志</li>
+                    <li>环境变量</li>
+                    <li>服务器性能（仪表盘图表）数据</li>
+                    <li>玩家数据库统计信息</li>
+                    <li>txAdmin 设置（不含机器人令牌）</li>
+                    <li>管理员列表（不含密码/哈希）</li>
+                    <li>服务器数据目录和监控目录中的文件/文件夹列表</li>
+                    <li>服务器数据目录中的配置文件</li>
                 </ul>
             </div>
 
             <div>
                 <h4 className="font-semibold text-warning-inline">
-                    Sensitive Information Protection:
+                    敏感信息保护：
                 </h4>
                 <ul className="list-disc list-inside ml-4 space-y-1">
-                    <li><strong>Settings:</strong> the Discord Bot Token will be removed</li>
-                    <li><strong>Admin List:</strong> the password hashes will not be sent</li>
+                    <li><strong>设置：</strong>Discord 机器人令牌将被移除</li>
+                    <li><strong>管理员列表：</strong>不会发送密码哈希</li>
                     <li>
-                        <strong>Env Vars:</strong> parameters with{' '}
+                        <strong>环境变量：</strong>名称中包含{' '}
                         <span className="text-xs space-x-1">
                             <InlineCode>key</InlineCode>,
                             <InlineCode>license</InlineCode>,
@@ -72,13 +72,13 @@ const InfoContent = () => (
                             <InlineCode>secret</InlineCode>,
                             <InlineCode>token</InlineCode>
                         </span>{' '}
-                        in their name will be masked
+                        的参数将被遮蔽
                     </li>
                     <li>
-                        <strong>CFG Files:</strong> known secret parameters will be masked
-                        (eg. license, mysql string, tebex secret, webhooks, etc.)
+                        <strong>CFG 文件：</strong>已知的机密参数将被遮蔽
+                        （例如 license、mysql 连接字符串、tebex 密钥、webhooks 等）
                     </li>
-                    <li><strong>Logs:</strong> any identifiable IPv4 address in logs will be masked</li>
+                    <li><strong>日志：</strong>日志中任何可识别的 IPv4 地址将被遮蔽</li>
                 </ul>
             </div>
         </div>
@@ -88,14 +88,14 @@ const InfoContent = () => (
 const LoadingContent = () => (
     <div className="flex flex-col items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin mb-4" />
-        <p>Sending diagnostics data...</p>
+        <p>正在发送诊断数据...</p>
     </div>
 );
 
 const SuccessContent = ({ reportId }: { reportId: string }) => (
     <div className="text-center">
         <div className="mb-4 flex flex-wrap gap-4 items-center justify-center text-2xl">
-            <h3 className="font-semibold">Report ID:</h3>
+            <h3 className="font-semibold">报告 ID：</h3>
             <div className="bg-muted p-2 rounded-lg">
                 <span className="font-mono text-accent tracking-[0.35em] -mr-[0.35em] font-bold">
                     {reportId}
@@ -103,12 +103,12 @@ const SuccessContent = ({ reportId }: { reportId: string }) => (
             </div>
         </div>
         <p className="text-muted-foreground pt-2">
-            Please send this ID to the support team in <TxAnchor
+            请将此 ID 发送给 <TxAnchor
                 href="https://discord.gg/uAmsGa2"
                 className="font-semibold tracking-wide text-primary"
             >
                 discord.gg/txAdmin
-            </TxAnchor>.
+            </TxAnchor> 支持团队。
         </p>
     </div>
 );
@@ -116,7 +116,7 @@ const SuccessContent = ({ reportId }: { reportId: string }) => (
 const ErrorContent = ({ error }: { error: string }) => (
     <div className="text-center">
         <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-destructive mb-2">Error</h3>
+            <h3 className="text-lg font-semibold text-destructive mb-2">错误</h3>
             <p className="text-destructive">{error}</p>
         </div>
     </div>
@@ -183,7 +183,7 @@ export function ReportDialog({ open, onOpenChange }: ReportDialogProps) {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Send Diagnostics Data</DialogTitle>
+                    <DialogTitle>发送诊断数据</DialogTitle>
                 </DialogHeader>
 
                 <div className="py-4">
@@ -195,11 +195,11 @@ export function ReportDialog({ open, onOpenChange }: ReportDialogProps) {
 
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
-                        Close
+                        关闭
                     </Button>
                     {showInitialState && (
                         <Button onClick={handleSend}>
-                            Agree & Send Data
+                            同意并发送数据
                         </Button>
                     )}
                 </DialogFooter>

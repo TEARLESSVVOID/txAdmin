@@ -10,7 +10,7 @@ const console = consoleFactory(modulename);
 export default async function ServerLogPartial(ctx) {
     //Check permissions
     if (!ctx.admin.hasPermission('server.log.view')) {
-        return sendTypedResp({ error: 'You don\'t have permission to call this endpoint.' });
+        return sendTypedResp({ error: '你没有权限调用此接口。' });
     }
 
     const isDigit = /^\d{13}$/;

@@ -11,7 +11,6 @@ import Avatar from "@/components/Avatar";
 import { useAuth } from "@/hooks/auth";
 import { useGlobalMenuSheet, usePlayerlistSheet, useServerSheet } from "@/hooks/sheets";
 import { useTheme } from "@/hooks/theme";
-import { useTranslation } from "@/hooks/useTranslation";
 import { FaDiscord } from "react-icons/fa";
 import { useAtomValue } from "jotai";
 import { serverNameAtom } from "@/hooks/status";
@@ -32,7 +31,7 @@ function ServerTitle() {
             </h1>
             <span>
                 :&nbsp;
-                <span className="font-mono" title="players connected">{playerCount}</span>
+                <span className="font-mono" title="已连接玩家">{playerCount}</span>
             </span>
         </div>
     );
@@ -53,53 +52,50 @@ const navButtonClasses = `h-11 w-11 sm:h-10 sm:min-w-max sm:px-2 lg:px-3
 `;
 
 function ButtonToggleServerSheet({ className }: NavButtonProps) {
-    const { t } = useTranslation();
     const { setIsSheetOpen } = useServerSheet();
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title={t('server.menu')}
+            title="服务器菜单"
             onClick={() => setIsSheetOpen(true)}
         >
             <Monitor className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max align-middle">
-                {t('server.menu')}
+                服务器
             </div>
         </button>
     );
 }
 
 function ButtonToggleGlobalMenu({ className }: NavButtonProps) {
-    const { t } = useTranslation();
     const { setIsSheetOpen } = useGlobalMenuSheet();
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title={t('global.menu')}
+            title="全局菜单"
             onClick={() => setIsSheetOpen(true)}
         >
             <Menu className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max">
-                {t('global.menu')}
+                菜单
             </div>
         </button>
     );
 }
 
 function ButtonTogglePlayerlistSheet({ className }: NavButtonProps) {
-    const { t } = useTranslation();
     const { setIsSheetOpen } = usePlayerlistSheet();
     const playerCount = useAtomValue(playerCountAtom);
 
     return (
         <button
             className={cn(navButtonClasses, className)}
-            title={t('players.menu')}
+            title="玩家列表"
             onClick={() => setIsSheetOpen(true)}
         >
             <PersonStanding className="h-6 w-6 sm:h-5 sm:w-5" />
             <div className="hidden sm:flex flex-row min-w-max">
-                {t('players.menu')}
+                玩家
                 <span className="hidden lg:inline-block font-mono">: {playerCount}</span>
             </div>
         </button>
@@ -108,7 +104,6 @@ function ButtonTogglePlayerlistSheet({ className }: NavButtonProps) {
 
 //Segmenting this into a component prevents full header rerenders
 function AuthedHeaderFragment() {
-    const { t } = useTranslation();
     const { authData, logout } = useAuth();
     const { theme, setTheme } = useTheme();
     const { setAccountModalOpen } = useAccountModal();
@@ -149,16 +144,16 @@ function AuthedHeaderFragment() {
                 {window.txConsts.isWebInterface && (
                     <DropdownMenuItem className="cursor-pointer" onClick={switchTheme}>
                         {theme === 'light' ? <SunIcon className="mr-2 h-4 w-4" /> : <MoonIcon className="mr-2 h-4 w-4" />}
-                        {theme === 'light' ? t('light.mode') : t('dark.mode')}
+                        {theme === 'light' ? '浅色模式' : '深色模式'}
                     </DropdownMenuItem>
                 )}
                 <DropdownMenuItem className="cursor-pointer" onClick={openAccountModal}>
                     <KeyRoundIcon className="mr-2 h-4 w-4" />
-                    {t('your.account')}
+                    我的账户
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer" onClick={gotoSupportDiscord}>
                     <FaDiscord size="14" className="mr-2" />
-                    {t('support')}
+                    支持
                 </DropdownMenuItem>
 
                 {/* Don't show logout if on NUI */}
@@ -167,7 +162,7 @@ function AuthedHeaderFragment() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="cursor-pointer" onClick={doLogout}>
                             <LogOutIcon className="mr-2 h-4 w-4" />
-                            {t('logout')}
+                            退出登录
                         </DropdownMenuItem>
                     </>
                 )}

@@ -27,7 +27,7 @@ export default async function HistoryStats(ctx: AuthedCtx) {
             groupedByAdmins: adminStats,
         });
     } catch (error) {
-        const msg = `getStats failed with error: ${(error as Error).message}`;
+        const msg = `获取统计数据失败，错误信息：${(error as Error).message}`;
         console.verbose.error(msg);
         return sendTypedResp({ error: msg });
     }

@@ -22,7 +22,7 @@ export default async function AuthChangePassword(ctx: AuthedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<GenericApiResp>({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const { newPassword, oldPassword } = schemaRes.data;
@@ -30,19 +30,19 @@ export default async function AuthChangePassword(ctx: AuthedCtx) {
     //Validate new password
     if (newPassword.trim() !== newPassword) {
         return ctx.send<GenericApiResp>({
-            error: 'Your password either starts or ends with a space, which was likely an accident. Please remove it and try again.',
+            error: '你的密码开头或结尾包含空格，这很可能是意外输入。请移除空格后重试。',
         });
     }
     if (newPassword.length < consts.adminPasswordMinLength || newPassword.length > consts.adminPasswordMaxLength) {
-        return ctx.send<GenericApiResp>({ error: 'Invalid new password length.' });
+        return ctx.send<GenericApiResp>({ error: '新密码长度无效。' });
     }
 
     //Get vault admin
     const vaultAdmin = txCore.adminStore.getAdminByName(ctx.admin.name);
-    if (!vaultAdmin) throw new Error('Wait, what? Where is that admin?');
+    if (!vaultAdmin) throw new Error('等等，什么？那个管理员在哪？');
     if (!ctx.admin.isTempPassword) {
         if (!oldPassword || !VerifyPasswordHash(oldPassword, vaultAdmin.password_hash)) {
-            return ctx.send<GenericApiResp>({ error: 'Wrong current password.' });
+            return ctx.send<GenericApiResp>({ error: '当前密码错误。' });
         }
     }
 

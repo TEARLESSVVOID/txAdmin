@@ -78,7 +78,7 @@ export default function BanTemplatesInputDialog({
         form.reason.value = reason; //just to make sure the field is also trimmed
         if (reason.length < 3) {
             form.reason.focus();
-            return txToast.warning('Reason must be at least 3 characters long');
+            return txToast.warning('原因至少需要 3 个字符');
         }
         let duration: BanDurationType;
         if (selectedDuration === 'permanent') {
@@ -86,7 +86,7 @@ export default function BanTemplatesInputDialog({
         } else if (selectedDuration === 'custom') {
             if (form.durationMultiplier.value <= 0) {
                 form.durationMultiplier.focus();
-                return txToast.warning('Custom duration must be a positive number');
+                return txToast.warning('自定义时长必须是正数');
             }
             duration = {
                 value: parseInt(form.durationMultiplier.value),
@@ -108,15 +108,15 @@ export default function BanTemplatesInputDialog({
                 <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <DialogHeader>
-                            <DialogTitle>{reasonData ? 'Edit' : 'Add'} Template</DialogTitle>
+                            <DialogTitle>{reasonData ? '编辑' : '添加'}模板</DialogTitle>
                         </DialogHeader>
                         <div className="grid grid-cols-6 items-center gap-4">
                             <Label htmlFor="banReason" className="col-span-6 sm:col-auto">
-                                Reason
+                                原因
                             </Label>
                             <AutosizeTextarea
                                 id="reason"
-                                placeholder="The reason for the ban, rule violated, etc."
+                                placeholder="封禁原因、违反的规则等。"
                                 className="col-span-full sm:col-span-5"
                                 defaultValue={initialReason}
                                 ref={reasonRef}
@@ -135,7 +135,7 @@ export default function BanTemplatesInputDialog({
                         </div>
                         <div className="grid grid-cols-6 items-center gap-4">
                             <Label htmlFor="durationSelect" className="col-span-6 sm:col-auto">
-                                Duration
+                                时长
                             </Label>
                             <div className="col-span-full sm:col-span-5 space-y-1">
                                 <Select
@@ -143,17 +143,17 @@ export default function BanTemplatesInputDialog({
                                     defaultValue={selectedDuration}
                                 >
                                     <SelectTrigger id="durationSelect" className="tracking-wide">
-                                        <SelectValue placeholder="Select Duration" />
+                                        <SelectValue placeholder="选择时长" />
                                     </SelectTrigger>
                                     <SelectContent className="tracking-wide">
-                                        <SelectItem value="custom" className="font-bold">Custom (set below)</SelectItem>
-                                        <SelectItem value="2 hours">2 HOURS</SelectItem>
-                                        <SelectItem value="8 hours">8 HOURS</SelectItem>
-                                        <SelectItem value="1 days">1 DAY</SelectItem>
-                                        <SelectItem value="2 days">2 DAYS</SelectItem>
-                                        <SelectItem value="1 weeks">1 WEEK</SelectItem>
-                                        <SelectItem value="2 weeks">2 WEEKS</SelectItem>
-                                        <SelectItem value="permanent" className="font-bold">Permanent</SelectItem>
+                                        <SelectItem value="custom" className="font-bold">自定义（在下方设置）</SelectItem>
+                                        <SelectItem value="2 hours">2 小时</SelectItem>
+                                        <SelectItem value="8 hours">8 小时</SelectItem>
+                                        <SelectItem value="1 days">1 天</SelectItem>
+                                        <SelectItem value="2 days">2 天</SelectItem>
+                                        <SelectItem value="1 weeks">1 周</SelectItem>
+                                        <SelectItem value="2 weeks">2 周</SelectItem>
+                                        <SelectItem value="permanent" className="font-bold">永久</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <div className="flex flex-row gap-2">
@@ -180,17 +180,17 @@ export default function BanTemplatesInputDialog({
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent className="tracking-wide">
-                                            <SelectItem value="hours">HOURS</SelectItem>
-                                            <SelectItem value="days">DAYS</SelectItem>
-                                            <SelectItem value="weeks">WEEKS</SelectItem>
-                                            <SelectItem value="months">MONTHS</SelectItem>
+                                            <SelectItem value="hours">小时</SelectItem>
+                                            <SelectItem value="days">天</SelectItem>
+                                            <SelectItem value="weeks">周</SelectItem>
+                                            <SelectItem value="months">月</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button type="submit">Save changes</Button>
+                            <Button type="submit">保存更改</Button>
                         </DialogFooter>
                     </div>
                 </form>

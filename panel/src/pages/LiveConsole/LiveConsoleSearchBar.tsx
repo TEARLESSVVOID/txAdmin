@@ -31,7 +31,7 @@ function SearchBarButton({ title, onClick, isActive, children }: ButtonProps) {
 }
 
 
-const labelNoResults = 'No results';
+const labelNoResults = '无结果';
 const xtermDecorations = {
     activeMatchBackground: '#FF00DC',
     activeMatchColorOverviewRuler: '#FF00DC',
@@ -157,28 +157,28 @@ export default function LiveConsoleSearchBar({ show, setShow, searchAddon }: Liv
                 <Input
                     ref={inputRef}
                     className="h-8"
-                    placeholder="Search string"
+                    placeholder="搜索内容"
                     onKeyDown={handleInputKeyDown}
                     onChange={handleInputChange}
                     onBlur={() => { searchAddon.clearActiveDecoration() }}
                 />
                 <div className="absolute top-1/2 right-1 transform -translate-y-1/2 flex text-muted-foreground gap-2">
                     <SearchBarButton
-                        title="Case Sensitive"
+                        title="区分大小写"
                         isActive={caseSensitive}
                         onClick={handleCaseSensitiveMode}
                     >
                         <CaseSensitiveIcon className="h-5 w-5" />
                     </SearchBarButton>
                     <SearchBarButton
-                        title="Whole Word"
+                        title="全词匹配"
                         isActive={wholeWord}
                         onClick={handleWholeWordMode}
                     >
                         <WholeWordIcon className="h-5 w-5" />
                     </SearchBarButton>
                     <SearchBarButton
-                        title="Regex"
+                        title="正则表达式"
                         isActive={regex}
                         onClick={handleRegexMode}
                     >
@@ -191,19 +191,19 @@ export default function LiveConsoleSearchBar({ show, setShow, searchAddon }: Liv
             </div>
             <div className="flex gap-2 text-muted-foreground">
                 <SearchBarButton
-                    title="Previous"
+                    title="上一个"
                     onClick={handlePrevious}
                 >
                     <ArrowUpIcon className="h-5 w-5" />
                 </SearchBarButton>
                 <SearchBarButton
-                    title="Next"
+                    title="下一个"
                     onClick={handleNext}
                 >
                     <ArrowDownIcon className="h-5 w-5" />
                 </SearchBarButton>
                 <SearchBarButton
-                    title="Close"
+                    title="关闭"
                     onClick={() => { setShow(false) }}
                 >
                     <XIcon className="h-5 w-5" />

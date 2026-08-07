@@ -17,19 +17,19 @@ import { ModalContent, ModalTabMessage, ModalTabsList, ModalTabWrapper, type Mod
 
 const modalTabs: ModalTabInfo[] = [
     {
-        title: 'Info',
+        title: '信息',
         icon: <InfoIcon className="mr-2 h-5 w-5 hidden xs:block" />,
     },
     {
-        title: 'History',
+        title: '历史记录',
         icon: <HistoryIcon className="mr-2 h-5 w-5 hidden xs:block" />,
     },
     {
-        title: 'IDs',
+        title: 'ID',
         icon: <ListIcon className="mr-2 h-5 w-5 hidden xs:block" />,
     },
     {
-        title: 'Ban',
+        title: '封禁',
         icon: <GavelIcon className="mr-2 h-5 w-5 hidden xs:block" />,
         className: 'hover:bg-destructive hover:text-destructive-foreground',
     }
@@ -125,9 +125,9 @@ export default function PlayerModal() {
             </>;
         }
     } else if (modalError) {
-        pageTitle = <span className="text-destructive-inline">Error!</span>;
+        pageTitle = <span className="text-destructive-inline">错误！</span>;
     } else {
-        pageTitle = <span className="text-muted-foreground italic">Loading...</span>;
+        pageTitle = <span className="text-muted-foreground italic">加载中...</span>;
     }
 
     return (
@@ -164,14 +164,14 @@ export default function PlayerModal() {
                         {!modalData ? (
                             <ModalTabMessage>
                                 {modalError ? (
-                                    <span className="text-destructive-inline">Error: {modalError}</span>
+                                    <span className="text-destructive-inline">错误：{modalError}</span>
                                 ) : (
-                                    <GenericSpinner msg="Loading..." />
+                                    <GenericSpinner msg="加载中..." />
                                 )}
                             </ModalTabMessage>
                         ) : (
                             <>
-                                {selectedTab === 'Info' && <PlayerInfoTab
+                                {selectedTab === '信息' && <PlayerInfoTab
                                     player={modalData.player}
                                     playerRef={playerRef!}
                                     serverTime={modalData.serverTime}
@@ -179,17 +179,17 @@ export default function PlayerModal() {
                                     setSelectedTab={setSelectedTab}
                                     refreshModalData={refreshModalData}
                                 />}
-                                {selectedTab === 'History' && <PlayerHistoryTab
+                                {selectedTab === '历史记录' && <PlayerHistoryTab
                                     actionHistory={modalData.player.actionHistory}
                                     serverTime={modalData.serverTime}
                                     refreshModalData={refreshModalData}
                                 />}
-                                {selectedTab === 'IDs' && <PlayerIdsTab
+                                {selectedTab === 'ID' && <PlayerIdsTab
                                     player={modalData.player}
                                     playerRef={playerRef!}
                                     refreshModalData={refreshModalData}
                                 />}
-                                {selectedTab === 'Ban' && <PlayerBanTab
+                                {selectedTab === '封禁' && <PlayerBanTab
                                     banTemplates={modalData.banTemplates}
                                     playerRef={playerRef!}
                                 />}

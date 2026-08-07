@@ -29,7 +29,7 @@ export default function DrilldownResourcesSubcard({ resKicks }: DrilldownResourc
     }, [resKicks]);
 
     if (!resources.length) {
-        return <PlayerDropsMessage message="No players kicked by resources within this time window." />;
+        return <PlayerDropsMessage message="该时间段内没有玩家被资源踢出。" />;
     }
 
     return (

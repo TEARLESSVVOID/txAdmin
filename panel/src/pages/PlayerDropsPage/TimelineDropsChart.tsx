@@ -87,7 +87,7 @@ function TimelineDropsChart({ chartData, chartName, width, height, rangeSelected
             setRenderError('');
             console.timeEnd(`drawDropsTimeline-${chartName}`);
         } catch (error) {
-            setRenderError((error as Error).message ?? 'Unknown error.');
+            setRenderError((error as Error).message ?? '未知错误。');
         } finally {
             console.groupEnd();
         }
@@ -108,7 +108,7 @@ function TimelineDropsChart({ chartData, chartName, width, height, rangeSelected
     if (!width || !height) return null;
     if (renderError) {
         return <div className="absolute inset-0 p-4 flex flex-col gap-4 items-center justify-center text-center text-lg font-mono text-destructive-inline">
-            Render Error: {renderError}
+            渲染错误：{renderError}
             <br />
             <Button
                 size={'sm'}
@@ -119,11 +119,11 @@ function TimelineDropsChart({ chartData, chartName, width, height, rangeSelected
                     setRenderError('');
                 }}
             >
-                Retry{errorRetry ? ` (${errorRetry})` : ''}
+                重试{errorRetry ? ` (${errorRetry})` : ''}
             </Button>
         </div>
     } else if (!chartData.maxDrops) {
-        return <PlayerDropsMessage message="No players disconnected from your server recently." />
+        return <PlayerDropsMessage message="最近没有玩家从您的服务器断开连接。" />
     }
     return (<>
         <div

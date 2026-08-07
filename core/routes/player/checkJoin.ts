@@ -82,16 +82,16 @@ export default async function PlayerCheckJoin(ctx: InitializedCtx) {
         ctx.request.body.playerIds,
         ctx.request.body.playerHwids,
     )) {
-        return sendTypedResp({ error: 'Invalid request.' });
+        return sendTypedResp({ error: '无效请求。' });
     }
     const { playerName, playerIds, playerHwids } = ctx.request.body;
 
     //Validating body data
-    if (typeof playerName !== 'string') return sendTypedResp({ error: 'playerName should be an string.' });
-    if (!Array.isArray(playerIds)) return sendTypedResp({ error: 'playerIds should be an array.' });
+    if (typeof playerName !== 'string') return sendTypedResp({ error: 'playerName 应该是一个字符串。' });
+    if (!Array.isArray(playerIds)) return sendTypedResp({ error: 'playerIds 应该是一个数组。' });
     const { validIdsArray, validIdsObject } = parsePlayerIds(playerIds);
-    if (validIdsArray.length < 1) return sendTypedResp({ error: 'Identifiers array must contain at least 1 valid identifier.' });
-    if (!Array.isArray(playerHwids)) return sendTypedResp({ error: 'playerHwids should be an array.' });
+    if (validIdsArray.length < 1) return sendTypedResp({ error: '标识符数组必须至少包含 1 个有效的标识符。' });
+    if (!Array.isArray(playerHwids)) return sendTypedResp({ error: 'playerHwids 应该是一个数组。' });
     const { validHwidsArray } = filterPlayerHwids(playerHwids);
 
 
@@ -134,7 +134,7 @@ export default async function PlayerCheckJoin(ctx: InitializedCtx) {
         // return sendTypedResp({ allow: false, reason: 'APPROVED, BUT TEMP BLOCKED (DEBUG)' });
         return sendTypedResp({ allow: true });
     } catch (error) {
-        const msg = `Failed to check ban/whitelist status: ${(error as Error).message}`;
+        const msg = `检查封禁/白名单状态失败：${(error as Error).message}`;
         console.error(msg);
         console.verbose.dir(error);
         return sendTypedResp({ error: msg });
@@ -323,7 +323,7 @@ async function checkDiscordMember(
             errorMessage = textKeys.deny_message;
         }
     } catch (error) {
-        errorTitle = `Error validating Discord Server Member Allowlist status:`;
+        errorTitle = `验证 Discord 服务器成员白名单状态时出错：`;
         errorMessage = `<code>${(error as Error).message}</code>`;
     }
 
@@ -384,7 +384,7 @@ async function checkDiscordRoles(
             errorMessage = textKeys.deny_notmember_message;
         }
     } catch (error) {
-        errorTitle = `Error validating Discord Role Allowlist status:`;
+        errorTitle = `验证 Discord 角色白名单状态时出错：`;
         errorMessage = `<code>${(error as Error).message}</code>`;
     }
 

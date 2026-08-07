@@ -54,88 +54,88 @@ export default function ConfigCardGameNotifications({ cardCtx, pageCtx }: Settin
             pageCtx={pageCtx}
             onClickSave={handleOnSave}
         >
-            <SettingItem label="Hide Admin Name In Punishments">
+            <SettingItem label="在处罚中隐藏管理员名称">
                 <SwitchText
                     id={cfg.hideAdminInPunishments.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideAdminInPunishments}
                     onCheckedChange={cfg.hideAdminInPunishments.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Never show to the players the admin name on <strong>Bans</strong> or <strong>Warns</strong>. <br />
-                    This information will still be available in the history and logs.
+                    在<strong>封禁</strong>或<strong>警告</strong>中，绝不向玩家显示管理员名称。<br />
+                    此信息仍可在历史记录和日志中查看。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Hide Admin Name In Messages">
+            <SettingItem label="在消息中隐藏管理员名称">
                 <SwitchText
                     id={cfg.hideAdminInMessages.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideAdminInMessages}
                     onCheckedChange={cfg.hideAdminInMessages.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Do not show the admin name on <strong>Announcements</strong> or <strong>DMs</strong>. <br />
-                    This information will still be available in the live console and logs.
+                    在<strong>公告</strong>或<strong>私信</strong>中不显示管理员名称。<br />
+                    此信息仍可在实时控制台和日志中查看。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Hide Announcement Notifications">
+            <SettingItem label="隐藏公告通知">
                 <SwitchText
                     id={cfg.hideDefaultAnnouncement.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideDefaultAnnouncement}
                     onCheckedChange={cfg.hideDefaultAnnouncement.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Suppresses the display of announcements, allowing you to implement your own announcement via the event <InlineCode>txAdmin:events:announcement</InlineCode>.
-                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsannouncement">Documentation</TxAnchor>
+                    禁止显示公告，以便您通过事件 <InlineCode>txAdmin:events:announcement</InlineCode> 实现自己的公告。
+                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsannouncement">文档</TxAnchor>
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Hide Direct Message Notification">
+            <SettingItem label="隐藏私信通知">
                 <SwitchText
                     id={cfg.hideDefaultDirectMessage.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideDefaultDirectMessage}
                     onCheckedChange={cfg.hideDefaultDirectMessage.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Suppresses the display of direct messages, allowing you to implement your own direct message notification via the event <InlineCode>txAdmin:events:playerDirectMessage</InlineCode>.
-                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsplayerdirectmessage">Documentation</TxAnchor>
+                    禁止显示私信，以便您通过事件 <InlineCode>txAdmin:events:playerDirectMessage</InlineCode> 实现自己的私信通知。
+                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsplayerdirectmessage">文档</TxAnchor>
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Hide Warning Notification">
+            <SettingItem label="隐藏警告通知">
                 <SwitchText
                     id={cfg.hideDefaultWarning.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideDefaultWarning}
                     onCheckedChange={cfg.hideDefaultWarning.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Suppresses the display of warnings, allowing you to implement your own warning via the event <InlineCode>txAdmin:events:playerWarned</InlineCode>.
-                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsplayerwarned">Documentation</TxAnchor>
+                    禁止显示警告，以便您通过事件 <InlineCode>txAdmin:events:playerWarned</InlineCode> 实现自己的警告。
+                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsplayerwarned">文档</TxAnchor>
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Hide Scheduled Restart Warnings">
+            <SettingItem label="隐藏计划重启警告">
                 <SwitchText
                     id={cfg.hideScheduledRestartWarnings.eid}
-                    checkedLabel="Hidden"
-                    uncheckedLabel="Visible"
+                    checkedLabel="隐藏"
+                    uncheckedLabel="显示"
                     checked={states.hideScheduledRestartWarnings}
                     onCheckedChange={cfg.hideScheduledRestartWarnings.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Suppresses the display of scheduled restart warnings, allowing you to implement your own warning via the event <InlineCode>txAdmin:events:scheduledRestart</InlineCode>.
-                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsscheduledrestart">Documentation</TxAnchor>
+                    禁止显示计划重启警告，以便您通过事件 <InlineCode>txAdmin:events:scheduledRestart</InlineCode> 实现自己的警告。
+                    &nbsp;<TxAnchor href="https://aka.cfx.re/txadmin-events#txadmineventsscheduledrestart">文档</TxAnchor>
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

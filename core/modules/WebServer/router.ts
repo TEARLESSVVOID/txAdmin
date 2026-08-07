@@ -17,9 +17,9 @@ export default () => {
         duration: txConfig.webServer.limiterMinutes * 60 * 1000, // 15 minutes
         errorMessage: JSON.stringify({
             //Duplicated to maintain compatibility with all auth api routes
-            error: `Too many attempts. Blocked for ${txConfig.webServer.limiterMinutes} minutes.`,
-            errorTitle: 'Too many attempts.',
-            errorMessage: `Blocked for ${txConfig.webServer.limiterMinutes} minutes.`,
+            error: `尝试次数过多。已被阻止 ${txConfig.webServer.limiterMinutes} 分钟。`,
+            errorTitle: '尝试次数过多。',
+            errorMessage: `已被阻止 ${txConfig.webServer.limiterMinutes} 分钟。`,
         }),
         max: txConfig.webServer.limiterAttempts,
         disableHeader: true,

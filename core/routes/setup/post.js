@@ -53,7 +53,7 @@ const getPotentialServerDataFolders = (source) => {
 export default async function SetupPost(ctx) {
     //Sanity check
     if (isUndefined(ctx.params.action)) {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const action = ctx.params.action;
 
@@ -61,7 +61,7 @@ export default async function SetupPost(ctx) {
     if (!ctx.admin.testPermission('all_permissions', modulename)) {
         return ctx.send({
             success: false,
-            message: 'You need to be the admin master or have all permissions to use the setup page.',
+            message: '你需要成为主账户管理员或拥有全部权限才能使用设置页面。',
         });
     }
 
@@ -93,7 +93,7 @@ export default async function SetupPost(ctx) {
     } else {
         return ctx.send({
             success: false,
-            message: 'Unknown setup action.',
+            message: '未知的设置操作。',
         });
     }
 };
@@ -106,7 +106,7 @@ export default async function SetupPost(ctx) {
 async function handleValidateRecipeURL(ctx) {
     //Sanity check
     if (isUndefined(ctx.request.body.recipeURL)) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const recipeURL = ctx.request.body.recipeURL.trim();
 
@@ -116,11 +116,11 @@ async function handleValidateRecipeURL(ctx) {
             url: recipeURL,
             timeout: { request: 4500 }
         }).text();
-        if (typeof recipeText !== 'string') throw new Error('This URL did not return a string.');
+        if (typeof recipeText !== 'string') throw new Error('该 URL 未返回字符串。');
         const recipe = recipeParser(recipeText);
         return ctx.send({success: true, name: recipe.name});
     } catch (error) {
-        return ctx.send({success: false, message: `Recipe error: ${error.message}`});
+        return ctx.send({success: false, message: `配方错误：${error.message}`});
     }
 }
 
@@ -132,14 +132,14 @@ async function handleValidateRecipeURL(ctx) {
 async function handleValidateLocalDeployPath(ctx) {
     //Sanity check
     if (isUndefined(ctx.request.body.deployPath)) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const deployPath = slash(path.normalize(ctx.request.body.deployPath.trim()));
 
     //Perform path checking
     try {
         await validateTargetPath(deployPath); // will throw if invalid
-        return ctx.send({success: true, message: 'Path is valid.'});
+        return ctx.send({success: true, message: '路径有效。'});
     } catch (error) {
         return ctx.send({success: false, message: error.message});
     }
@@ -153,7 +153,7 @@ async function handleValidateLocalDeployPath(ctx) {
 async function handleValidateLocalDataFolder(ctx) {
     //Sanity check
     if (isUndefined(ctx.request.body.dataFolder)) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const dataFolderPath = slash(path.normalize(ctx.request.body.dataFolder.trim() + '/'));
 
@@ -187,7 +187,7 @@ async function handleValidateLocalDataFolder(ctx) {
             }
 
             //really invalid :(
-            throw new Error("Couldn't locate or read a resources folder inside of the path provided.");
+            throw new Error('无法在提供的路径中找到或读取 resources 文件夹。');
         } else {
             return ctx.send({
                 success: true,
@@ -210,7 +210,7 @@ async function handleValidateCFGFile(ctx) {
         isUndefined(ctx.request.body.dataFolder)
         || isUndefined(ctx.request.body.cfgFile)
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
 
     const dataFolderPath = slash(path.normalize(ctx.request.body.dataFolder.trim()));
@@ -220,13 +220,13 @@ async function handleValidateCFGFile(ctx) {
     try {
         const result = await validateFixServerConfig(cfgFilePathNormalized, dataFolderPath);
         if (result.errors) {
-            const message = `**The file path is correct, but there are error(s) in your config file(s):**\n${result.errors}`;
+            const message = `**文件路径正确，但你的配置文件中有错误：**\n${result.errors}`;
             return ctx.send({success: false, markdown: true, message});
         } else {
             return ctx.send({success: true});
         }
     } catch (error) {
-        const message = `Error:\n ${error.message}.`;
+        const message = `错误：\n ${error.message}。`;
         return ctx.send({success: false, message});
     }
 }
@@ -244,7 +244,7 @@ async function handleSaveLocal(ctx) {
         || isUndefined(ctx.request.body.dataFolder)
         || isUndefined(ctx.request.body.cfgFile)
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
 
     //Prepare body input
@@ -258,14 +258,14 @@ async function handleSaveLocal(ctx) {
     try {
         const stat = await fsp.stat(path.join(cfg.dataFolder, 'resources'))
         if (!stat.isDirectory()) {
-            throw new Error('not a directory');
+            throw new Error('不是目录');
         }
     } catch (error) {
-        let msg = error?.message ?? 'unknown error';
+        let msg = error?.message ?? '未知错误';
         if (error?.code === 'ENOENT') {
-            msg = 'The server data folder does not exist.';
+            msg = '服务器数据文件夹不存在。';
         }
-        return ctx.send({success: false, message: `<strong>Server Data Folder error:</strong> ${msg}`});
+        return ctx.send({success: false, message: `<strong>服务器数据文件夹错误：</strong> ${msg}`});
     }
 
     //Preparing & saving config
@@ -285,7 +285,7 @@ async function handleSaveLocal(ctx) {
         return ctx.send({
             type: 'danger',
             markdown: true,
-            message: `**Error saving the configuration file:**\n${error.message}`
+            message: `**保存配置文件时出错：**\n${error.message}`
         });
     }
 
@@ -325,7 +325,7 @@ async function handleSaveDeployerImport(ctx) {
         || isUndefined(ctx.request.body.targetPath)
         || isUndefined(ctx.request.body.deploymentID)
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const isTrustedSource = (ctx.request.body.isTrustedSource === 'true');
     const serverName = ctx.request.body.name.trim();
@@ -340,9 +340,9 @@ async function handleSaveDeployerImport(ctx) {
             url: recipeURL,
             timeout: { request: 4500 }
         }).text();
-        if (typeof recipeText !== 'string') throw new Error('This URL did not return a string.');
+        if (typeof recipeText !== 'string') throw new Error('该 URL 未返回字符串。');
     } catch (error) {
-        return ctx.send({success: false, message: `Recipe download error: ${error.message}`});
+        return ctx.send({success: false, message: `配方下载错误：${error.message}`});
     }
 
     //Preparing & saving config
@@ -356,7 +356,7 @@ async function handleSaveDeployerImport(ctx) {
         return ctx.send({
             type: 'danger',
             markdown: true,
-            message: `**Error saving the configuration file:** ${error.message}`
+            message: `**保存配置文件时出错：** ${error.message}`
         });
     }
     ctx.admin.logAction('Changing global settings via setup stepper and started Deployer.');
@@ -384,7 +384,7 @@ async function handleSaveDeployerCustom(ctx) {
         || isUndefined(ctx.request.body.targetPath)
         || isUndefined(ctx.request.body.deploymentID)
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const serverName = ctx.request.body.name.trim();
     const targetPath = slash(path.normalize(ctx.request.body.targetPath + '/'));
@@ -401,7 +401,7 @@ async function handleSaveDeployerCustom(ctx) {
         return ctx.send({
             type: 'danger',
             markdown: true,
-            message: `**Error saving the configuration file:** ${error.message}`
+            message: `**保存配置文件时出错：** ${error.message}`
         });
     }
     ctx.admin.logAction('Changing global settings via setup stepper and started Deployer.');

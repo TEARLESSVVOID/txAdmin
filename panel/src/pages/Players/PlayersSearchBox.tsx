@@ -17,7 +17,6 @@ import InlineCode from '@/components/InlineCode';
 import { PlayersTableFiltersType, PlayersTableSearchType } from "@shared/playerApiTypes";
 import { useEventListener } from "usehooks-ts";
 import { Link } from "wouter";
-import { useTranslation } from '@/hooks/useTranslation';
 
 
 /**
@@ -26,29 +25,31 @@ import { useTranslation } from '@/hooks/useTranslation';
 export const availableSearchTypes = [
     {
         value: 'playerName',
-        label: 'players.search.name',
-        placeholder: 'players.search.name.placeholder',
-        description: 'players.search.name.desc'
+        label: '名称',
+        placeholder: '输入玩家名称',
+        description: '按玩家最后使用的显示名称搜索。'
     },
     {
         value: 'playerNotes',
-        label: 'players.search.notes',
-        placeholder: 'players.search.notes.placeholder',
-        description: 'players.search.notes.desc'
+        label: '备注',
+        placeholder: '输入要搜索的备注内容片段',
+        description: '按玩家档案中的备注内容搜索。'
     },
     {
         value: 'playerIds',
-        label: 'players.search.ids',
-        placeholder: 'players.search.ids.placeholder',
-        description: 'players.search.ids.desc'
+        label: '玩家 ID',
+        placeholder: 'License、Discord、Steam 等',
+        description: '按玩家 ID 搜索，多个 ID 用逗号分隔。'
     },
 ] as const;
 
 export const availableFilters = [
-    { label: 'players.filter.admin', value: 'isAdmin' },
-    { label: 'players.filter.online', value: 'isOnline' },
-    { label: 'players.filter.whitelisted', value: 'isWhitelisted' },
-    { label: 'players.filter.has.note', value: 'hasNote' },
+    { label: '是管理员', value: 'isAdmin' },
+    { label: '在线中', value: 'isOnline' },
+    // { label: 'Is Banned', value: 'isBanned' },
+    // { label: 'Has Previous Ban', value: 'hasPreviousBan' },
+    { label: '拥有白名单 ID', value: 'isWhitelisted' },
+    { label: '有档案备注', value: 'hasNote' },
 ] as const;
 
 //FIXME: this doesn't require exporting, but HMR doesn't work without it
@@ -73,7 +74,6 @@ type PlayerSearchBoxProps = {
 };
 
 export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps) {
-    const { t } = useTranslation();
     const inputRef = useRef<HTMLInputElement>(null);
     const [isSearchTypeDropdownOpen, setSearchTypeDropdownOpen] = useState(false);
     const [isFilterDropdownOpen, setFilterDropdownOpen] = useState(false);
@@ -139,8 +139,8 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
     const selectedSearchType = availableSearchTypes.find((type) => type.value === currSearchType);
     if (!selectedSearchType) throw new Error(`Invalid search type: ${currSearchType}`);
     const filterBtnMessage = selectedFilters.length
-        ? `${selectedFilters.length} ${t('players.filter.btn').replace('%{count}', String(selectedFilters.length))}`
-        : t('players.filter.no');
+        ? `${selectedFilters.length} 个筛选条件`
+        : '无筛选条件';
     return (
         <div className="p-4 mb-2 md:mb-4 md:rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <div className="flex flex-wrap-reverse gap-2">
@@ -179,12 +179,12 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 onClick={() => setSearchTypeDropdownOpen(!isSearchTypeDropdownOpen)}
                                 className="xs:w-48 justify-between border-input bg-black/5 dark:bg-black/30 hover:dark:bg-primary grow md:grow-0"
                             >
-                                {t(selectedSearchType.label)}
+                                按{selectedSearchType.label}搜索
                                 <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='w-48'>
-                            <DropdownMenuLabel>{t('common.search')}</DropdownMenuLabel>
+                            <DropdownMenuLabel>搜索类型</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuRadioGroup value={currSearchType} onValueChange={setCurrSearchType}>
                                 {availableSearchTypes.map((searchType) => (
@@ -203,7 +203,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 className="cursor-pointer"
                                 onCheckedChange={setRememberSearchType}
                             >
-                                {t('players.remember')}
+                                记住此选项
                             </DropdownMenuCheckboxItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -222,7 +222,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='w-44'>
-                            <DropdownMenuLabel>{t('players.filter')}</DropdownMenuLabel>
+                            <DropdownMenuLabel>搜索筛选</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {availableFilters.map((filter) => (
                                 <DropdownMenuCheckboxItem
@@ -243,7 +243,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 onClick={() => setSelectedFilters([])}
                             >
                                 <FilterXIcon className="mr-2 h-4 w-4" />
-                                {t('players.clear.filters')}
+                                清除筛选
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -252,7 +252,7 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="grow md:grow-0">
-                                    {t('players.more')}
+                                    更多
                                     <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -260,13 +260,13 @@ export function PlayerSearchBox({ doSearch, initialState }: PlayerSearchBoxProps
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/ban-identifiers" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        {t('players.ban.ids')}
+                                        封禁标识符
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/system/master-actions#cleandb" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        {t('players.prune')}
+                                        清理玩家/HWID
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

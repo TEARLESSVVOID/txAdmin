@@ -30,7 +30,7 @@ export default async function AuthVerifyPassword(ctx: InitializedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<ApiVerifyPasswordResp>({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const postBody = schemaRes.data;
@@ -48,13 +48,13 @@ export default async function AuthVerifyPassword(ctx: InitializedCtx) {
         if (!vaultAdmin) {
             console.warn(`Wrong username from: ${ctx.ip}`);
             return ctx.send<ApiVerifyPasswordResp>({
-                error: 'Wrong username or password!',
+                error: '用户名或密码错误！',
             });
         }
         if (!VerifyPasswordHash(postBody.password, vaultAdmin.password_hash)) {
             console.warn(`Wrong password from: ${ctx.ip}`);
             return ctx.send<ApiVerifyPasswordResp>({
-                error: 'Wrong username or password!',
+                error: '用户名或密码错误！',
             });
         }
 
@@ -77,7 +77,7 @@ export default async function AuthVerifyPassword(ctx: InitializedCtx) {
         console.warn(`Failed to authenticate ${postBody.username} with error: ${(error as Error).message}`);
         console.verbose.dir(error);
         return ctx.send<ApiVerifyPasswordResp>({
-            error: 'Error autenticating admin.',
+            error: '认证管理员时出错。',
         });
     }
 };

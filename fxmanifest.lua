@@ -72,3 +72,4 @@ files {
     'panel/**/*',
     'web/public/**/*',
 }
+

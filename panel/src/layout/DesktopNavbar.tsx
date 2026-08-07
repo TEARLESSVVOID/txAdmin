@@ -13,7 +13,6 @@ import MainPageLink from '@/components/MainPageLink';
 import { cva } from 'class-variance-authority';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAdminPerms } from '@/hooks/auth';
-import { useTranslation } from '@/hooks/useTranslation';
 
 const buttonVariants = cva(
     `group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 ring-offset-background  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`,
@@ -34,7 +33,6 @@ type HeaderMenuLinkProps = {
     disabled?: boolean;
 };
 function HeaderMenuLink(props: HeaderMenuLinkProps) {
-    const { t } = useTranslation();
     const [isActive] = useRoute(props.href);
     return (
         <NavigationMenuLink asChild active={isActive}>
@@ -50,7 +48,8 @@ function HeaderMenuLink(props: HeaderMenuLinkProps) {
                         </a>
                     </TooltipTrigger>
                     <TooltipContent side='bottom' className="text-destructive-inline text-center">
-                        {t('no.permission')}
+                        您没有权限访问 <br />
+                        此页面。
                     </TooltipContent>
                 </Tooltip>
             ) : (
@@ -82,7 +81,6 @@ function HeaderMenuItem(props: HeaderMenuLinkProps) {
 
 //NOTE: breaking NavigationMenuItem into a separate menu because the dropdown is positioned wrong otherwise
 export default function DesktopNavbar() {
-    const { t } = useTranslation();
     const { hasPerm } = useAdminPerms();
 
     return (
@@ -94,22 +92,22 @@ export default function DesktopNavbar() {
                         <div className="ml-1 mb-2 rounded-md size-2 bg-accent" />
                     </DynamicNewItem> */}
                     <HeaderMenuItem href="/players">
-                        {t('nav.players')}
+                        玩家
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/history">
-                        {t('nav.history')}
+                        历史记录
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/insights/player-drops">
-                        {t('nav.player.drops')}
+                        玩家掉线
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/allowlist">
-                        {t('nav.allowlist')}
+                        白名单
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/admins" disabled={!hasPerm('manage.admins')}>
-                        {t('nav.admins')}
+                        管理员
                     </HeaderMenuItem>
                     <HeaderMenuItem href="/settings" disabled={!hasPerm('settings.view')}>
-                        {t('nav.settings')}
+                        设置
                     </HeaderMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
@@ -126,34 +124,34 @@ export default function DesktopNavbar() {
                                 }
                             }}
                         >
-                            {t('nav.system')}
+                            系统
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="flex flex-col gap-2 p-4 list-none">
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/master-actions"
                             >
-                                {t('nav.master.actions')}
+                                主控操作
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/diagnostics"
                             >
-                                {t('nav.diagnostics')}
+                                诊断
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/console-log"
                                 disabled={!hasPerm('txadmin.log.view')}
                             >
-                                {t('nav.console.log')}
+                                控制台日志
                             </HeaderMenuLink>
                             <HeaderMenuLink
                                 className="w-36 justify-start"
                                 href="/system/action-log"
                                 disabled={!hasPerm('txadmin.log.view')}
                             >
-                                {t('nav.action.log')}
+                                操作日志
                             </HeaderMenuLink>
                         </NavigationMenuContent>
                     </NavigationMenuItem>

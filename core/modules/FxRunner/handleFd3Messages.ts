@@ -31,7 +31,7 @@ const handleBridgedCommands = (payload: any) => {
 
             //Resolve admin
             const author = payload.author;
-            txCore.logger.admin.write(author, `Sending announcement: ${message}`);
+            txCore.logger.admin.write(author, `正在发送公告：${message}`);
 
             // Dispatch `txAdmin:events:announcement`
             txCore.fxRunner.sendEvent('announcement', { message, author });

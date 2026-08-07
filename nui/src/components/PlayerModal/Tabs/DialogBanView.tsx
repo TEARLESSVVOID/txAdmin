@@ -71,7 +71,7 @@ const DialogBanView: React.FC = () => {
 
   const handleBan = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userHasPerm("players.ban", playerPerms)) return showNoPerms("Ban");
+    if (!userHasPerm("players.ban", playerPerms)) return showNoPerms("封禁");
 
     const trimmedReason = reason.trim();
     if (!trimmedReason.length) {
@@ -228,7 +228,7 @@ const DialogBanView: React.FC = () => {
               >{banDurationToShortString(duration as any)}</span> {reason}
             </li>
           }}
-          renderInput={(params) => <TextField {...params} label="Reason" />}
+          renderInput={(params) => <TextField {...params} label="封禁原因" />}
         />
         <TextField
           size="small"

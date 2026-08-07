@@ -33,14 +33,14 @@ function HelpPopover({ onCommandClick }: { onCommandClick: (c: string) => void }
     return (
         <Popover open={isHelpOpen} onOpenChange={setIsHelpOpen}>
             <PopoverTrigger asChild>
-                <Button variant="outline" title="Help" size="icon">
+                <Button variant="outline" title="帮助" size="icon">
                     <HelpCircleIcon className="w-5" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[100vw] xs:w-[500px] p-0" align="end">
                 <div className="p-4 border-b">
-                    <h3 className="font-semibold">Available Commands</h3>
-                    <p className="text-sm text-muted-foreground">Click a command to autofill it</p>
+                    <h3 className="font-semibold">可用命令</h3>
+                    <p className="text-sm text-muted-foreground">点击命令可自动填充</p>
                 </div>
                 <ScrollArea className="h-[500px]">
                     <div className="p-4 space-y-3">
@@ -82,7 +82,7 @@ function OutputArea({ output }: { output: RunAdvancedCommandRespSuccess | null }
                 'error' in output ? (
                     <Alert variant="destructive">
                         <AlertCircleIcon className="h-4 w-4" />
-                        <AlertTitle>Error</AlertTitle>
+                        <AlertTitle>错误</AlertTitle>
                         <AlertDescription>{output.error}</AlertDescription>
                     </Alert>
                 ) : output.type === 'md' ? (
@@ -96,7 +96,7 @@ function OutputArea({ output }: { output: RunAdvancedCommandRespSuccess | null }
                 )
             ) : (
                 <p className="text-muted-foreground opacity-50">
-                    No output yet. Run a command to see the the output here.
+                    尚无输出。运行命令后，此处将显示输出。
                 </p>
             )}
         </div>
@@ -156,7 +156,7 @@ export default function AdvancedPage() {
         const extension = 'error' in output ? 'txt' : output.type === 'md' ? 'md' : 'json';
         const success = downloadTextFile(content, command, extension);
         if (!success) {
-            txToast.error('Failed to download file. Please try again.');
+            txToast.error('文件下载失败，请重试。');
         }
     }
 
@@ -169,7 +169,7 @@ export default function AdvancedPage() {
                         <CardTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <CommandIcon className="size-6 text-muted-foreground" />
-                                Advanced Commands
+                                高级命令
                             </div>
                             <HelpPopover onCommandClick={(c) => {
                                 if (!inputRef.current) return;
@@ -184,9 +184,9 @@ export default function AdvancedPage() {
                                 ref={inputRef}
                                 className="flex-1"
                                 disabled={isLoading}
-                                placeholder="Type a command or click the help button..."
+                                placeholder="输入命令，或点击帮助按钮..."
                             />
-                            <Button type="submit" disabled={isLoading} title="Run command" size="icon">
+                            <Button type="submit" disabled={isLoading} title="运行命令" size="icon">
                                 {isLoading ? (
                                     <Loader2Icon className="w-5 mt-0.5 mr-0.5 animate-spin" />
                                 ) : (
@@ -203,9 +203,9 @@ export default function AdvancedPage() {
                     className="max-2xl:w-full mx-auto 2xl:w-auto 2xl:flex-shrink-0  2xl:max-w-sm relative bg-warning-hint border-warning dark:opacity-75"
                 >
                     <AlertCircleIcon className="h-4 w-4" />
-                    <AlertTitle>Caution</AlertTitle>
+                    <AlertTitle>注意</AlertTitle>
                     <AlertDescription>
-                        This page is meant to be used by advanced users only, and there is no documentation for it. <strong>Use at your own risk.</strong>
+                        此页面仅供高级用户使用，且没有相关文档。 <strong>使用风险自负。</strong>
                     </AlertDescription>
                 </Alert>
             </div>
@@ -215,7 +215,7 @@ export default function AdvancedPage() {
                 <div className="flex items-center justify-between pb-3 border-b">
                     <div className="flex items-center gap-2">
                         <SquareTerminalIcon className="size-6 text-muted-foreground" />
-                        <h2 className="text-lg font-semibold">Output</h2>
+                        <h2 className="text-lg font-semibold">输出</h2>
                     </div>
                     <div className="flex gap-2">
                         <Button
@@ -223,7 +223,7 @@ export default function AdvancedPage() {
                             size="sm"
                             onClick={handleClearOutput}
                             disabled={!output}
-                            title="Clear output"
+                            title="清空输出"
                         >
                             <DeleteIcon className="w-5 mr-0.5" />
                         </Button>
@@ -232,7 +232,7 @@ export default function AdvancedPage() {
                             size="sm"
                             onClick={handleSave}
                             disabled={!output}
-                            title="Save output"
+                            title="保存输出"
                         >
                             <DownloadIcon className="w-4" />
                         </Button>
@@ -249,7 +249,7 @@ export default function AdvancedPage() {
                     isLoading && "opacity-100 animate-bounce",
                 )}
                 src="img/txSnaily2anim_320.png"
-                alt="Not A Meme"
+                alt="并非梗图"
             />
         </div>
     )

@@ -21,7 +21,7 @@ function ActionReasonBox({ actionReason }: { actionReason: string }) {
 
     return <>
         <Label htmlFor="actionReason">
-            Reason:
+            原因：
         </Label>
         <Textarea
             ref={textAreaRef}
@@ -48,13 +48,13 @@ export default function ActionInfoTab({ action, serverTime, tsFetch }: ActionInf
     let banExpirationText: React.ReactNode;
     if (action.type === 'ban') {
         if (action.expiration === false) {
-            banExpirationText = <span className="text-destructive-inline">Never</span>;
+            banExpirationText = <span className="text-destructive-inline">永不</span>;
         } else if (action.expiration > serverTime) {
             const distance = msToDuration(
                 (serverTime - action.expiration) * 1000,
                 { units: ['mo', 'w', 'd', 'h', 'm'] }
             )
-            banExpirationText = <span className="text-warning-inline">In {distance}</span>;
+            banExpirationText = <span className="text-warning-inline">{distance} 后</span>;
         } else {
             banExpirationText = <DateTimeCorrected
                 className="opacity-75 cursor-help"
@@ -67,30 +67,30 @@ export default function ActionInfoTab({ action, serverTime, tsFetch }: ActionInf
 
     let warnAckedText: React.ReactNode;
     if (action.type === 'warn' && action.acked) {
-        warnAckedText = <span className="opacity-75">Yes</span>;
+        warnAckedText = <span className="opacity-75">是</span>;
     } else {
-        warnAckedText = <span className="text-warning-inline">Not yet</span>;
+        warnAckedText = <span className="text-warning-inline">尚未</span>;
     }
 
     let revokedText: React.ReactNode;
     if (action.revocation.timestamp) {
         revokedText = <span className="text-warning-inline">
-            By {action.revocation.author} on <DateTimeCorrected
+            由 {action.revocation.author} 于 <DateTimeCorrected
                 isDateOnly
                 className="cursor-help"
                 serverTime={serverTime}
                 tsObject={action.revocation.timestamp}
                 tsFetch={tsFetch}
-            />
+            /> 撤销
         </span>;
     } else {
-        revokedText = <span className="opacity-75">No</span>;
+        revokedText = <span className="opacity-75">否</span>;
     }
 
     //Player stuff
     const playerDisplayName = action.playerName !== false
         ? <span>{action.playerName}</span>
-        : <span className="italic opacity-75">unknown player</span>;
+        : <span className="italic opacity-75">未知玩家</span>;
     const targetLicenses = action.ids.filter(id => id.startsWith('license:'));
     const linkedPlayer = targetLicenses.length === 1 ? targetLicenses[0].split(':')[1] : false;
     const handleViewPlayerClick = () => {
@@ -102,7 +102,7 @@ export default function ActionInfoTab({ action, serverTime, tsFetch }: ActionInf
         <ModalTabInner>
             <dl className="pb-2">
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Date/Time</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">日期/时间</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">
                         <DateTimeCorrected
                             className="opacity-75 cursor-help"
@@ -114,27 +114,27 @@ export default function ActionInfoTab({ action, serverTime, tsFetch }: ActionInf
                 </div>
                 {action.type === 'ban' && (
                     <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                        <dt className="text-sm font-medium leading-6 text-muted-foreground">Expiration</dt>
+                        <dt className="text-sm font-medium leading-6 text-muted-foreground">到期时间</dt>
                         <dd className="text-sm leading-6 col-span-2 mt-0">{banExpirationText}</dd>
                     </div>
                 )}
                 {action.type === 'warn' && (
                     <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                        <dt className="text-sm font-medium leading-6 text-muted-foreground">Player Accepted</dt>
+                        <dt className="text-sm font-medium leading-6 text-muted-foreground">玩家已确认</dt>
                         <dd className="text-sm leading-6 col-span-2 mt-0">{warnAckedText}</dd>
                     </div>
                 )}
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Revoked</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">已撤销</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{revokedText}</dd>
                 </div>
 
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Admin</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">管理员</dt>
                     <dd className="text-sm leading-6 col-span-2 mt-0">{action.author}</dd>
                 </div>
                 <div className="py-0.5 grid grid-cols-3 gap-4 px-0">
-                    <dt className="text-sm font-medium leading-6 text-muted-foreground">Player</dt>
+                    <dt className="text-sm font-medium leading-6 text-muted-foreground">玩家</dt>
                     <dd className="text-sm leading-6 col-span-2x mt-0">{playerDisplayName}</dd>
                     <dd className="text-right">
                         <Button
@@ -143,7 +143,7 @@ export default function ActionInfoTab({ action, serverTime, tsFetch }: ActionInf
                             style={{ minWidth: '8.25ch' }}
                             onClick={handleViewPlayerClick}
                             disabled={!linkedPlayer}
-                        >View</Button>
+                        >查看</Button>
                     </dd>
                 </div>
             </dl>

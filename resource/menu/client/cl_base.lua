@@ -12,7 +12,7 @@ menuPermissions = {}
 lastTpCoords = false;
 
 -- Locals
-local noMenuReason = 'unknown reason'
+local noMenuReason = '未知原因'
 local awaitingReauth = false
 
 --- Logic to displaying the menu auth rejected snackbar
@@ -100,19 +100,19 @@ RegisterNetEvent('txcl:setAdmin', function(username, perms, rejectReason)
     menuPermissions = perms
     if IS_FIVEM then
       --NOTE: appending # to the desc so the sorting shows it at the top
-      RegisterKeyMapping('txadmin', 'Open Main Page', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:openPlayersPage', 'Open Players page', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:clearArea', 'Clear Area', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:healMyself', 'Heal Yourself', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:tpBack', 'Teleport: go Back', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:tpToCoords', 'Teleport: to Coords', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:tpToWaypoint', 'Teleport: to Waypoint', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:noClipToggle', 'Toggle NoClip', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:togglePlayerIDs', 'Toggle Player IDs', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:boostVehicle', 'Vehicle: Boost', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:deleteVehicle', 'Vehicle: Delete', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:fixVehicle', 'Vehicle: Fix', 'KEYBOARD', '')
-      RegisterKeyMapping('txAdmin:menu:spawnVehicle', 'Vehicle: Spawn', 'KEYBOARD', '')
+      RegisterKeyMapping('txadmin', '打开主页面', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:openPlayersPage', '打开玩家列表', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:clearArea', '清理区域', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:healMyself', '治疗自己', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:tpBack', '传送：返回', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:tpToCoords', '传送：到坐标', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:tpToWaypoint', '传送：到路点', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:noClipToggle', '切换穿墙（幽灵模式）', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:togglePlayerIDs', '切换玩家 ID 显示', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:boostVehicle', '载具：加速', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:deleteVehicle', '载具：删除', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:fixVehicle', '载具：修理', 'KEYBOARD', '')
+      RegisterKeyMapping('txAdmin:menu:spawnVehicle', '载具：生成', 'KEYBOARD', '')
     end
   else
     noMenuReason = tostring(rejectReason)
@@ -139,7 +139,7 @@ local function retryAuthentication()
 end
 RegisterNetEvent('txcl:reAuth', retryAuthentication)
 RegisterCommand('txAdmin-reauth', function()
-  sendSnackbarMessage('info', 'Retrying menu authentication.', false)
+  sendSnackbarMessage('info', '正在重试菜单身份验证。', false)
   awaitingReauth = true
   retryAuthentication()
 end)
@@ -152,13 +152,13 @@ CreateThread(function()
   TriggerEvent(
     'chat:addSuggestion',
     '/tx',
-    'Opens the main txAdmin Menu or specific for a player.',
-    { { name = "player ID/name", help = "(Optional) Open player modal for specific ID or name." } }
+    '打开 txAdmin 主菜单，或打开指定玩家的菜单。',
+    { { name = "玩家 ID/名称", help = "（可选）为指定的 ID 或名称打开玩家菜单。" } }
   )
   TriggerEvent(
     'chat:addSuggestion',
     '/txAdmin-reauth',
-    'Retries to authenticate the menu NUI.'
+    '重试菜单 NUI 的身份验证。'
   )
 end)
 

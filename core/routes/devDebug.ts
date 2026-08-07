@@ -7,7 +7,7 @@ const console = consoleFactory(modulename);
 
 
 //Helpers
-const devWarningMessage = 'The unsafe privileged /dev webroute was called and should only be used in developer mode.';
+const devWarningMessage = '不安全的特权 /dev 路由被调用了，该路由只应在开发模式下使用。';
 const paramsSchema = z.object({
     scope: z.string(),
 });
@@ -19,9 +19,9 @@ let playerJoinCounter = 0;
  */
 export const get = async (ctx: AuthedCtx) => {
     //Sanity check
-    if (!txDevEnv.ENABLED) return ctx.send({ error: 'this route is dev mode only' });
+    if (!txDevEnv.ENABLED) return ctx.send({ error: '此路由仅限开发模式使用' });
     const schemaRes = paramsSchema.safeParse(ctx.params);
-    if (!schemaRes.success) return ctx.utils.error(400, 'Invalid Request');
+    if (!schemaRes.success) return ctx.utils.error(400, '无效请求');
     console.warn(devWarningMessage);
     const { scope } = schemaRes.data;
 
@@ -36,16 +36,16 @@ export const get = async (ctx: AuthedCtx) => {
  */
 export const post = async (ctx: AuthedCtx) => {
     //Sanity check
-    if (!txDevEnv.ENABLED) return ctx.send({ error: 'this route is dev mode only' });
+    if (!txDevEnv.ENABLED) return ctx.send({ error: '此路由仅限开发模式使用' });
     const schemaRes = paramsSchema.safeParse(ctx.params);
-    if (!schemaRes.success) return ctx.utils.error(400, 'Invalid Request');
+    if (!schemaRes.success) return ctx.utils.error(400, '无效请求');
     console.warn(devWarningMessage);
     const { scope } = schemaRes.data;
 
     if (scope === 'event') {
         try {
             if(!txCore.fxRunner.child?.isAlive){
-                return ctx.send({ error: 'server not ready' });
+                return ctx.send({ error: '服务器未就绪' });
             }
             if (ctx.request.body.id === null) {
                 if (ctx.request.body.event === 'playerDropped') {
@@ -69,6 +69,6 @@ export const post = async (ctx: AuthedCtx) => {
     } else {
         console.dir(scope);
         console.dir(ctx.request.body);
-        return ctx.send({ error: 'unknown scope' });
+        return ctx.send({ error: '未知的作用域' });
     }
 };

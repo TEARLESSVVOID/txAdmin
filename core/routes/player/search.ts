@@ -23,7 +23,7 @@ const SIMPLE_FILTERS = ['isAdmin', 'isOnline', 'isWhitelisted', 'hasNote'];
 export default async function PlayerSearch(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.query === 'undefined') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const {
         searchValue,
@@ -57,7 +57,7 @@ export default async function PlayerSearch(ctx: AuthedCtx) {
     //sort the players by the sortingKey/sortingDesc
     const parsedSortingDesc = sortingDesc === 'true';
     if (typeof sortingKey !== 'string' || !ALLOWED_SORTINGS.includes(sortingKey)) {
-        return sendTypedResp({ error: 'Invalid sorting key' });
+        return sendTypedResp({ error: '无效的排序键' });
     }
     chain = chain.sort((a, b) => {
         // @ts-ignore
@@ -91,7 +91,7 @@ export default async function PlayerSearch(ctx: AuthedCtx) {
     if (offsetParam !== undefined && offsetLicense !== undefined) {
         const parsedOffsetParam = parseInt(offsetParam as string);
         if (isNaN(parsedOffsetParam) || typeof offsetLicense !== 'string' || !offsetLicense.length) {
-            return sendTypedResp({ error: 'Invalid offsetParam or offsetLicense' });
+            return sendTypedResp({ error: '无效的 offsetParam 或 offsetLicense' });
         }
         chain = chain.takeRightWhile((p) => {
             return p.license !== offsetLicense && parsedSortingDesc
@@ -104,14 +104,14 @@ export default async function PlayerSearch(ctx: AuthedCtx) {
     // filter the players by the searchValue/searchType (VERY HEAVY!)
     if (typeof searchType === 'string') {
         if (typeof searchValue !== 'string' || !searchValue.length) {
-            return sendTypedResp({ error: 'Invalid searchValue' });
+            return sendTypedResp({ error: '无效的搜索值' });
         }
 
         if (searchType === 'playerName') {
             //Searching by player name
             const { pureName } = cleanPlayerName(searchValue);
             if (pureName === 'emptyname') {
-                return sendTypedResp({ error: 'This player name is unsearchable (pureName is empty).' });
+                return sendTypedResp({ error: '此玩家名无法搜索（纯名称部分为空）。' });
             }
             const players = chain.value();
             const fuse = new Fuse(players, {
@@ -134,10 +134,10 @@ export default async function PlayerSearch(ctx: AuthedCtx) {
             //Searching by player identifiers
             const { validIds, validHwids, invalids } = parseLaxIdsArrayInput(searchValue);
             if (invalids.length) {
-                return sendTypedResp({ error: `Invalid identifiers (${invalids.join(',')}). Prefix any identifier with their type, like 'fivem:123456' instead of just '123456'.` });
+                return sendTypedResp({ error: `无效的标识符（${invalids.join(',')}）。请为每个标识符加上类型前缀，例如使用 'fivem:123456' 而不是 '123456'。` });
             }
             if (!validIds.length && !validHwids.length) {
-                return sendTypedResp({ error: `No valid identifiers found.` });
+                return sendTypedResp({ error: '未找到有效的标识符。' });
             }
             chain = chain.filter((p) => {
                 if (validIds.length && !validIds.some((id) => p.ids.includes(id))) {
@@ -149,7 +149,7 @@ export default async function PlayerSearch(ctx: AuthedCtx) {
                 return true;
             });
         } else {
-            return sendTypedResp({ error: 'Unknown searchType' });
+            return sendTypedResp({ error: '未知的搜索类型' });
         }
     }
 

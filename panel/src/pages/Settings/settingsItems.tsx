@@ -4,18 +4,18 @@ import { cn } from "@/lib/utils";
 
 function LabelRequired() {
     return (
-        <span className="tracking-widest text-2xs text-destructive-inline opacity-65 group-hover/cfgCardItem:opacity-100">REQUIRED</span>
+        <span className="tracking-widest text-2xs text-destructive-inline opacity-65 group-hover/cfgCardItem:opacity-100">必填</span>
     )
 }
 function LabelOptional() {
     return (
-        <span className="tracking-widest text-2xs text-info-inline opacity-0 group-hover/cfgCardItem:opacity-85 group-hover/cfgCardItem:dark:opacity-35">OPTIONAL</span>
+        <span className="tracking-widest text-2xs text-info-inline opacity-0 group-hover/cfgCardItem:opacity-85 group-hover/cfgCardItem:dark:opacity-35">可选</span>
     )
 }
 function LabelNew() {
     return (
         <span className='rounded-sm bg-accent text-accent-foreground text-2xs tracking-wider font-semibold leading-snug pb-0.5 px-0.5 w-fit mt-0.5'>
-            NEW
+            新
         </span>
     )
 }
@@ -108,7 +108,7 @@ export function AdvancedDivider() {
             </div>
             <div className="relative flex justify-center tracking-wider text-xs">
                 <span className="bg-background px-2 text-muted-foreground/75">
-                    Advanced Options
+                    高级选项
                 </span>
             </div>
         </div>

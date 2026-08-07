@@ -58,8 +58,8 @@ export default function AuthShell() {
                             <AuthContentWrapper>
                                 <AuthError
                                     error={{
-                                        errorTitle: '404 | Not Found',
-                                        errorMessage: 'Something went wrong.',
+                                        errorTitle: '404 | 页面未找到',
+                                        errorMessage: '出了点问题。',
                                     }}
                                 />
                             </AuthContentWrapper>

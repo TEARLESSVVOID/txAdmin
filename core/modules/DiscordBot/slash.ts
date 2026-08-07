@@ -4,17 +4,17 @@ import { ApplicationCommandDataResolvable, ApplicationCommandOptionType, Applica
 const statusCommand: ApplicationCommandDataResolvable = {
     type: ApplicationCommandType.ChatInput,
     name: 'status',
-    description: 'Adds or removes the configurable, persistent, auto-updated embed.',
+    description: '添加或移除可配置、持久且自动更新的嵌入消息。',
     options: [
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'add',
-            description: 'Creates a configurable, persistent, auto-updated embed with server status.'
+            description: '创建带有服务器状态的可配置、持久且自动更新的嵌入消息。'
         },
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'remove',
-            description: 'Removes the configured persistent txAdmin status embed.'
+            description: '移除已配置的持久化 txAdmin 状态嵌入消息。'
         }
     ]
 }
@@ -22,17 +22,17 @@ const statusCommand: ApplicationCommandDataResolvable = {
 const whitelistCommand: ApplicationCommandDataResolvable = {
     type: ApplicationCommandType.ChatInput,
     name: 'whitelist',
-    description: 'Whitelist embed commands.',
+    description: '白名单嵌入命令。',
     options: [
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'member',
-            description: 'Adds a member to the whitelist approvals.',
+            description: '将成员添加到白名单审批中。',
             options: [
                 {
                     type: ApplicationCommandOptionType.User,
                     name: 'member',
-                    description: 'The member that will be whitelisted.',
+                    description: '将被加入白名单的成员。',
                     required: true,
                 }
             ]
@@ -40,12 +40,12 @@ const whitelistCommand: ApplicationCommandDataResolvable = {
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'request',
-            description: 'Approves a whitelist request ID (eg R1234).',
+            description: '审批白名单请求 ID（例如 R1234）。',
             options: [
                 {
                     type: ApplicationCommandOptionType.String,
                     name: 'id',
-                    description: 'The ID of the request (eg R1234).',
+                    description: '请求的 ID（例如 R1234）。',
                     required: true,
                     minLength: 5,
                     maxLength: 5,
@@ -57,17 +57,17 @@ const whitelistCommand: ApplicationCommandDataResolvable = {
 const allowlistCommand: ApplicationCommandDataResolvable = {
     type: ApplicationCommandType.ChatInput,
     name: 'allowlist',
-    description: 'Allowlist embed commands.',
+    description: '准入名单嵌入命令。',
     options: [
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'member',
-            description: 'Adds a member to the allowlist approvals.',
+            description: '将成员添加到准入名单审批中。',
             options: [
                 {
                     type: ApplicationCommandOptionType.User,
                     name: 'member',
-                    description: 'The member that will be allowlisted.',
+                    description: '将被加入准入名单的成员。',
                     required: true,
                 }
             ]
@@ -75,12 +75,12 @@ const allowlistCommand: ApplicationCommandDataResolvable = {
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'request',
-            description: 'Approves a allowlist request ID (eg R1234).',
+            description: '审批准入名单请求 ID（例如 R1234）。',
             options: [
                 {
                     type: ApplicationCommandOptionType.String,
                     name: 'id',
-                    description: 'The ID of the request (eg R1234).',
+                    description: '请求的 ID（例如 R1234）。',
                     required: true,
                     minLength: 5,
                     maxLength: 5,
@@ -93,47 +93,47 @@ const allowlistCommand: ApplicationCommandDataResolvable = {
 const infoCommand: ApplicationCommandDataResolvable = {
     type: ApplicationCommandType.ChatInput,
     name: 'info',
-    description: 'Searches for a player in the txAdmin Database and prints information.',
+    description: '在 txAdmin 数据库中搜索玩家并显示信息。',
     options: [
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'self',
-            description: 'Searches for whomever is using the command.',
+            description: '搜索使用该命令的本人。',
         },
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'member',
-            description: 'Searches for a player with matching Discord ID.',
+            description: '按 Discord ID 搜索玩家。',
             options: [
                 {
                     type: ApplicationCommandOptionType.User,
                     name: 'member',
-                    description: 'The member that will be searched for.',
+                    description: '将被搜索的成员。',
                     required: true,
                 },
                 {
                     type: ApplicationCommandOptionType.Boolean,
                     name: 'admininfo',
-                    description: 'For admins to show identifiers and history information.'
+                    description: '供管理员查看标识符和历史信息。'
                 }
             ]
         },
         {
             type: ApplicationCommandOptionType.Subcommand,
             name: 'id',
-            description: 'Searches for an identifier.',
+            description: '搜索标识符。',
             options: [
                 {
                     type: ApplicationCommandOptionType.String,
                     name: 'id',
-                    description: 'The ID to search for (eg fivem:271816).',
+                    description: '要搜索的 ID（例如 fivem:271816）。',
                     required: true,
                     minLength: 5,
                 },
                 {
                     type: ApplicationCommandOptionType.Boolean,
                     name: 'admininfo',
-                    description: 'For admins to show identifiers and history information.'
+                    description: '供管理员查看标识符和历史信息。'
                 }
             ]
         },

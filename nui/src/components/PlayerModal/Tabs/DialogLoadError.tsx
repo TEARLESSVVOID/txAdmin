@@ -12,7 +12,7 @@ export const DialogLoadError: React.FC = () => {
   return (
     <Box p={2} height="100%" display="flex" flexDirection="column">
       <StyledTypography variant="h5">
-        Failed to load player data :(
+        玩家数据加载失败 :(
       </StyledTypography>
     </Box>
   );

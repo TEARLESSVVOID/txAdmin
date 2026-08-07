@@ -77,7 +77,7 @@ export function InnerWarningBar({ titleIcon, title, description, isImportant, ca
                             onClick={() => postponeUpdate()}
                             className={isImportant ? "text-foreground border-foreground" : 'dark:border-primary-foreground dark:hover:border-primary'}
                         >
-                            <BellOffIcon className="h-[0.9rem] mr-1" /> Postpone
+                            <BellOffIcon className="h-[0.9rem] mr-1" /> 稍后提醒
                         </Button>}
 
                         <Button
@@ -87,7 +87,7 @@ export function InnerWarningBar({ titleIcon, title, description, isImportant, ca
                             className={isImportant ? "text-foreground border-foreground" : 'dark:border-primary-foreground dark:hover:border-primary'}
                         >
                             <a href="https://discord.gg/uAmsGa2" target="_blank">
-                                <FaDiscord size="14" className="mr-1" /> Support
+                                <FaDiscord size="14" className="mr-1" /> 支持
                             </a>
                         </Button>
                     </div>
@@ -104,10 +104,10 @@ export default function WarningBar() {
     if (offlineWarning) {
         return <InnerWarningBar
             titleIcon={<CloudOffIcon className="inline h-[1.2rem] -mt-1 mr-1" />}
-            title="Socket connection lost."
+            title="Socket 连接已断开。"
             description={<>
-                The connection to the txAdmin server has been lost. <br />
-                If you closed FXServer, please restart it.
+                与 txAdmin 服务器的连接已断开。 <br />
+                如果您关闭了 FXServer，请重新启动它。
             </>}
             isImportant={true}
             canPostpone={false}
@@ -116,11 +116,11 @@ export default function WarningBar() {
         return <InnerWarningBar
             titleIcon={<DownloadCloudIcon className="inline h-[1.2rem] -mt-1 mr-1" />}
             title={txUpdateData.isImportant
-                ? 'This version of txAdmin is outdated.'
-                : 'A patch (bug fix) update is available for txAdmin.'}
+                ? '此版本的 txAdmin 已过时。'
+                : 'txAdmin 有可用的补丁（错误修复）更新。'}
             description={txUpdateData.isImportant
-                ? `Version v${txUpdateData.version} has been released bringing new features, bug fixes and improvements.`
-                : `If you are experiencing any kind of issue, please update to v${txUpdateData.version}.`}
+                ? `v${txUpdateData.version} 版本已发布，带来了新功能、错误修复和改进。`
+                : `如果您遇到任何问题，请更新到 v${txUpdateData.version}。`}
             isImportant={txUpdateData.isImportant}
             canPostpone={true}
         />
@@ -128,9 +128,9 @@ export default function WarningBar() {
         return <InnerWarningBar
             titleIcon={<DownloadCloudIcon className="inline h-[1.2rem] -mt-1 mr-1" />}
             title={fxUpdateData.isImportant
-                ? 'This version of FXServer is outdated.'
-                : 'An update is available for FXServer.'}
-            description={`Please update FXServer to artifact ${fxUpdateData.version}.`}
+                ? '此版本的 FXServer 已过时。'
+                : 'FXServer 有可用的更新。'}
+            description={`请将 FXServer 更新到 artifact ${fxUpdateData.version}。`}
             isImportant={fxUpdateData.isImportant}
             canPostpone={true}
         />

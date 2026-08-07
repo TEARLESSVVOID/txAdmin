@@ -13,12 +13,12 @@ export default class PlayersDao {
     constructor(private readonly db: DbInstance) { }
 
     private get dbo() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj;
     }
 
     private get chain() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj.chain;
     }
 
@@ -28,7 +28,7 @@ export default class PlayersDao {
      */
     findOne(license: string): DatabasePlayerType | null {
         if (!/[0-9A-Fa-f]{40}/.test(license)) {
-            throw new Error('Invalid reference type');
+            throw new Error('无效的引用类型');
         }
 
         //Performing search
@@ -61,7 +61,7 @@ export default class PlayersDao {
         const found = this.chain.get('players')
             .filter({ license: player.license })
             .value();
-        if (found.length) throw new DuplicateKeyError(`this license is already registered`);
+        if (found.length) throw new DuplicateKeyError(`该 license 已注册`);
 
         this.db.writeFlag(SavePriority.LOW);
         this.chain.get('players')
@@ -76,11 +76,11 @@ export default class PlayersDao {
      */
     update(license: string, srcData: object, srcUniqueId: Symbol): DatabasePlayerType {
         if (typeof (srcData as any).license !== 'undefined') {
-            throw new Error(`cannot license field`);
+            throw new Error(`不能修改 license 字段`);
         }
 
         const playerDbObj = this.chain.get('players').find({ license });
-        if (!playerDbObj.value()) throw new Error('Player not found in database');
+        if (!playerDbObj.value()) throw new Error('数据库中未找到该玩家');
         this.db.writeFlag(SavePriority.LOW);
         const newData = playerDbObj
             .assign(cloneDeep(srcData))
@@ -96,7 +96,7 @@ export default class PlayersDao {
      * @returns the number of revoked whitelists
      */
     bulkRevokeWhitelist(filterFunc: Function): number {
-        if (typeof filterFunc !== 'function') throw new Error('filterFunc must be a function.');
+        if (typeof filterFunc !== 'function') throw new Error('filterFunc 必须是一个函数。');
 
         let cntChanged = 0;
         const srcSymbol = Symbol('bulkRevokePlayerWhitelist');

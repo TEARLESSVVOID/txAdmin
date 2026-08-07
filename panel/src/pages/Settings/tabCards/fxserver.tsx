@@ -70,36 +70,36 @@ function RestartScheduleBox({ restartTimes, setRestartTimes, disabled }: Restart
                     {restartTimes && restartTimes.length === 0 && (
                         <div className="text-sm text-muted-foreground">
                             <span>
-                                No schedule set. Click on the <strong>+</strong> button to add a time.
+                                尚未设置计划。点击<strong>+</strong>按钮添加时间。
                             </span>
                             <p>
-                                {'Presets: '}
+                                {'预设：'}
                                 <a
                                     onClick={() => applyPreset(['00:00'])}
                                     className="cursor-pointer text-sm text-primary hover:underline"
                                 >
-                                    1x<span className={presetSpanClasses}>/day</span>
+                                    1次<span className={presetSpanClasses}>/天</span>
                                 </a>
                                 {', '}
                                 <a
                                     onClick={() => applyPreset(['00:00', '12:00'])}
                                     className="cursor-pointer text-sm text-primary hover:underline"
                                 >
-                                    2x<span className={presetSpanClasses}>/day</span>
+                                    2次<span className={presetSpanClasses}>/天</span>
                                 </a>
                                 {', '}
                                 <a
                                     onClick={() => applyPreset(['00:00', '08:00', '16:00'])}
                                     className="cursor-pointer text-sm text-primary hover:underline"
                                 >
-                                    3x<span className={presetSpanClasses}>/day</span>
+                                    3次<span className={presetSpanClasses}>/天</span>
                                 </a>
                                 {', '}
                                 <a
                                     onClick={() => applyPreset(['00:00', '06:00', '12:00', '18:00'])}
                                     className="cursor-pointer text-sm text-primary hover:underline"
                                 >
-                                    4x<span className={presetSpanClasses}>/day</span>
+                                    4次<span className={presetSpanClasses}>/天</span>
                                 </a>
                             </p>
                         </div>
@@ -110,7 +110,7 @@ function RestartScheduleBox({ restartTimes, setRestartTimes, disabled }: Restart
                             {!disabled && <button
                                 onClick={() => removeTime(index)}
                                 className="ml-2 text-secondary-foreground/50 hover:text-destructive"
-                                aria-label="Remove"
+                                aria-label="移除"
                                 disabled={disabled}
                             >
                                 <XIcon className="size-4" />
@@ -124,7 +124,7 @@ function RestartScheduleBox({ restartTimes, setRestartTimes, disabled }: Restart
                         variant="secondary"
                         size={'xs'}
                         className="w-10 hover:bg-primary hover:text-primary-foreground"
-                        aria-label="Add"
+                        aria-label="添加"
                         disabled={disabled}
                     >
                         <PlusIcon className="h-4" />
@@ -134,7 +134,7 @@ function RestartScheduleBox({ restartTimes, setRestartTimes, disabled }: Restart
                         variant="muted"
                         size={'xs'}
                         className="w-10 hover:bg-destructive hover:text-destructive-foreground"
-                        aria-label="Clear"
+                        aria-label="清空"
                         disabled={disabled || !restartTimes || restartTimes.length === 0}
                     >
                         <TrashIcon className="h-3.5" />
@@ -142,7 +142,7 @@ function RestartScheduleBox({ restartTimes, setRestartTimes, disabled }: Restart
                 </div>
             </div>
             <TimeInputDialog
-                title="Add Restart Time"
+                title="添加重启时间"
                 isOpen={isTimeInputOpen}
                 onClose={() => setIsTimeInputOpen(false)}
                 onSubmit={addTime}
@@ -170,7 +170,7 @@ function TimeZoneWarning() {
         if (window.txConsts.serverTimezone !== browserTimezone) {
             return (
                 <SettingItemDesc className="text-destructive-inline">
-                    <strong>Warning:</strong> Your server timezone is set to <InlineCode>{window.txConsts.serverTimezone}</InlineCode>, but your browser timezone is <InlineCode>{browserTimezone}</InlineCode>. Make sure to configure the time according to the server timezone.
+                    <strong>警告：</strong>您的服务器时区设置为 <InlineCode>{window.txConsts.serverTimezone}</InlineCode>，但您的浏览器时区是 <InlineCode>{browserTimezone}</InlineCode>。请确保按照服务器时区配置时间。
                 </SettingItemDesc>
             );
         }
@@ -269,16 +269,16 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
 
         if (!localConfigs.server?.dataPath) {
             return txToast.error({
-                title: 'The Server Data Folder is required.',
+                title: '服务器数据文件夹是必填项。',
                 md: true,
-                msg: 'If you want to return to the Setup page, click on the "Reset" button instead.',
+                msg: '如果您想返回安装设置页面，请改点"重置"按钮。',
             });
         }
         if (localConfigs.server.cfgPath !== undefined && !localConfigs.server.cfgPath) {
             return txToast.error({
-                title: 'The CFG File Path is required.',
+                title: 'CFG 文件路径是必填项。',
                 md: true,
-                msg: 'The value should probably be `server.cfg`.',
+                msg: '该值通常应为 `server.cfg`。',
             });
         }
         if (
@@ -286,9 +286,9 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
             && localConfigs.server.startupArgs.some((arg) => arg.toLowerCase() === 'onesync')
         ) {
             return txToast.error({
-                title: 'You cannot set OneSync in Startup Arguments.',
+                title: '不能在启动参数中设置 OneSync。',
                 md: true,
-                msg: 'Please use the selectbox below it.',
+                msg: '请使用其下方的下拉选择框。',
             });
         }
         pageCtx.saveChanges(cardCtx, localConfigs);
@@ -308,20 +308,20 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
     });
     const handleResetServerData = () => {
         openConfirmDialog({
-            title: 'Reset Server Data Path',
+            title: '重置服务器数据路径',
             message: (<>
-                Are you sure you want to reset the server data path? <br />
+                确定要重置服务器数据路径吗？<br />
                 <br />
-                <strong>This will not delete any resource files or database</strong>, but just reset the txAdmin configuration, allowing you to go back to the Setup page. <br />
-                If you want, you can set the path back to the current value later. <br />
+                <strong>这不会删除任何资源文件或数据库</strong>，只会重置 txAdmin 配置，使您可以返回安装设置页面。<br />
+                如有需要，您之后可以将路径重新设置为当前值。<br />
                 <br />
-                <strong className="text-warning-inline">Warning:</strong> take note of the current path before proceeding, so you can set it back later if you need to. Current path:
+                <strong className="text-warning-inline">警告：</strong>请在继续操作前记下当前路径，以便日后需要时恢复。当前路径：
                 <Input value={cfg.dataPath.initialValue} className="mt-2" readOnly />
             </>),
             onConfirm: () => {
                 setIsResettingServerData(true);
                 resetServerDataApi({
-                    toastLoadingMessage: 'Resetting server data path...',
+                    toastLoadingMessage: '正在重置服务器数据路径...',
                     success: (data, toastId) => {
                         if (data.type === 'success') {
                             setLocation('/server/setup');
@@ -346,7 +346,7 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
             advancedVisible={showAdvanced}
             advancedSetter={setShowAdvanced}
         >
-            <SettingItem label="Server Data Folder" htmlFor={cfg.dataPath.eid} required>
+            <SettingItem label="服务器数据文件夹" htmlFor={cfg.dataPath.eid} required>
                 <div className="flex gap-2">
                     <Input
                         id={cfg.dataPath.eid}
@@ -363,21 +363,21 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
                         disabled={pageCtx.isReadOnly || !hasPerm('all_permissions') || isResettingServerData}
                         onClick={handleResetServerData}
                     >
-                        <Undo2Icon className="mr-2 h-4 w-4" /> Reset
+                        <Undo2Icon className="mr-2 h-4 w-4" /> 重置
                     </Button>
                 </div>
                 <SettingItemDesc>
-                    The full path of the folder that <strong>contains</strong> the <InlineCode>resources</InlineCode> folder, usually it's the same place that contains your <InlineCode>server.cfg</InlineCode>. <br />
-                    Resetting this value will allow you to go back to the Setup page, without deleting any files.
+                    包含 <InlineCode>resources</InlineCode> 文件夹的文件夹的完整路径，通常与您的 <InlineCode>server.cfg</InlineCode> 所在位置相同。<br />
+                    重置此值将使您可以返回安装设置页面，且不会删除任何文件。
                     {pageCtx.apiData?.dataPath && pageCtx.apiData?.hasCustomDataPath && (<>
                         <br />
                         <span className="text-warning-inline">
-                            {window.txConsts.hostConfigSource}: This path should start with <InlineCode>{pageCtx.apiData.dataPath}</InlineCode> .
+                            {window.txConsts.hostConfigSource}：此路径应以 <InlineCode>{pageCtx.apiData.dataPath}</InlineCode> 开头。
                         </span>
                     </>)}
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Restart Schedule" showOptional>
+            <SettingItem label="重启计划" showOptional>
                 <RestartScheduleBox
                     restartTimes={states.restarterSchedule}
                     setRestartTimes={cfg.restarterSchedule.state.set}
@@ -385,32 +385,32 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
                 />
                 <TimeZoneWarning />
                 <SettingItemDesc>
-                    At which times of day to restart the server. <br />
-                    <strong>Note:</strong> Make sure your schedule matches your server time and not your local time.
+                    设置在一天中的哪些时间重启服务器。<br />
+                    <strong>注意：</strong>请确保您的计划与服务器时间一致，而非本地时间。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Quiet Mode">
+            <SettingItem label="静默模式">
                 <SwitchText
                     id={cfg.quietMode.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     checked={forceQuietMode || states.quietMode}
                     onCheckedChange={cfg.quietMode.state.set}
                     disabled={pageCtx.isReadOnly || forceQuietMode}
                 />
                 <SettingItemDesc>
-                    Do not print FXServer's output to the terminal. <br />
-                    You will still be able to use the Live Console.
+                    不将 FXServer 的输出打印到终端。<br />
+                    您仍然可以使用实时控制台。
                     {forceQuietMode && (<>
                         <br />
-                        <span className="text-warning-inline">{window.txConsts.hostConfigSource}: This setting is locked and cannot be changed.</span>
+                        <span className="text-warning-inline">{window.txConsts.hostConfigSource}：此设置已被锁定，无法更改。</span>
                     </>)}
                 </SettingItemDesc>
             </SettingItem>
 
             {showAdvanced && <AdvancedDivider />}
 
-            <SettingItem label="CFG File Path" htmlFor={cfg.cfgPath.eid} showIf={showAdvanced} required>
+            <SettingItem label="CFG 文件路径" htmlFor={cfg.cfgPath.eid} showIf={showAdvanced} required>
                 <Input
                     id={cfg.cfgPath.eid}
                     ref={cfgPathRef}
@@ -421,11 +421,11 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
                     required
                 />
                 <SettingItemDesc>
-                    The path to your server config file, probably named <InlineCode>server.cfg</InlineCode>. <br />
-                    This can either be absolute, or relative to the Server Data folder.
+                    服务器配置文件的路径，通常名为 <InlineCode>server.cfg</InlineCode>。<br />
+                    该路径可以是绝对路径，也可以是相对于服务器数据文件夹的相对路径。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Startup Arguments" htmlFor={cfg.startupArgs.eid} showIf={showAdvanced}>
+            <SettingItem label="启动参数" htmlFor={cfg.startupArgs.eid} showIf={showAdvanced}>
                 <Input
                     id={cfg.startupArgs.eid}
                     ref={startupArgsRef}
@@ -435,8 +435,8 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Additional command-line arguments to pass to the FXServer instance such as NodeJS CLI flags. <br />
-                    <strong>Warning:</strong> You almost certainly should not use this option, commands and convars should be placed in your <InlineCode>server.cfg</InlineCode> instead.
+                    传递给 FXServer 实例的附加命令行参数，例如 NodeJS CLI 标志。<br />
+                    <strong>警告：</strong>您几乎肯定不应使用此选项，命令与控制台变量（convars）应放在您的 <InlineCode>server.cfg</InlineCode> 中。
                 </SettingItemDesc>
             </SettingItem>
             <SettingItem label="OneSync" htmlFor={cfg.onesync.eid} showIf={showAdvanced}>
@@ -446,52 +446,52 @@ export default function ConfigCardFxserver({ cardCtx, pageCtx }: SettingsCardPro
                     disabled={pageCtx.isReadOnly}
                 >
                     <SelectTrigger id={cfg.onesync.eid}>
-                        <SelectValue placeholder="Select OneSync option" />
+                        <SelectValue placeholder="选择 OneSync 选项" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="on">On (recommended)</SelectItem>
-                        <SelectItem value="legacy">Legacy</SelectItem>
-                        <SelectItem value="off">Off</SelectItem>
+                        <SelectItem value="on">开启（推荐）</SelectItem>
+                        <SelectItem value="legacy">旧版</SelectItem>
+                        <SelectItem value="off">关闭</SelectItem>
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
-                    Most servers should be using <strong>OneSync On</strong>. <br />
-                    The other options are considered deprecated and should not be used unless you know what you're doing.
-                    For more information, please read the <TxAnchor href="https://docs.fivem.net/docs/scripting-reference/onesync/" >documentation</TxAnchor>.
+                    大多数服务器应使用 <strong>OneSync 开启</strong>。<br />
+                    其他选项已视为弃用，除非您了解其用途，否则不应使用。
+                    更多信息请参阅<TxAnchor href="https://docs.fivem.net/docs/scripting-reference/onesync/" >文档</TxAnchor>。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Autostart" showIf={showAdvanced}>
+            <SettingItem label="自动启动" showIf={showAdvanced}>
                 <SwitchText
                     id={cfg.autoStart.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     checked={states.autoStart}
                     onCheckedChange={cfg.autoStart.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Start the server automatically after <strong>txAdmin</strong> starts.
+                    在 <strong>txAdmin</strong> 启动后自动启动服务器。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Resource Starting Tolerance" htmlFor={cfg.resourceTolerance.eid} showIf={showAdvanced}>
+            <SettingItem label="资源启动容限" htmlFor={cfg.resourceTolerance.eid} showIf={showAdvanced}>
                 <Select
                     value={selectNumberUtil.toUi(states.resourceTolerance)}
                     onValueChange={(val) => cfg.resourceTolerance.state.set(selectNumberUtil.toCfg(val))}
                     disabled={pageCtx.isReadOnly}
                 >
                     <SelectTrigger id={cfg.resourceTolerance.eid}>
-                        <SelectValue placeholder="Select..." />
+                        <SelectValue placeholder="请选择..." />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="90">1.5 minutes (default)</SelectItem>
-                        <SelectItem value="180">3 minutes</SelectItem>
-                        <SelectItem value="300">5 minutes</SelectItem>
-                        <SelectItem value="600">10 minutes</SelectItem>
+                        <SelectItem value="90">1.5 分钟（默认）</SelectItem>
+                        <SelectItem value="180">3 分钟</SelectItem>
+                        <SelectItem value="300">5 分钟</SelectItem>
+                        <SelectItem value="600">10 分钟</SelectItem>
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
-                    At server boot, how much time to wait for any single resource to start before restarting the server. <br />
-                    <strong>Note:</strong> If you are getting <InlineCode>failed to start in time</InlineCode> errors, increase this value.
+                    服务器启动时，在重启服务器之前，等待单个资源启动的最长时间。<br />
+                    <strong>注意：</strong>如果您遇到 <InlineCode>failed to start in time</InlineCode> 错误，请增大此值。
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

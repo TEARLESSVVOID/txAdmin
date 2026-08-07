@@ -15,16 +15,16 @@ const console = consoleFactory(modulename);
 export default async function MasterActionsAction(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.params.action !== 'string') {
-        return ctx.send({ error: 'Invalid Request' });
+        return ctx.send({ error: '无效请求' });
     }
     const action = ctx.params.action;
 
     //Check permissions
     if (!ctx.admin.testPermission('master', modulename)) {
-        return ctx.send({ error: 'Only the master account has permission to view/use this page.' });
+        return ctx.send({ error: '只有主账户（master）拥有查看/使用此页面的权限。' });
     }
     if (!ctx.txVars.isWebInterface) {
-        return ctx.send({ error: 'This functionality cannot be used by the in-game menu, please use the web version of txAdmin.' });
+        return ctx.send({ error: '此功能无法通过游戏内菜单使用，请使用 txAdmin 的网页版本。' });
     }
 
     //Delegate to the specific action functions
@@ -33,7 +33,7 @@ export default async function MasterActionsAction(ctx: AuthedCtx) {
     } else if (action == 'revokeWhitelists') {
         return handleRevokeWhitelists(ctx);
     } else {
-        return ctx.send({ error: 'Unknown settings action.' });
+        return ctx.send({ error: '未知的设置操作。' });
     }
 };
 
@@ -75,7 +75,7 @@ async function handleCleanDatabase(ctx: AuthedCtx) {
     } else if (players === '15d') {
         playersFilter = (x: DatabasePlayerType) => x.tsLastConnection < (currTs - 15 * daySecs) && !x.notes;
     } else {
-        return sendTypedResp({ error: 'Invalid players filter type.' });
+        return sendTypedResp({ error: '无效的玩家筛选类型。' });
     }
 
     let bansFilter: Function;
@@ -88,7 +88,7 @@ async function handleCleanDatabase(ctx: AuthedCtx) {
     } else if (bans === 'all') {
         bansFilter = (x: DatabaseActionBanType) => x.type === 'ban';
     } else {
-        return sendTypedResp({ error: 'Invalid bans filter type.' });
+        return sendTypedResp({ error: '无效的封禁筛选类型。' });
     }
 
     let warnsFilter: Function;
@@ -105,7 +105,7 @@ async function handleCleanDatabase(ctx: AuthedCtx) {
     } else if (warns === 'all') {
         warnsFilter = (x: DatabaseActionWarnType) => x.type === 'warn';
     } else {
-        return sendTypedResp({ error: 'Invalid warns filter type.' });
+        return sendTypedResp({ error: '无效的警告筛选类型。' });
     }
 
     const actionsFilter = (x: DatabaseActionType) => {
@@ -127,7 +127,7 @@ async function handleCleanDatabase(ctx: AuthedCtx) {
         hwidsWipePlayers = true;
         hwidsWipeBans = true;
     } else {
-        return sendTypedResp({ error: 'Invalid HWIDs filter type.' });
+        return sendTypedResp({ error: '无效的 HWID 筛选类型。' });
     }
 
     //Run db cleaner
@@ -136,21 +136,21 @@ async function handleCleanDatabase(ctx: AuthedCtx) {
     try {
         playersRemoved = txCore.database.cleanup.bulkRemove('players', playersFilter);
     } catch (error) {
-        return sendTypedResp({ error: `<b>Failed to clean players with error:</b><br>${(error as Error).message}` });
+        return sendTypedResp({ error: `<b>清理玩家数据失败，错误信息：</b><br>${(error as Error).message}` });
     }
 
     let actionsRemoved = 0;
     try {
         actionsRemoved = txCore.database.cleanup.bulkRemove('actions', actionsFilter);
     } catch (error) {
-        return sendTypedResp({ error: `<b>Failed to clean actions with error:</b><br>${(error as Error).message}` });
+        return sendTypedResp({ error: `<b>清理操作记录失败，错误信息：</b><br>${(error as Error).message}` });
     }
 
     let hwidsRemoved = 0;
     try {
         hwidsRemoved = txCore.database.cleanup.wipeHwids(hwidsWipePlayers, hwidsWipeBans);
     } catch (error) {
-        return sendTypedResp({ error: `<b>Failed to clean HWIDs with error:</b><br>${(error as Error).message}` });
+        return sendTypedResp({ error: `<b>清理 HWID 失败，错误信息：</b><br>${(error as Error).message}` });
     }
 
     //Return results
@@ -188,7 +188,7 @@ async function handleRevokeWhitelists(ctx: AuthedCtx) {
     } else if (filterInput === '7d') {
         filterFunc = (p: DatabasePlayerType) => p.tsLastConnection < (currTs - 7 * daySecs);
     } else {
-        return sendTypedResp({ error: 'Invalid whitelists filter type.' });
+        return sendTypedResp({ error: '无效的白名单筛选类型。' });
     }
 
     try {
@@ -197,6 +197,6 @@ async function handleRevokeWhitelists(ctx: AuthedCtx) {
         const msElapsed = Date.now() - tsStart;
         return sendTypedResp({ msElapsed, cntRemoved });
     } catch (error) {
-        return sendTypedResp({ error: `<b>Failed to clean players with error:</b><br>${(error as Error).message}` });
+        return sendTypedResp({ error: `<b>清理玩家数据失败，错误信息：</b><br>${(error as Error).message}` });
     }
 }

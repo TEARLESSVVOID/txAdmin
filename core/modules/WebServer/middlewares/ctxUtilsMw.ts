@@ -32,9 +32,9 @@ const getRenderErrorText = (view: string, error: Error, data: any) => {
     if (data?.discord?.token) data.discord.token = '[redacted]';
     return [
         '<pre style="color: red">',
-        `Error rendering '${view}'.`,
-        `Message: ${escapeHtmlContent(error.message)}`,
-        'The data provided was:',
+        `渲染 '${view}' 时出错。`,
+        `消息：${escapeHtmlContent(error.message)}`,
+        '提供的数据为：',
         '================',
         escapeHtmlContent(JSON.stringify(data, null, 2)),
         '</pre>',
@@ -109,8 +109,8 @@ async function loadWebTemplate(name: string) {
         } catch (error) {
             if ((error as any).code == 'ENOENT') {
                 throw new Error([
-                    `The '${name}' template was not found:`,
-                    `You probably deleted the 'citizen/system_resources/monitor/web/${name}.ejs' file, or the folders above it.`
+                    `未找到 '${name}' 模板：`,
+                    `你可能删除了 'citizen/system_resources/monitor/web/${name}.ejs' 文件，或它上层的文件夹。`
                 ].join('\n'));
             } else {
                 throw error;
@@ -132,7 +132,7 @@ async function renderView(
     data: any,
     txVars: CtxTxVars,
 ) {
-    data.adminUsername = possiblyAuthedAdmin?.name ?? 'unknown user';
+    data.adminUsername = possiblyAuthedAdmin?.name ?? '未知用户';
     data.adminIsMaster = possiblyAuthedAdmin && possiblyAuthedAdmin.isMaster;
     data.profilePicture = possiblyAuthedAdmin?.profilePicture ?? 'img/default_avatar.png';
     data.isTempPassword = possiblyAuthedAdmin && possiblyAuthedAdmin.isTempPassword;
@@ -205,7 +205,7 @@ export default async function ctxUtilsMw(ctx: CtxWithVars, next: Next) {
         });
     };
 
-    const errorUtil: CtxTxUtils['utils']['error'] = (httpStatus = 500, message = 'unknown error') => {
+    const errorUtil: CtxTxUtils['utils']['error'] = (httpStatus = 500, message = '未知错误') => {
         ctx.status = httpStatus;
         ctx.body = {
             status: 'error',

@@ -21,14 +21,14 @@ export default function ActionModifyTab({ action, refreshModalData }: ActionModi
         path: `/history/revokeAction`,
     });
 
-    const upperCasedType = action.type.charAt(0).toUpperCase() + action.type.slice(1);
+    const typeLabel = action.type === 'ban' ? '封禁' : '警告';
     const doRevokeAction = () => {
         setIsRevoking(true);
         revokeActionApi({
             data: { actionId: action.id },
-            toastLoadingMessage: `Revoking ${action.type}...`,
+            toastLoadingMessage: `正在撤销${typeLabel}...`,
             genericHandler: {
-                successMsg: `${upperCasedType} revoked.`,
+                successMsg: `${typeLabel}已撤销。`,
             },
             success: (data) => {
                 setIsRevoking(false);
@@ -42,21 +42,21 @@ export default function ActionModifyTab({ action, refreshModalData }: ActionModi
     const isAlreadyRevoked = !!action.revocation.timestamp;
     const hasRevokePerm = hasPerm(action.type === 'warn' ? 'players.warn' : 'players.ban');
     const revokeBtnLabel = isAlreadyRevoked
-        ? `${action.type} revoked`
+        ? `${typeLabel}已撤销`
         : hasRevokePerm
-            ? `Revoke ${upperCasedType}`
-            : 'Revoke (no permission)';
+            ? `撤销${typeLabel}`
+            : '撤销（无权限）';
     return (
         <div className="flex flex-col gap-4 px-1 mb-1 md:mb-4">
             <div className="space-y-2">
-                <h3 className="text-xl">Revoke {upperCasedType}</h3>
+                <h3 className="text-xl">撤销{typeLabel}</h3>
                 <p className="text-muted-foreground text-sm">
-                    This is generally done when the player successfully appeals the {action.type} or the admin regrets issuing it.
+                    通常在玩家成功申诉该{typeLabel}或管理员后悔发出该处罚时执行。
                     <ul className="list-disc list-inside pt-1">
-                        {action.type === 'ban' && <li>The player will be able to rejoin the server.</li>}
-                        <li>The player will not be notified of the revocation.</li>
-                        <li>This {action.type} will not be removed from the player history.</li>
-                        <li>The revocation cannot be undone!</li>
+                        {action.type === 'ban' && <li>玩家将能够重新加入服务器。</li>}
+                        <li>玩家不会收到撤销通知。</li>
+                        <li>该{typeLabel}不会从玩家历史记录中移除。</li>
+                        <li>撤销操作无法恢复！</li>
                     </ul>
                 </p>
 
@@ -70,7 +70,7 @@ export default function ActionModifyTab({ action, refreshModalData }: ActionModi
                 >
                     {isRevoking ? (
                         <span className="flex items-center leading-relaxed">
-                            <Loader2Icon className="inline animate-spin h-4" /> Revoking...
+                            <Loader2Icon className="inline animate-spin h-4" /> 撤销中...
                         </span>
                     ) : revokeBtnLabel}
                 </Button>

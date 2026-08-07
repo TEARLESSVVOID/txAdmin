@@ -14,7 +14,7 @@ export default function PlayerlistSummary() {
             </div>
             <div className="flex flex-col items-end">
                 <div className="text-4xl font-mono font-extralight">{playerCountFormatted}</div>
-                <div className="opacity-80 text-lg font-light tracking-wider">Players</div>
+                <div className="opacity-80 text-lg font-light tracking-wider">玩家</div>
             </div>
         </div>
     );

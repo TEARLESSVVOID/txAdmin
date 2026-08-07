@@ -12,25 +12,28 @@ import { fetchWithTimeout } from '@/hooks/fetch';
 import { processFetchError } from './errors';
 import { ServerGlowIcon } from '@/components/serverIcon';
 import { LocalStorageKey } from '@/lib/localStorage';
-import { useTranslation } from '@/hooks/useTranslation';
 
 
 function HeaderNoServer() {
-    const { t } = useTranslation();
     return (
         <div className="text-center">
             <div className="text-xl xs:text-2xl text-primary/85 font-semibold line-clamp-1">
-                {t('login.welcome')}
+                {/* Server Unconfigured */}
+                {/* Unconfigured Server */}
+                {/* Server Not Configured */}
+                {/* Server Not Yet Configured */}
+                欢迎使用 txAdmin！
             </div>
             <div className="text-sm xs:text-base font-normal tracking-wide text-muted-foreground">
-                {t('login.prompt')}
+                {/* please login to set it up */}
+                {/* login to configure it */}
+                请登录以继续
             </div>
         </div>
     )
 }
 
 function HeaderServerInfo() {
-    const { t } = useTranslation();
     const server = window.txConsts.server;
     if (!server || !server.name || (!server.game && !server.icon)) {
         return <HeaderNoServer />;
@@ -46,7 +49,7 @@ function HeaderServerInfo() {
                 {server.name}
             </div>
             <div className="text-sm xs:text-base text-muted-foreground">
-                {t('login.prompt')}
+                登录以继续
             </div>
         </div>
     </>)
@@ -63,7 +66,6 @@ export enum LogoutReasonHash {
 }
 
 export default function Login() {
-    const { t } = useTranslation();
     const { setAuthData } = useAuth();
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -78,7 +80,7 @@ export default function Login() {
 
     const onErrorResponse = (error: string) => {
         if (error === 'no_admins_setup') {
-            setErrorMessage(t('login.no.admins'));
+            setErrorMessage('尚未设置管理员。\n正在跳转...');
             setLocation('/addMaster/pin');
         } else {
             setErrorMessage(error);
@@ -153,15 +155,15 @@ export default function Login() {
         const hash = window.location.hash;
         if (!hash) return;
         if (hash === LogoutReasonHash.LOGOUT) {
-            setErrorMessage(t('login.logged.out'));
+            setErrorMessage('已退出登录。');
         } else if (hash === LogoutReasonHash.EXPIRED) {
-            setErrorMessage(t('login.session.expired'));
+            setErrorMessage('会话已过期。');
         } else if (hash === LogoutReasonHash.UPDATED) {
-            setErrorMessage(t('login.updated'));
+            setErrorMessage('txAdmin 已更新！\n请重新登录。');
         } else if (hash === LogoutReasonHash.MASTER_ALREADY_SET) {
-            setErrorMessage(t('login.master.already.set'));
+            setErrorMessage('主管理员账户已配置。');
         } else if (hash === LogoutReasonHash.SHUTDOWN) {
-            setErrorMessage(t('login.server.shutdown'));
+            setErrorMessage('txAdmin 服务器已关闭。\n请重新启动后再登录。');
         }
         window.location.hash = '';
     }, []);
@@ -185,13 +187,13 @@ export default function Login() {
                 {/* Form */}
                 <div className="flex flex-col xs:grid grid-cols-8 gap-2 xs:gap-4 items-baseline">
                     <Label className="col-span-2" htmlFor="frm-login">
-                        {t('login.username')}
+                        用户名
                     </Label>
                     <Input
                         id="frm-login"
                         ref={usernameRef}
                         type="text"
-                        placeholder={t('login.username')}
+                        placeholder="用户名"
                         autoCapitalize='off'
                         autoComplete='off'
                         className="col-span-6"
@@ -200,13 +202,13 @@ export default function Login() {
                 </div>
                 <div className="flex flex-col xs:grid grid-cols-8 gap-2 xs:gap-4 items-baseline">
                     <Label className="col-span-2" htmlFor="frm-password">
-                        {t('login.password')}
+                        密码
                     </Label>
                     <Input
                         id="frm-password"
                         ref={passwordRef}
                         type="password"
-                        placeholder={t('login.password')}
+                        placeholder='密码'
                         autoCapitalize='off'
                         autoComplete='off'
                         className="col-span-6"
@@ -220,7 +222,7 @@ export default function Login() {
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                         <LogInIcon className="inline mr-2 h-4 w-4" />
-                    )} {t('login.button')}
+                    )} 登录
                 </Button>
                 <Button
                     className="cfxrebtn"
@@ -232,7 +234,7 @@ export default function Login() {
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
                         <LogInIcon className="inline mr-2 h-4 w-4" />
-                    )} {t('login.cfx')}
+                    )} 使用 Cfx.re 登录
                 </Button>
             </CardContent>
         </form>

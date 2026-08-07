@@ -110,7 +110,7 @@ export const CustomToast = ({ t, type, data }: CustomToastProps) => {
                 )}
                 {type === 'error' && (
                     <small className="block text-xs tracking-wide text-muted-foreground">
-                        For support, visit&nbsp;
+                        如需支持，请访问&nbsp;
                         <a
                             href="https://discord.gg/uAmsGa2"
                             target="_blank"
@@ -118,14 +118,14 @@ export const CustomToast = ({ t, type, data }: CustomToastProps) => {
                             className="font-semibold no-underline hover:underline m-0"
                         >
                             discord.gg/txAdmin
-                        </a>.
+                        </a>。
                     </small>
                 )}
             </div>
 
             <button onClick={() => toast.dismiss(t.id)} className="absolute right-4 top-4 opacity-70">
                 <XIcon className="h-6 sm:w-6 md:h-5 md:w-5" />
-                <span className="sr-only">Close</span>
+                <span className="sr-only">关闭</span>
             </button>
         </div>
     );

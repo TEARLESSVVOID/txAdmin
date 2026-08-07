@@ -5,10 +5,10 @@ import { mdCodeBlock } from "@lib/misc";
 
 
 const printPublicIp: AdvancedCommandHandler = async (ctx, args) => {
-    const ip = await getPublicIp() || 'not found';
+    const ip = await getPublicIp() || '未找到';
     return {
         type: 'md',
-        data: `Public IP: ${ip}`,
+        data: `公网 IP：${ip}`,
     }
 }
 
@@ -62,16 +62,16 @@ const printClockInfo: AdvancedCommandHandler = async (ctx, args) => {
     const intlExpectedOffsetMin = resolveIntlOffsetMinutes(localTimezone);
     const intlExpectedOffset = intlExpectedOffsetMin !== null
         ? formatUtcOffset(intlExpectedOffsetMin)
-        : 'not resolved';
+        : '无法解析';
     const icuV8Ok = intlExpectedOffsetMin !== null && intlExpectedOffsetMin === localUtcOffsetMin;
 
     //Internet values (as resolved by gettimeapi.dev for the local timezone)
     const gettimeapiProbe = results.find(
         (r) => r.success && r.url.includes(GETTIMEAPI_HOST),
     ) as ProbeSuccess | undefined;
-    const internetTimezone = gettimeapiProbe?.timezone?.timezone ?? 'not resolved';
-    const internetUtcOffset = gettimeapiProbe?.timezone?.offset ?? 'not resolved';
-    const internetTime = date ? new Date(date).toLocaleString() : 'not resolved';
+    const internetTimezone = gettimeapiProbe?.timezone?.timezone ?? '无法解析';
+    const internetUtcOffset = gettimeapiProbe?.timezone?.offset ?? '无法解析';
+    const internetTime = date ? new Date(date).toLocaleString() : '无法解析';
 
     //Sanity check flags
     const tzOk = internetTimezone !== 'not resolved' && internetTimezone === localTimezone;
@@ -79,26 +79,26 @@ const printClockInfo: AdvancedCommandHandler = async (ctx, args) => {
     const driftOk = avgOffsetMs !== null && Math.abs(avgOffsetMs) <= DRIFT_THRESHOLD_MS;
     const mark = (ok: boolean) => (ok ? '✔' : '❌');
 
-    const driftStr = avgOffsetMs !== null ? `${avgOffsetMs}ms` : 'not found';
-    const rttStr = avgRttMs !== null ? `${avgRttMs}ms` : 'not found';
+    const driftStr = avgOffsetMs !== null ? `${avgOffsetMs}ms` : '未找到';
+    const rttStr = avgRttMs !== null ? `${avgRttMs}ms` : '未找到';
 
     return {
         type: 'md',
         data: [
-            '## Clock Info:',
+            '## 时钟信息：',
             '',
-            '| Metric | Local | Internet | Status |',
+            '| 指标 | 本地 | 互联网 | 状态 |',
             '| --- | --- | --- | :---: |',
-            `| Timezone | \`${localTimezone}\` | \`${internetTimezone}\` | ${mark(tzOk)} |`,
-            `| UTC Offset | \`${localUtcOffset}\` | \`${internetUtcOffset}\` | ${mark(offsetOk)} |`,
-            `| Time | ${localTime} | ${internetTime} | ${mark(driftOk)} |`,
+            `| 时区 | \`${localTimezone}\` | \`${internetTimezone}\` | ${mark(tzOk)} |`,
+            `| UTC 偏移 | \`${localUtcOffset}\` | \`${internetUtcOffset}\` | ${mark(offsetOk)} |`,
+            `| 时间 | ${localTime} | ${internetTime} | ${mark(driftOk)} |`,
             '',
-            `- ICU/V8 timezone self-check: ${mark(icuV8Ok)} _(\`Date\` offset is \`${localUtcOffset}\`, \`${localTimezone}\` should be \`${intlExpectedOffset}\`)_`,
-            `- Clock drift: ${driftStr} _(threshold: ±${DRIFT_THRESHOLD_MS}ms)_`,
-            `- Network RTT: ${rttStr}`,
+            `- ICU/V8 时区自检：${mark(icuV8Ok)} _（\`Date\` 偏移为 \`${localUtcOffset}\`，\`${localTimezone}\` 应为 \`${intlExpectedOffset}\`）_`,
+            `- 时钟漂移：${driftStr} _（阈值：±${DRIFT_THRESHOLD_MS}ms）_`,
+            `- 网络 RTT：${rttStr}`,
             '',
-            '_Local values are resolved by the Node.js runtime / OS. Internet values come from `gettimeapi.dev` (timezone) and all probes averaged (time/drift)._',
-            '## Raw Probe Data:',
+            '_本地值由 Node.js 运行时/操作系统解析。互联网值来自 `gettimeapi.dev`（时区）以及所有探测的平均值（时间/漂移）。_',
+            '## 原始探测数据：',
             ...results.map(r => {
                 const j = JSON.stringify({ ...r, url: undefined, success: undefined }, null, 2)
                 return [

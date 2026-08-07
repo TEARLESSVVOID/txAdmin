@@ -42,12 +42,10 @@ export class TopLevelErrorBoundary extends Component<any, ErrorCompState> {
     if (this.state.hasError) {
       return (
         <Dialog open={this.state.hasError}>
-          <DialogTitle>Fatal Error Encountered</DialogTitle>
+          <DialogTitle>发生致命错误</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              The txAdmin menu has an encountered an error it was unable to
-              recover from, the NUI frame will need to be reloaded. The error
-              message is shown below for developer reference.
+              txAdmin 菜单遇到了无法自动恢复的错误，需要重新加载 NUI 界面。以下错误信息仅供开发者参考。
               <br />
               <br />
               <code style={{ color: "red" }}>{this.state.error.message}</code>
@@ -55,7 +53,7 @@ export class TopLevelErrorBoundary extends Component<any, ErrorCompState> {
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.handleReloadClick}>
-              Reload Menu
+              重新加载菜单
             </Button>
           </DialogActions>
         </Dialog>

@@ -19,14 +19,14 @@ const anyUndefined = (...args: any) => [...args].some((x) => (typeof x === 'unde
 export default async function WhitelistActions(ctx: AuthedCtx) {
     //Sanity check
     if (anyUndefined(ctx.params.action)) {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const { table, action } = ctx.params;
     const sendTypedResp = (data: GenericApiResp) => ctx.send(data);
 
     //Check permissions
     if (!ctx.admin.testPermission('players.whitelist', modulename)) {
-        return sendTypedResp({ error: 'You don\'t have permission to execute this action.' });
+        return sendTypedResp({ error: '你没有权限执行此操作。' });
     }
 
     //Delegate to the specific table handler
@@ -35,7 +35,7 @@ export default async function WhitelistActions(ctx: AuthedCtx) {
     } else if (table === 'requests') {
         return sendTypedResp(await handleRequests(ctx, action));
     } else {
-        return sendTypedResp({ error: 'unknown table' });
+        return sendTypedResp({ error: '未知的数据表' });
     }
 };
 
@@ -46,12 +46,12 @@ export default async function WhitelistActions(ctx: AuthedCtx) {
 async function handleApprovals(ctx: AuthedCtx, action: any): Promise<GenericApiResp> {
     //Input validation
     if (typeof ctx.request.body?.identifier !== 'string') {
-        return { error: 'identifier not specified' };
+        return { error: '未指定标识符（identifier）' };
     }
     const identifier = ctx.request.body.identifier;
     const { isIdValid, idType, idValue, idlowerCased } = parsePlayerId(identifier);
     if (!isIdValid || !idType || !idValue || !idlowerCased) {
-        return { error: 'Error: the provided identifier does not seem to be valid' };
+        return { error: '错误：所提供的标识符似乎无效' };
     }
 
     if (action === 'add') {
@@ -84,7 +84,7 @@ async function handleApprovals(ctx: AuthedCtx, action: any): Promise<GenericApiR
                 adminName: ctx.admin.name,
             });
         } catch (error) {
-            return { error: `Failed to save wl approval: ${(error as Error).message}` };
+            return { error: `保存白名单预批准失败：${(error as Error).message}` };
         }
         ctx.admin.logAction(`Added whitelist approval for ${playerName}.`);
         return { success: true };
@@ -98,13 +98,13 @@ async function handleApprovals(ctx: AuthedCtx, action: any): Promise<GenericApiR
                 adminName: ctx.admin.name,
             });
         } catch (error) {
-            return { error: `Failed to remove wl approval: ${(error as Error).message}` };
+            return { error: `移除白名单预批准失败：${(error as Error).message}` };
         }
         ctx.admin.logAction(`Removed whitelist approval from ${idlowerCased}.`);
         return { success: true };
 
     } else {
-        return { error: 'unknown action' };
+        return { error: '未知操作' };
     }
 }
 
@@ -117,7 +117,7 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
     if (action === 'deny_all') {
         const cutoff = parseInt(ctx.request.body?.newestVisible);
         if (isNaN(cutoff)) {
-            return { error: 'newestVisible not specified' };
+            return { error: '未指定 newestVisible' };
         }
 
         try {
@@ -128,7 +128,7 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
                 adminName: ctx.admin.name,
             });
         } catch (error) {
-            return { error: `Failed to remove all wl request: ${(error as Error).message}` };
+            return { error: `移除全部白名单请求失败：${(error as Error).message}` };
         }
         ctx.admin.logAction('Denied all whitelist requests.');
         return { success: true };
@@ -137,14 +137,14 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
     //Input validation
     const reqId = ctx.request.body?.reqId;
     if (typeof reqId !== 'string' || !reqId.length) {
-        return { error: 'reqId not specified' };
+        return { error: '未指定 reqId' };
     }
 
     if (action === 'approve') {
         //Find request
         const requests = txCore.database.whitelist.findManyRequests({ id: reqId });
         if (!requests.length) {
-            return { error: `Allowlist request ID ${reqId} not found.` };
+            return { error: `未找到白名单请求 ID ${reqId}。` };
         }
         const req = requests[0]; //just getting the first
 
@@ -168,7 +168,7 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
             });
         } catch (error) {
             if (!(error instanceof DuplicateKeyError)) {
-                return { error: `Failed to save wl approval: ${(error as Error).message}` };
+                return { error: `保存白名单预批准失败：${(error as Error).message}` };
             }
         }
         ctx.admin.logAction(`Approved whitelist request from ${playerName}.`);
@@ -177,7 +177,7 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
         try {
             txCore.database.whitelist.removeManyRequests({ id: reqId });
         } catch (error) {
-            return { error: `Failed to remove wl request: ${(error as Error).message}` };
+            return { error: `移除白名单请求失败：${(error as Error).message}` };
         }
         return { success: true };
 
@@ -195,12 +195,12 @@ async function handleRequests(ctx: AuthedCtx, action: any): Promise<GenericApiRe
                 });
             }
         } catch (error) {
-            return { error: `Failed to remove wl request: ${(error as Error).message}` };
+            return { error: `移除白名单请求失败：${(error as Error).message}` };
         }
         ctx.admin.logAction(`Denied whitelist request ${reqId}.`);
         return { success: true };
 
     } else {
-        return { error: 'unknown action' };
+        return { error: '未知操作' };
     }
 }

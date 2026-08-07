@@ -34,7 +34,7 @@ function SheetCloseButton({ closeSheet }: Pick<SheetProps, 'closeSheet'>) {
         <button
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-0 transition-opacity hover:opacity-100 focus:outline-none cursor-pointer"
             onClick={closeSheet}
-            title="Close"
+            title="关闭"
         >
             <XIcon className="h-8 w-8" />
         </button>
@@ -70,10 +70,10 @@ function SheetCommand({ cmd, type, onClick, onFavAction }: SheetCommandProps) {
                 >
                     {type === 'history' ? (<>
                         <StarIcon className="size-5" />
-                        <span className="sr-only">Save</span>
+                        <span className="sr-only">保存</span>
                     </>) : (<>
                         <StarOffIcon className="size-5" />
-                        <span className="sr-only">Remove</span>
+                        <span className="sr-only">移除</span>
                     </>)}
                 </button>
             </div>
@@ -88,14 +88,14 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
     const openPromptDialog = useOpenPromptDialog();
 
     const handleWipeHistory = () => {
-        txToast.success('History cleared');
+        txToast.success('历史记录已清空');
         wipeHistory();
     }
     const handleSaveCommand = () => {
         openPromptDialog({
-            title: 'Save Command',
-            message: 'Enter the command to save:',
-            submitLabel: 'Save',
+            title: '保存命令',
+            message: '请输入要保存的命令：',
+            submitLabel: '保存',
             onSubmit: (cmd) => {
                 if (cmd) addBookmark(cmd);
             }
@@ -104,7 +104,7 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
     return (
         <div className="flex flex-row gap-4 max-h-full">
             <div className="flex flex-col flex-grow gap-2 w-1/2">
-                <h2 className="text-xl font-bold">History</h2>
+                <h2 className="text-xl font-bold">历史记录</h2>
                 <ScrollArea className="max-h-full w-full pr-3 text-sm text-muted-foreground" style={{ wordBreak: 'break-word' }}>
                     <button
                         onClick={handleWipeHistory}
@@ -112,7 +112,7 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
                     >
                         <div className="flex items-center justify-center gap-2">
                             <XIcon className="w-4 h-4 inline" />
-                            Clear History
+                            清空历史记录
                         </div>
                     </button>
                     <div className="space-y-2 line-clamp-1 text-sm font-mono tracking-wide  pb-4">
@@ -128,13 +128,13 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
                     </div>
                     {history.length === 0 && (
                         <div className="w-full h-auto text-center italic tracking-wider">
-                            The command history is empty.
+                            命令历史记录为空。
                         </div>
                     )}
                 </ScrollArea>
             </div>
             <div className="flex flex-col flex-grow gap-2 w-1/2">
-                <h2 className="text-xl font-bold">Saved</h2>
+                <h2 className="text-xl font-bold">已保存</h2>
                 <ScrollArea className="max-h-full w-full pr-3 text-sm text-muted-foreground" style={{ wordBreak: 'break-word' }}>
                     <button
                         onClick={handleSaveCommand}
@@ -142,7 +142,7 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
                     >
                         <div className="flex items-center justify-center gap-2">
                             <PlusIcon className="w-4 h-4 inline" />
-                            Add New
+                            新增
                         </div>
                     </button>
                     <div className="space-y-2 line-clamp-1 text-sm font-mono tracking-wide  pb-4">
@@ -158,8 +158,8 @@ function SheetContent({ toTermInput }: Pick<SheetProps, 'toTermInput'>) {
                     </div>
                     {bookmarks.length === 0 && (
                         <div className="w-full h-auto text-center italic tracking-wider">
-                            There are no saved commands. <br />
-                            To save a command, click the star icon next to it.
+                            暂无已保存的命令。<br />
+                            如需保存命令，请点击其旁边的星形图标。
                         </div>
                     )}
                 </ScrollArea>

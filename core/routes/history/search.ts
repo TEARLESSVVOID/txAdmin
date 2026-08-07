@@ -21,7 +21,7 @@ const ALLOWED_SORTINGS = ['timestamp'];
 export default async function HistorySearch(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.query === 'undefined') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const {
         searchValue,
@@ -41,7 +41,7 @@ export default async function HistorySearch(ctx: AuthedCtx) {
     //sort the actions by the sortingKey/sortingDesc
     const parsedSortingDesc = sortingDesc === 'true';
     if (typeof sortingKey !== 'string' || !ALLOWED_SORTINGS.includes(sortingKey)) {
-        return sendTypedResp({ error: 'Invalid sorting key' });
+        return sendTypedResp({ error: '无效的排序键' });
     }
     chain = chain.sort((a, b) => {
         // @ts-ignore
@@ -52,7 +52,7 @@ export default async function HistorySearch(ctx: AuthedCtx) {
     if (offsetParam !== undefined && offsetActionId !== undefined) {
         const parsedOffsetParam = parseInt(offsetParam as string);
         if (isNaN(parsedOffsetParam) || typeof offsetActionId !== 'string' || !offsetActionId.length) {
-            return sendTypedResp({ error: 'Invalid offsetParam or offsetActionId' });
+            return sendTypedResp({ error: '无效的 offsetParam 或 offsetActionId' });
         }
         chain = chain.takeRightWhile((a) => {
             return a.id !== offsetActionId && parsedSortingDesc
@@ -79,14 +79,14 @@ export default async function HistorySearch(ctx: AuthedCtx) {
     // filter the actions by the searchValue/searchType (VERY HEAVY!)
     if (typeof searchType === 'string') {
         if (typeof searchValue !== 'string' || !searchValue.length) {
-            return sendTypedResp({ error: 'Invalid searchValue' });
+            return sendTypedResp({ error: '无效的搜索值（searchValue）' });
         }
 
         if (searchType === 'actionId') {
             //Searching by action ID
             const cleanId = searchValue.toUpperCase().trim();
             if (!cleanId.length) {
-                return sendTypedResp({ error: 'This action ID is unsearchable (empty?).' });
+                return sendTypedResp({ error: '该操作 ID 无法搜索（为空？）。' });
             }
             const actions = chain.value();
             const fuse = new Fuse(actions, {
@@ -109,10 +109,10 @@ export default async function HistorySearch(ctx: AuthedCtx) {
             //Searching by target identifiers
             const { validIds, validHwids, invalids } = parseLaxIdsArrayInput(searchValue);
             if (invalids.length) {
-                return sendTypedResp({ error: `Invalid identifiers (${invalids.join(',')}). Prefix any identifier with their type, like 'fivem:123456' instead of just '123456'.` });
+                return sendTypedResp({ error: `无效的标识符（${invalids.join(',')}）。任何标识符都需要带上类型前缀，例如使用 'fivem:123456' 而不是仅 '123456'。` });
             }
             if (!validIds.length && !validHwids.length) {
-                return sendTypedResp({ error: `No valid identifiers found.` });
+                return sendTypedResp({ error: `未找到有效的标识符。` });
             }
             chain = chain.filter((a) => {
                 if (validIds.length && !validIds.some((id) => a.ids.includes(id))) {
@@ -124,7 +124,7 @@ export default async function HistorySearch(ctx: AuthedCtx) {
                 return true;
             });
         } else {
-            return sendTypedResp({ error: 'Unknown searchType' });
+            return sendTypedResp({ error: '未知的搜索类型（searchType）' });
         }
     }
 

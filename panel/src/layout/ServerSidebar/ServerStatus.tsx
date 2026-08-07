@@ -67,24 +67,24 @@ function StatusBadge({ children, tooltip, type }: StatusBadgeProps) {
 
 const discordStatusMap = {
     [DiscordBotStatus.Disabled]: {
-        text: 'DISABLED',
+        text: '已禁用',
         color: 'default',
-        description: 'Discord bot is disabled.',
+        description: 'Discord 机器人已禁用。',
     },
     [DiscordBotStatus.Starting]: {
-        text: 'STARTING',
+        text: '启动中',
         color: 'warning',
-        description: 'Discord bot is starting.',
+        description: 'Discord 机器人正在启动。',
     },
     [DiscordBotStatus.Ready]: {
-        text: 'READY',
+        text: '就绪',
         color: 'default',
-        description: 'Discord bot is ready.',
+        description: 'Discord 机器人已就绪。',
     },
     [DiscordBotStatus.Error]: {
-        text: 'ERROR',
+        text: '错误',
         color: 'destructive',
-        description: 'Discord bot is in an error state.',
+        description: 'Discord 机器人处于错误状态。',
     },
 } as const;
 
@@ -115,7 +115,7 @@ export default function ServerStatus() {
                     delimiter: ' ',
                 }
             );
-            serverUptimeDesc = 'Time since the server came online.';
+            serverUptimeDesc = '服务器自启动以来的运行时间。';
         }
 
         //Server status
@@ -123,38 +123,38 @@ export default function ServerStatus() {
         serverHealthDescInfo = globalStatus.server.healthReason;
         if (globalStatus.server.health === FxMonitorHealth.ONLINE) {
             serverHealthColor = 'success';
-            serverHealthDescTitle = 'Resources running, accepting connections.';
+            serverHealthDescTitle = '资源运行中，正在接受连接。';
         } else if (globalStatus.server.health === FxMonitorHealth.PARTIAL) {
             serverHealthColor = 'warning';
-            serverHealthDescTitle = 'Resources not running or not accepting connections.';
+            serverHealthDescTitle = '资源未运行或未接受连接。';
         } else if (globalStatus.server.health === FxMonitorHealth.OFFLINE) {
             serverHealthColor = 'destructive';
-            serverHealthDescTitle = 'Server is offline.';
+            serverHealthDescTitle = '服务器已离线。';
         } else {
             serverHealthColor = 'destructive';
-            serverHealthDescTitle = 'Unknown server status.';
+            serverHealthDescTitle = '未知服务器状态。';
         }
 
         //Allowlist - FIXME:NEXT:UPDATE: rename backend var
         if (globalStatus.server.whitelist === 'disabled') {
-            allowlistText = 'DISABLED';
-            allowlistDesc = 'Anyone can join.';
+            allowlistText = '已禁用';
+            allowlistDesc = '任何人都可以加入。';
         } else if (globalStatus.server.whitelist === 'adminOnly') {
-            allowlistText = 'ADMIN';
+            allowlistText = '仅管理员';
             allowlistColor = 'warning';
-            allowlistDesc = 'Only admins can join.';
+            allowlistDesc = '仅管理员可以加入。';
         } else if (globalStatus.server.whitelist === 'discordMember') {
-            allowlistText = 'MEMBER';
-            allowlistDesc = 'Only Discord server members can join.';
+            allowlistText = '服务器成员';
+            allowlistDesc = '仅 Discord 服务器成员可以加入。';
         } else if (globalStatus.server.whitelist === 'discordRoles') {
-            allowlistText = 'ROLES';
-            allowlistDesc = 'Only Discord server members with the specified roles can join.';
+            allowlistText = '指定角色';
+            allowlistDesc = '仅拥有指定角色的 Discord 服务器成员可以加入。';
         } else if (globalStatus.server.whitelist === 'approvedLicense') {
-            allowlistText = 'LICENSE';
-            allowlistDesc = 'Only players with an approved license can join.';
+            allowlistText = '许可审批';
+            allowlistDesc = '仅已通过许可审批的玩家可以加入。';
         } else if (globalStatus.server.whitelist === 'external') {
-            allowlistText = 'EXTERNAL';
-            allowlistDesc = 'Player joins are handled by an external resource.';
+            allowlistText = '外部处理';
+            allowlistDesc = '玩家加入由外部资源处理。';
         }
 
         //Bot status - too long to show all the text, so just show the code
@@ -165,14 +165,14 @@ export default function ServerStatus() {
         } else {
             discordStatusText = `CODE-${globalStatus.discord}`;
             discordStatusColor = 'destructive';
-            discordStatusDesc = 'Unknown status code';
+            discordStatusDesc = '未知状态码';
         }
     }
 
     return (
         <div className="flex flex-col gap-[0.375rem]">
             <div className="flex justify-between items-center text-muted-foreground text-sm gap-1.5">
-                Server:
+                服务器：
                 <StatusBadge
                     tooltip={{
                         title: serverHealthDescTitle,
@@ -182,20 +182,20 @@ export default function ServerStatus() {
                 >{serverHealthText}</StatusBadge>
             </div>
             <div className="flex justify-between items-center text-muted-foreground text-sm gap-1.5">
-                Uptime:
+                运行时间：
                 <StatusBadge
                     tooltip={serverUptimeDesc}
                 >{serverUptimeText}</StatusBadge>
             </div>
             <div className="flex justify-between items-center text-muted-foreground text-sm gap-1.5">
-                Allowlist:
+                白名单：
                 <StatusBadge
                     tooltip={allowlistDesc}
                     type={allowlistColor}
                 >{allowlistText}</StatusBadge>
             </div>
             <div className="flex justify-between items-center text-muted-foreground text-sm gap-1.5">
-                Discord Bot:
+                Discord 机器人：
                 <StatusBadge
                     tooltip={discordStatusDesc}
                     type={discordStatusColor}

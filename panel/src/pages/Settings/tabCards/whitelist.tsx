@@ -76,16 +76,16 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
             && localConfigs.whitelist?.mode !== 'adminOnly'
         );
         if (isAllowlistInstructionsRequired && !localConfigs.whitelist?.rejectionMessage) {
-            return txToast.error('Please fill in the Allowlist Instructions field to be able to enable this allowlist mode.');
+            return txToast.error('请填写白名单说明字段，以便启用此白名单模式。');
         }
         if (
             localConfigs.whitelist?.rejectionMessage
             && localConfigs.whitelist.rejectionMessage.length > 512
         ) {
             return txToast.error({
-                title: 'The Allowlist Instructions is too big.',
+                title: '白名单说明过长。',
                 md: true,
-                msg: 'The message must be 512 characters or less.',
+                msg: '消息长度必须为 512 个字符或更少。',
             });
         }
         if (
@@ -94,8 +94,8 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
         ) {
             if (!isDiscordBotEnabled) {
                 return txToast.warning({
-                    title: 'Discord Bot is required.',
-                    msg: 'You need to enable the Discord Bot in the Discord tab to use Discord-based allowlist modes.',
+                    title: '需要启用 Discord 机器人。',
+                    msg: '您需要在 Discord 标签页中启用 Discord 机器人，才能使用基于 Discord 的白名单模式。',
                 });
             }
             if (
@@ -106,8 +106,8 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                 )
             ) {
                 return txToast.warning({
-                    title: 'Discord Roles are required.',
-                    msg: 'You need to specify at least one Discord Role ID to use the "Discord Server Roles" allowlist mode.',
+                    title: '需要指定 Discord 角色。',
+                    msg: '您需要至少指定一个 Discord 角色 ID，才能使用"Discord 服务器角色"白名单模式。',
                 });
             }
         }
@@ -117,9 +117,9 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                 .map(x => `- \`${x.slice(0, 20)}\``);
             if (invalidRoles.length) {
                 return txToast.error({
-                    title: 'Invalid Discord Role ID(s).',
+                    title: '无效的 Discord 角色 ID。',
                     md: true,
-                    msg: 'The following Discord Role ID(s) are invalid: \n' + invalidRoles.join('\n'),
+                    msg: '以下 Discord 角色 ID 无效：\n' + invalidRoles.join('\n'),
                 });
             }
         }
@@ -137,7 +137,7 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
             pageCtx={pageCtx}
             onClickSave={handleOnSave}
         >
-            <SettingItem label="Allowlist Mode">
+            <SettingItem label="白名单模式">
                 <RadioGroup
                     value={states.whitelistMode}
                     onValueChange={cfg.whitelistMode.state.set as any}
@@ -146,17 +146,17 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                     <BigRadioItem
                         groupValue={states.whitelistMode}
                         value="disabled"
-                        title="Disabled"
+                        title="禁用"
                         desc={(<>
-                            Select this option if your server is public and open for all players to join. When a player connects, txAdmin will only check if they are banned <i>(if that is enabled)</i> and nothing else.
+                            如果您的服务器是公开的、允许所有玩家加入，请选择此选项。当玩家连接时，txAdmin 只会检查他们是否被封禁<i>（如果启用了该功能）</i>，不会做其他检查。
                         </>)}
                     />
                     <BigRadioItem
                         groupValue={states.whitelistMode}
                         value="adminOnly"
-                        title="Admin-only (maintenance mode)"
+                        title="仅管理员（维护模式）"
                         desc={(<>
-                            Will only allow server join if the player's <InlineCode>fivem:</InlineCode> or <InlineCode>discord:</InlineCode> identifiers are attached to a txAdmin administrator. Also known as maintenance mode.
+                            仅当玩家的 <InlineCode>fivem:</InlineCode> 或 <InlineCode>discord:</InlineCode> 标识符关联到 txAdmin 管理员时，才允许其加入服务器。也称为维护模式。
                         </>)}
                     />
                     <BigRadioItem
@@ -164,12 +164,12 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                         value="discordMember"
                         disableReason={
                             !isDiscordBotEnabled
-                                ? "The Discord bot must be enabled in the Discord tab to use this option."
+                                ? "要使用此选项，必须在 Discord 标签页中启用 Discord 机器人。"
                                 : null
                         }
-                        title="Discord Server Member"
+                        title="Discord 服务器成员"
                         desc={(<>
-                            Checks if the player joining has a <InlineCode>discord:</InlineCode> identifier and is present in the Discord server configured in the Discord Tab.
+                            检查加入的玩家是否具有 <InlineCode>discord:</InlineCode> 标识符，并且存在于 Discord 标签页中配置的 Discord 服务器中。
                         </>)}
                     />
                     <BigRadioItem
@@ -177,46 +177,46 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                         value="discordRoles"
                         disableReason={
                             !isDiscordBotEnabled
-                                ? "The Discord bot must be enabled in the Discord tab to use this option."
+                                ? "要使用此选项，必须在 Discord 标签页中启用 Discord 机器人。"
                                 : null
                         }
-                        title="Discord Server Roles"
+                        title="Discord 服务器角色"
                         desc={(<>
-                            Checks if the player joining has a <InlineCode>discord:</InlineCode> identifier and is present in the Discord server configured in the Discord Tab and has at least one of the roles specified below.
+                            检查加入的玩家是否具有 <InlineCode>discord:</InlineCode> 标识符，存在于 Discord 标签页中配置的 Discord 服务器中，并且拥有下列至少一个角色。
                         </>)}
                     />
                     <BigRadioItem
                         groupValue={states.whitelistMode}
                         value="approvedLicense"
-                        title="Approved License"
+                        title="已批准的许可证"
                         desc={(<>
-                            The player <InlineCode>license:</InlineCode> identifier must be allowlisted by a txAdmin administrator. This can be done through the <TxAnchor href="/allowlist">Allowlist page</TxAnchor>, or the <InlineCode>/allowlist</InlineCode> Discord bot command.
+                            玩家的 <InlineCode>license:</InlineCode> 标识符必须由 txAdmin 管理员加入白名单。可以通过 <TxAnchor href="/allowlist">白名单页面</TxAnchor> 或 <InlineCode>/allowlist</InlineCode> Discord 机器人命令完成。
                         </>)}
                     />
                     <BigRadioItem
                         groupValue={states.whitelistMode}
                         value="external"
-                        title="External Allowlist Resource"
+                        title="外部白名单资源"
                         // FIXME:NEXT:UPDATE remove
                         newOptionBadgeFeatName="settingsExternalWhitelist"
                         desc={(<>
-                            Select this option if you are using an external allowlist system to manage which players can join the server.
+                            如果您使用外部白名单系统来管理哪些玩家可以加入服务器，请选择此选项。
                         </>)}
                     />
                 </RadioGroup>
                 <SettingItemDesc>
-                    <strong>Note:</strong> When enabled, the server list will show a lock icon next to the server name, and on the server page the players will be able to see the Allowlist Instructions.
+                    <strong>注意：</strong>启用后，服务器列表将在服务器名称旁显示锁图标，玩家也将在服务器页面看到白名单说明。
                 </SettingItemDesc>
             </SettingItem>
             <SettingItem
-                label="Allowlist Instructions"
+                label="白名单说明"
                 htmlFor={cfg.rejectionMessage.eid}
                 required={isPlayerAllowlistEnabled}
             >
                 <AutosizeTextarea
                     id={cfg.rejectionMessage.eid}
                     ref={rejectionMessageRef}
-                    placeholder='Please join http://discord.gg/example and request to be allowlisted.'
+                    placeholder='请加入 http://discord.gg/example 并申请加入白名单。'
                     defaultValue={cfg.rejectionMessage.initialValue}
                     onInput={updatePageState}
                     autoComplete="off"
@@ -226,15 +226,15 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                     disabled={pageCtx.isReadOnly || !isPlayerAllowlistEnabled}
                 />
                 <SettingItemDesc>
-                    Explain here how players can apply to be allowlisted to join the server, including any requirements or steps they need to follow, like joining a Discord server or filling out an online form. <br />
-                    This message will show on the in-game server page and will also be sent to the player when they try to connect while not being allowlisted.
+                    在此说明玩家如何申请加入白名单以进入服务器，包括他们需要满足的要求或步骤，例如加入 Discord 服务器或填写在线表单。<br />
+                    此消息将显示在游戏内服务器页面中，并且当未加入白名单的玩家尝试连接时，也会发送给他们。
                     <SettingItemWarningLine visible={!pageCtx.isReadOnly && !isPlayerAllowlistEnabled}>
-                        This field requires the Allowlist Mode to be enabled and not in Admin-only mode.
+                        启用白名单模式（非仅管理员模式）后，此字段才可用。
                     </SettingItemWarningLine>
                 </SettingItemDesc>
             </SettingItem>
             <SettingItem
-                label="Allowlisted Discord Roles"
+                label="白名单 Discord 角色"
                 htmlFor={cfg.discordRoles.eid}
                 required={states.whitelistMode === 'discordRoles'}
             >
@@ -247,10 +247,10 @@ export default function ConfigCardWhitelist({ cardCtx, pageCtx }: SettingsCardPr
                     disabled={pageCtx.isReadOnly || states.whitelistMode !== 'discordRoles'}
                 />
                 <SettingItemDesc>
-                    The ID of the Discord roles that are allowed to join the server. <br />
-                    This field supports multiple roles, separated by comma.
+                    允许加入服务器的 Discord 角色 ID。<br />
+                    此字段支持多个角色，用逗号分隔。
                     <SettingItemWarningLine visible={!pageCtx.isReadOnly && states.whitelistMode !== 'discordRoles'}>
-                        This field requires the Allowlist Mode to be set to "Discord Server Roles".
+                        将白名单模式设置为"Discord 服务器角色"后，此字段才可用。
                     </SettingItemWarningLine>
                 </SettingItemDesc>
             </SettingItem>

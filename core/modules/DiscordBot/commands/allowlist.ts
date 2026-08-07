@@ -14,7 +14,7 @@ const handleMemberSubcommand = async (interaction: ChatInputCommandInteraction, 
     //Preparing player id/name/avatar
     const member = interaction.options.getMember('member');
     if(!member || !('user' in member)){
-        return await interaction.reply(embedder.danger(`Failed to resolve member ID.`));
+        return await interaction.reply(embedder.danger(`无法解析成员 ID。`));
     }
     const identifier = `discord:${member.id}`;
     const playerName = member.nickname ?? member.user.username;
@@ -40,7 +40,7 @@ const handleMemberSubcommand = async (interaction: ChatInputCommandInteraction, 
         return await interaction.reply(embedder.danger(`Failed to save allowlist approval: ${(error as Error).message}`));
     }
 
-    const msg = `Added allowlist approval for ${playerName}.`;
+    const msg = `已为 ${playerName} 添加准入名单审批。`;
     logDiscordAdminAction(adminName, msg);
     return await interaction.reply(embedder.success(msg));
 }
@@ -54,13 +54,13 @@ const handleRequestSubcommand = async (interaction: ChatInputCommandInteraction,
     const input = interaction.options.getString('id', true);
     const reqId = input.trim().toUpperCase();
     if (reqId.length !== 5 || reqId[0] !== 'R') {
-        return await interaction.reply(embedder.danger('Invalid request ID.'));
+        return await interaction.reply(embedder.danger('无效的请求 ID。'));
     }
 
     //Find request
     const requests = txCore.database.whitelist.findManyRequests({ id: reqId });
     if (!requests.length) {
-        return await interaction.reply(embedder.warning(`Allowlist request ID \`${reqId}\` not found.`));
+        return await interaction.reply(embedder.warning(`未找到准入名单请求 ID \`${reqId}\`。`));
     }
     const req = requests[0]; //just getting the first
 
@@ -84,7 +84,7 @@ const handleRequestSubcommand = async (interaction: ChatInputCommandInteraction,
         });
     } catch (error) {
         if (!(error instanceof DuplicateKeyError)) {
-            return await interaction.reply(embedder.danger(`Failed to save allowlist approval: ${(error as Error).message}`));
+        return await interaction.reply(embedder.danger(`保存准入名单审批失败：${(error as Error).message}`));
         }
     }
 
@@ -92,10 +92,10 @@ const handleRequestSubcommand = async (interaction: ChatInputCommandInteraction,
     try {
         txCore.database.whitelist.removeManyRequests({ id: reqId });
     } catch (error) {
-        return await interaction.reply(embedder.danger(`Failed to remove allowlist request: ${(error as Error).message}`));
+        return await interaction.reply(embedder.danger(`移除准入名单请求失败：${(error as Error).message}`));
     }
 
-    const msg = `Approved allowlist request \`${reqId}\` from ${playerName}.`;
+    const msg = `已批准来自 ${playerName} 的准入名单请求 \`${reqId}\`。`;
     logDiscordAdminAction(adminName, msg);
     return await interaction.reply(embedder.success(msg));
 }

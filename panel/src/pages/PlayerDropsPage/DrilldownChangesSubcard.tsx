@@ -31,14 +31,14 @@ function DiffUpdated({ children }: { children: React.ReactNode }) {
 type ChangedFxsEventProps = { change: Extract<PDLChangeEventType, { type: "fxsChanged" }> };
 function ChangedFxsEvent({ change }: ChangedFxsEventProps) {
     return (<>
-        Switched from <DiffOld>{change.oldVersion}</DiffOld> to <DiffNew>{change.newVersion}</DiffNew>
+        从 <DiffOld>{change.oldVersion}</DiffOld> 切换至 <DiffNew>{change.newVersion}</DiffNew>
     </>);
 }
 
 type ChangedGameEventProps = { change: Extract<PDLChangeEventType, { type: "gameChanged" }> };
 function ChangedGameEvent({ change }: ChangedGameEventProps) {
     return (<>
-        Switched from <DiffOld>{change.oldVersion}</DiffOld> to <DiffNew>{change.newVersion}</DiffNew>
+        从 <DiffOld>{change.oldVersion}</DiffOld> 切换至 <DiffNew>{change.newVersion}</DiffNew>
     </>);
 }
 
@@ -51,7 +51,7 @@ function ChangedResourcesEvent({ change }: ChangedResourcesEventProps) {
     let removedNode = null;
     if (processedChanges.removed.length) {
         removedNode = (<p>
-            Removed: {
+            移除：{
                 processedChanges.removed.map((item, index, array) => (
                     <Fragment key={item}>
                         <DiffOld>{item}</DiffOld>{index < array.length - 1 ? ', ' : '.'}
@@ -64,7 +64,7 @@ function ChangedResourcesEvent({ change }: ChangedResourcesEventProps) {
     let addedNode = null;
     if (processedChanges.added.length) {
         addedNode = (<p>
-            Added: {
+            新增：{
                 processedChanges.added.map((item, index, array) => (
                     <Fragment key={item}>
                         <DiffNew>{item}</DiffNew>{index < array.length - 1 ? ', ' : '.'}
@@ -77,7 +77,7 @@ function ChangedResourcesEvent({ change }: ChangedResourcesEventProps) {
     let updatedNode = null;
     if (processedChanges.updated.length) {
         updatedNode = (<p>
-            Updated: {
+            更新：{
                 processedChanges.updated.map((item, index, array) => (
                     <Fragment key={index}>
                         <DiffUpdated>{item.resName} {item.oldVer} -&gt; {item.newVer}</DiffUpdated>{index < array.length - 1 ? ', ' : '.'}
@@ -101,9 +101,9 @@ type DrilldownChangesSubcardProps = {
 
 export default function DrilldownChangesSubcard({ changes }: DrilldownChangesSubcardProps) {
     const eventTitles: Record<string, string> = {
-        fxsChanged: 'Changed FXServer version',
-        gameChanged: 'Changed game version',
-        resourcesChanged: 'Changed boot resources',
+        fxsChanged: 'FXServer 版本变更',
+        gameChanged: '游戏版本变更',
+        resourcesChanged: '启动资源变更',
     };
 
     const sortedChanges = useMemo(() => {
@@ -111,7 +111,7 @@ export default function DrilldownChangesSubcard({ changes }: DrilldownChangesSub
     }, [changes]);
 
     if (!changes.length) {
-        return <PlayerDropsMessage message="No environmental changes within this time window." />;
+        return <PlayerDropsMessage message="该时间段内没有环境变更。" />;
     }
 
     return (

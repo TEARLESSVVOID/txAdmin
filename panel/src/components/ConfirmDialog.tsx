@@ -70,7 +70,7 @@ export default function ConfirmDialog() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>
-                        {dialogState.cancelLabel ?? 'Cancel'}
+                        {dialogState.cancelLabel ?? '取消'}
                     </AlertDialogCancel>
                     <AlertDialogAction
                         data-autofocus
@@ -78,7 +78,7 @@ export default function ConfirmDialog() {
                         onClick={handleConfirm}
                         className={cn(buttonVariants({ variant: dialogState.confirmBtnVariant ?? 'destructive' }))}
                     >
-                        {dialogState.actionLabel ?? 'Continue'}
+                        {dialogState.actionLabel ?? '继续'}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

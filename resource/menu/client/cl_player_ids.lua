@@ -129,7 +129,7 @@ local function showGamerTags()
             or playerGamerTags[pid].ped ~= targetPed --ped can change if it leaves the networked area and back
             or not IsMpGamerTagActive(playerGamerTags[pid].gamerTag)
         then
-            local playerName = string.sub(GetPlayerName(pid) or "unknown", 1, 75)
+            local playerName = string.sub(GetPlayerName(pid) or "未知", 1, 75)
             local playerStr = '[' .. GetPlayerServerId(pid) .. ']' .. ' ' .. playerName
             playerGamerTags[pid] = {
                 gamerTag = CreateFakeMpGamerTag(targetPed, playerStr, false, false, 0),

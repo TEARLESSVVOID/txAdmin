@@ -95,7 +95,7 @@ function IdLine({
                 <button
                     className="absolute right-0 top-0 h-full flex items-center bg-background hover:bg-background group/removal"
                     onClick={toggleMarkRemoval}
-                    title={isMarkedForRemoval ? 'Undo mark for deletion' : 'Mark for deletion'}
+                    title={isMarkedForRemoval ? '取消标记删除' : '标记删除'}
                     disabled={disableButtons}
                 >
                     {isMarkedForRemoval ? (
@@ -108,7 +108,7 @@ function IdLine({
                 <button
                     className="absolute right-0 top-0 h-full flex items-center opacity-0 group-hover/line:opacity-100 bg-background hover:bg-background group/copy transition-opacity"
                     onClick={onCopy}
-                    title='Copy to clipboard'
+                    title='复制到剪贴板'
                     disabled={disableButtons}
                 >
                     <CopyIcon className="h-4 opacity-75 group-hover/copy:opacity-100 group-hover/copy:text-primary" />
@@ -154,11 +154,11 @@ function IdListControls({
                     </TooltipTrigger>
                     <TooltipContent className={cn(!canRemoveIds && 'text-destructive-inline text-center')}>
                         {canRemoveIds ? (
-                            <p>{`Mark ${typeStr}s for deletion.`}</p>
+                            <p>{`标记要删除的${typeStr}。`}</p>
                         ) : (
                             <p>
-                                You do not have the permission <br />
-                                required to remove {typeStr}s
+                                您没有删除{typeStr} <br />
+                                所需的权限
                             </p>
                         )}
                     </TooltipContent>
@@ -171,7 +171,7 @@ function IdListControls({
                     </button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    Compare {typeStr}s
+                    比较{typeStr}
                 </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -181,7 +181,7 @@ function IdListControls({
                     </button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    Copy all {typeStr}s
+                    复制所有{typeStr}
                 </TooltipContent>
             </Tooltip>
         </>
@@ -239,8 +239,8 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
 
     const isHwids = type === 'hwid';
     const typeStr = isHwids ? 'HWID' : 'ID';
-    const getPluralizedType = (count: number) => count === 1 ? typeStr : `${typeStr}s`;
-    const emptyMessage = `This ${src} has no ${typeStr}s.`;
+    const srcLabel = src === 'player' ? '玩家' : '操作';
+    const emptyMessage = `该${srcLabel}没有${typeStr}。`;
     const isInCompareMode = Array.isArray(compareMatches);
     const isCompareIdMatch = (id: string) => isInCompareMode && compareMatches.includes(id);
     const isInRemovalMode = Array.isArray(markedForRemoval);
@@ -270,11 +270,11 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
 
     const handleStartMarkRemoval = () => {
         if (!hasAnyIdAvailable) {
-            txToast.warning(`There are no ${typeStr}s to remove.`);
+            txToast.warning(`没有可删除的${typeStr}。`);
             return;
         }
         if (!idsOffline.length) {
-            txToast.warning(`You can only remove ${typeStr}s not being used by this player right now, and all the ${typeStr}s in the list are currently being used.`);
+            txToast.warning(`您只能删除当前未被该玩家使用的${typeStr}，而列表中的所有${typeStr}都正在被使用。`);
             return;
         }
         setMarkedForRemoval([]);
@@ -296,7 +296,7 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
     const handleCommitRemoval = () => {
         if (!onRemoveIds || !isInRemovalMode || !markedForRemoval?.length) return;
         setActionFeedback({
-            msg: 'saving...',
+            msg: '保存中...',
             type: 'yellow',
         });
         setIsCommittingDeletions(true);
@@ -304,7 +304,7 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
             //We don't need to handle success cases because the modal refreshes
             setIsCommittingDeletions(false);
             setActionFeedback({
-                msg: 'Error:(',
+                msg: '出错了：(',
                 type: 'red',
             });
         });
@@ -312,13 +312,13 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
 
     const handleCompareIds = () => {
         openPromptDialog({
-            title: `Compare ${typeStr}s`,
+            title: `比较${typeStr}`,
             message: <p>
-                Paste in a list of {typeStr}s to compare with the current list. <br />
-                Separate each {typeStr} with a new line or comma.
+                粘贴{typeStr}列表与当前列表进行比较。 <br />
+                每个{typeStr}之间用换行或逗号分隔。
             </p>,
             placeholder: isHwids ? placeholderHwids : placeholderIds,
-            submitLabel: 'Compare',
+            submitLabel: '比较',
             required: true,
             isMultiline: true,
             isWide: true,
@@ -337,19 +337,19 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
         copyToClipboard(strToCopy, divRef.current).then((res) => {
             if (res !== false) {
                 setActionFeedback({
-                    msg: 'Copied!',
+                    msg: '已复制！',
                     type: 'green',
                 });
             } else {
-                txToast.error('Failed to copy to clipboard :(');
+                txToast.error('复制到剪贴板失败 :(');
             }
         }).catch((error) => {
             txToast.error({
-                title: 'Failed to copy to clipboard:',
+                title: '复制到剪贴板失败：',
                 msg: error.message,
             });
             setActionFeedback({
-                msg: 'Error :(',
+                msg: '出错了 :(',
                 type: 'red',
             });
         });
@@ -369,10 +369,10 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
     return <div>
         <div className="flex justify-between items-center pb-1" ref={divRef}>
             <h3 className="text-xl">
-                {isHwids ? 'Hardware IDs' : 'Player Identifiers'}
+                {isHwids ? '硬件 ID' : '玩家标识符'}
                 {isInCompareMode && compareMatches.length ? (
                     <span className="ml-2 text-sm font-normal italic text-success-inline">
-                        ({compareMatches.length} matches found)
+                        （找到 {compareMatches.length} 个匹配项）
                     </span>
                 ) : null}
             </h3>
@@ -402,7 +402,7 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
                             "w-full text-right text-sm select-none cursor-pointer"
                         )}
                     >
-                        Clear<XIcon className="inline h-5" />
+                        清除<XIcon className="inline h-5" />
                     </span>
                 ) : isInRemovalMode ? (
                     <span
@@ -412,7 +412,7 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
                             "w-full text-right text-sm select-none cursor-pointer"
                         )}
                     >
-                        Cancel<XIcon className="inline h-5" />
+                        取消<XIcon className="inline h-5" />
                     </span>
                 ) : (
                     <IdListControls
@@ -453,8 +453,8 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
                             )}
                         >
                             {markedForRemoval.length
-                                ? `Permanently delete ${markedForRemoval.length} ${getPluralizedType(markedForRemoval.length)}?`
-                                : 'Click above to mark IDs for deletion.'}
+                                ? `永久删除 ${markedForRemoval.length} 个${typeStr}？`
+                                : '点击上方标记要删除的 ID。'}
                         </span>
                         <button
                             className={cn(
@@ -463,10 +463,10 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
                                 isCommittingDeletions && 'opacity-50 cursor-progress'
                             )}
                             onClick={handleCommitRemoval}
-                            title={`Confirm removal of marked ${typeStr}s.`}
+                            title={`确认删除已标记的${typeStr}。`}
                             disabled={isCommittingDeletions}
                         >
-                            {isCommittingDeletions ? 'saving...' : 'Confirm & Delete'}
+                            {isCommittingDeletions ? '保存中...' : '确认并删除'}
                         </button>
                     </div>
                 )}
@@ -474,7 +474,7 @@ export default function MultiIdsList({ idsOnline, idsOffline, type, src, onRemov
             {isInCompareMode && !compareMatches.length && (
                 <>
                     <div className="absolute inset-0 dark:bg-black/25 rounded-[inherit] backdrop-blur-sm flex items-center justify-center p-4">
-                        <span className="text-xl tracking-wider text-warning-inline">No matching {typeStr} found.</span>
+                        <span className="text-xl tracking-wider text-warning-inline">未找到匹配的{typeStr}。</span>
                     </div>
                 </>
             )}

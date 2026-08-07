@@ -72,20 +72,20 @@ const TimelineCard = memo(({
             <div className="flex flex-row items-center justify-between px-1 sm:px-4 border-b rounded-t-[inherit] bg-secondary/35">
                 <div className="flex items-center py-2 space-x-2">
                     <div className='hidden xs:block'><DoorOpenIcon className="size-4" /></div>
-                    <h2 className="font-mono text-sm">Expected Player Drops</h2>
+                    <h2 className="font-mono text-sm">预期玩家掉线</h2>
                 </div>
                 <Select defaultValue={displayLod} onValueChange={setDisplayLod}>
                     <SelectTrigger
                         className="w-32 h-6 px-3 py-1 text-sm"
                     >
-                        <SelectValue placeholder="Filter by admin" />
+                        <SelectValue placeholder="按管理员筛选" />
                     </SelectTrigger>
                     <SelectContent className="px-0">
                         <SelectItem value={'day'} className="cursor-pointer">
-                            Days
+                            按天
                         </SelectItem>
                         <SelectItem value={'hour'} className="cursor-pointer">
-                            Hours
+                            按小时
                         </SelectItem>
                     </SelectContent>
                 </Select>
@@ -110,7 +110,7 @@ const TimelineCard = memo(({
             <div className="flex flex-row items-center justify-between px-1 sm:px-4 border-t border-b bg-secondary/35">
                 <div className="flex items-center py-2 gap-2">
                     <div className='hidden xs:block'><DoorOpenIcon className="size-4" /></div>
-                    <h2 className="font-mono text-sm">Unexpected Player Drops</h2>
+                    <h2 className="font-mono text-sm">意外玩家掉线</h2>
                 </div>
             </div>
             <div className="h-52 max-h-52">

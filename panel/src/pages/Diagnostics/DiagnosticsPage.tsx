@@ -35,7 +35,7 @@ export default function DiagnosticsPage() {
             <div className="w-full h-1/3 relative">
                 <CardContentOverlay
                     error={swr.error?.message}
-                    loading={swr.isValidating ? 'Loading...' : false}
+                    loading={swr.isValidating ? '加载中...' : false}
                     className="bg-transparent dark:bg-transparent"
                 />
             </div>
@@ -77,7 +77,7 @@ export default function DiagnosticsPage() {
                     {/* Runtime Card */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>txAdmin Runtime</CardTitle>
+                            <CardTitle>txAdmin 运行时</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             {Object.entries(swr.data.runtime).map(([key, value]) => (
@@ -91,7 +91,7 @@ export default function DiagnosticsPage() {
                     {/* Host Card */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Host</CardTitle>
+                            <CardTitle>主机</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <DiagnosticsInfoList list={swr.data.host} />
@@ -101,7 +101,7 @@ export default function DiagnosticsPage() {
                     {/* Server Card */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Server</CardTitle>
+                            <CardTitle>服务器</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <DiagnosticsInfoList list={swr.data.server} />
@@ -111,7 +111,7 @@ export default function DiagnosticsPage() {
                     {/* Processes Card */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Processes</CardTitle>
+                            <CardTitle>进程</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <ProcessTree processes={swr.data.processes} />
@@ -119,7 +119,7 @@ export default function DiagnosticsPage() {
                     </Card>
 
                     <div className="italic text-center text-sm text-muted-foreground">
-                        Loaded in {numberToLocaleString(swr.data.loadTime)} ms
+                        加载耗时 {numberToLocaleString(swr.data.loadTime)} 毫秒
                     </div>
                 </div>
             </div>

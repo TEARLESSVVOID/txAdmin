@@ -13,7 +13,7 @@ const cache = new MemCache<DiagnosticsPageData>(5);
 //Helpers
 const perfQuantiles = (perfData: QuantileArray) => {
     const result = perfData.result(true);
-    if (!result.enoughData) return 'not enough data available';
+    if (!result.enoughData) return '数据不足';
     return {
         p5: `${result.p5}ms`,
         p25: `${result.p25}ms`,
@@ -52,43 +52,43 @@ export default async function GetDiagnosticsData(ctx: AuthedCtx) {
 
     //Runtime data
     data.runtime = {
-        'Overview': {
-            'Uptime': runtimeData.uptime,
-            'Runtime': runtimeData.runtime,
-            'Versions': {
+        '概览': {
+            '运行时间': runtimeData.uptime,
+            '本次运行时长': runtimeData.runtime,
+            '版本': {
                 tx: runtimeData.txEnv.txaVersion,
                 fx: runtimeData.txEnv.fxsVersionTag,
             },
-            'Database': {
+            '数据库': {
                 file: runtimeData.databaseFileSize ?? '--',
                 players: databaseStats.players,
                 bans: databaseStats.bans,
                 warns: databaseStats.warns,
             },
         },
-        'Env Config': {
+        '环境配置': {
             'FXServer': runtimeData.txEnv.fxsPath,
-            'Profile': runtimeData.txEnv.profilePath,
-            'Defaults': runtimeData.txHostConfig.defaults.length > 0
+            '配置文件目录': runtimeData.txEnv.profilePath,
+            '默认参数': runtimeData.txHostConfig.defaults.length > 0
                 ? runtimeData.txHostConfig.defaults.join(', ')
                 : '--',
-            'Interface': runtimeData.txHostConfig.netInterface ?? '--',
-            'Provider': runtimeData.txHostConfig.providerName ?? '--',
+            '网络接口': runtimeData.txHostConfig.netInterface ?? '--',
+            '提供商': runtimeData.txHostConfig.providerName ?? '--',
         },
-        'Performance': {
-            'BanCheck': perfQuantiles(runtimeData.performance.banCheck),
-            'WhitelistCheck': perfQuantiles(runtimeData.performance.whitelistCheck),
-            'PlayersTable': perfQuantiles(runtimeData.performance.playersTableSearch),
-            'HistoryTable': perfQuantiles(runtimeData.performance.historyTableSearch),
-            'DatabaseSave': perfQuantiles(runtimeData.performance.databaseSave),
-            'PerfCollection': perfQuantiles(runtimeData.performance.perfCollection),
+        '性能': {
+            '封禁检查': perfQuantiles(runtimeData.performance.banCheck),
+            '白名单检查': perfQuantiles(runtimeData.performance.whitelistCheck),
+            '玩家列表': perfQuantiles(runtimeData.performance.playersTableSearch),
+            '历史记录': perfQuantiles(runtimeData.performance.historyTableSearch),
+            '数据库保存': perfQuantiles(runtimeData.performance.databaseSave),
+            '性能数据采集': perfQuantiles(runtimeData.performance.perfCollection),
         },
-        'Monitor': {
-            'HB Fails': {
+        '监控': {
+            '心跳失败': {
                 HTTP: runtimeData.monitor.hbFails.http,
                 FD3: runtimeData.monitor.hbFails.fd3,
             },
-            'Restarts': {
+            '重启': {
                 BT: runtimeData.monitor.restarts.bootTimeout,
                 CL: runtimeData.monitor.restarts.close,
                 HB: runtimeData.monitor.restarts.heartBeat,
@@ -96,39 +96,39 @@ export default async function GetDiagnosticsData(ctx: AuthedCtx) {
                 BO: runtimeData.monitor.restarts.both,
             },
         },
-        'Memory': {
-            'Heap Used': `${runtimeData.memoryUsage.heap_used} (${runtimeData.memoryUsage.heap_pct}%)`,
-            'Heap Limit': runtimeData.memoryUsage.heap_limit,
-            'Physical': runtimeData.memoryUsage.physical,
-            'Peak Alloc': runtimeData.memoryUsage.peak_malloced,
+        '内存': {
+            '堆已用': `${runtimeData.memoryUsage.heap_used} (${runtimeData.memoryUsage.heap_pct}%)`,
+            '堆上限': runtimeData.memoryUsage.heap_limit,
+            '物理内存': runtimeData.memoryUsage.physical,
+            '峰值分配': runtimeData.memoryUsage.peak_malloced,
         },
-        'Logger': {
-            'Storage': {
-                'Size': runtimeData.logger.storageSize.totalBytes,
-                'Files': runtimeData.logger.storageSize.fileCount,
+        '日志': {
+            '存储': {
+                '大小': runtimeData.logger.storageSize.totalBytes,
+                '文件数': runtimeData.logger.storageSize.fileCount,
             },
-            'Admin': runtimeData.logger.statusAdmin,
+            '管理员': runtimeData.logger.statusAdmin,
             'FXServer': runtimeData.logger.statusFXServer,
-            'Server': runtimeData.logger.statusServer,
+            '服务器': runtimeData.logger.statusServer,
         },
     };
 
     //Host data
     if ('error' in hostData) {
         data.host = {
-            'Error': hostData.error ?? 'unknown error',
+            '错误': hostData.error ?? '未知错误',
         };
     } else {
         data.host = {
-            'OS Distro': hostData.static.osDistro,
-            'Username': hostData.static.username,
-            'CPU Model': hostData.static.cpu.brand,
-            'CPU Stats': `${hostData.static.cpu.physicalCores}c/${hostData.static.cpu.cores}t - ${hostData.static.cpu.speedMin} GHz`,
+            '操作系统发行版': hostData.static.osDistro,
+            '用户名': hostData.static.username,
+            'CPU 型号': hostData.static.cpu.brand,
+            'CPU 信息': `${hostData.static.cpu.physicalCores}c/${hostData.static.cpu.cores}t - ${hostData.static.cpu.speedMin} GHz`,
         };
 
         if (hostData.dynamic) {
-            data.host['CPU Usage'] = `${hostData.dynamic.cpuUsage}%`;
-            data.host['RAM Usage'] = `${hostData.dynamic.memory.usage}% (${hostData.dynamic.memory.used.toFixed(2)}/${hostData.dynamic.memory.total.toFixed(2)})`;
+            data.host['CPU 使用率'] = `${hostData.dynamic.cpuUsage}%`;
+            data.host['内存使用率'] = `${hostData.dynamic.memory.usage}% (${hostData.dynamic.memory.used.toFixed(2)}/${hostData.dynamic.memory.total.toFixed(2)})`;
         }
     }
 
@@ -136,11 +136,11 @@ export default async function GetDiagnosticsData(ctx: AuthedCtx) {
     const managerData = txManager.hostStatus;
     data.server = {
         'HashID': managerData.cfxId ?? '--',
-        'Join Link': managerData.joinLink ?? '--',
-        'CFG Path': managerData.cfgPath ?? '--',
-        'Data Path': managerData.dataPath ?? '--',
-        'Endpoint': txCore.fxRunner.child?.netEndpoint ?? '--',
-        'Proj Name': managerData.projectName ?? '--',
+        '加入链接': managerData.joinLink ?? '--',
+        'CFG 路径': managerData.cfgPath ?? '--',
+        '数据路径': managerData.dataPath ?? '--',
+        '端点': txCore.fxRunner.child?.netEndpoint ?? '--',
+        '项目名称': managerData.projectName ?? '--',
     };
 
     //Processes data

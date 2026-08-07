@@ -197,7 +197,7 @@ export default class FxScheduler {
             const nextDate = new Date();
             scheduledMinuteFloorTs = nextDate.setHours(hours, minutes, 0, 0);
             if (scheduledMinuteFloorTs === thisMinuteTs) {
-                throw new Error('Due to the 1 minute precision of the restart scheduler, you cannot schedule a restart in the same minute.');
+                throw new Error('由于重启调度器的精度为 1 分钟，你不能把重启安排在当前的这一分钟内。');
             }
             if (scheduledMinuteFloorTs < thisMinuteTs) {
                 scheduledMinuteFloorTs = nextDate.setHours(hours + 24, minutes, 0, 0);
@@ -210,7 +210,7 @@ export default class FxScheduler {
             const { valid } = parseSchedule(txConfig.restarter.schedule);
             const nextSettingRestart = getNextScheduled(valid);
             if (nextSettingRestart.minuteFloorTs < scheduledMinuteFloorTs) {
-                throw new Error(`You already have one restart scheduled for ${nextSettingRestart.string}, which is before the time you specified.`);
+                throw new Error(`你已安排了一次重启，时间为 ${nextSettingRestart.string}，早于你指定的时间。`);
             }
         }
 
@@ -262,7 +262,7 @@ export default class FxScheduler {
         if (nextDistMins === 0) {
             //restart server
             this.triggerServerRestart(
-                `scheduled restart at ${nextRestart.string}`,
+                `在 ${nextRestart.string} 进行计划重启`,
                 txCore.translator.t('restarter.schedule_reason', { time: nextRestart.string }),
             );
 
@@ -311,7 +311,7 @@ export default class FxScheduler {
         }
 
         //Restart server
-        const logMessage = `Restarting server: ${reasonInternal}`;
+        const logMessage = `正在重启服务器：${reasonInternal}`;
         txCore.logger.admin.write('SCHEDULER', logMessage);
         txCore.logger.fxserver.logInformational(logMessage); //just for better visibility
         txCore.fxRunner.restartServer(reasonTranslated, SYM_SYSTEM_AUTHOR);

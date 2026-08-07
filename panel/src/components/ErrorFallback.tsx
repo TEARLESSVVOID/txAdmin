@@ -19,10 +19,10 @@ export function AppErrorFallback({ error }: FallbackProps) {
     return (
         <div className="w-screen h-screen flex flex-col items-center justify-center">
             <GenericErrorBoundaryCard
-                title="App Error:"
-                description="Due to an unexpected error, the panel has crashed."
+                title="应用错误："
+                description="由于发生意外错误，面板已崩溃。"
                 error={error}
-                resetButton={<Button variant="outline" onClick={refreshPage}>Refresh</Button>}
+                resetButton={<Button variant="outline" onClick={refreshPage}>刷新</Button>}
             />
         </div>
     );
@@ -33,10 +33,10 @@ export function PageErrorFallback({ error, resetErrorBoundary }: FallbackProps) 
     return (
         <div className="w-full flex flex-col items-center justify-center">
             <GenericErrorBoundaryCard
-                title="Page Error:"
-                description="There was an error rendering this page."
+                title="页面错误："
+                description="渲染此页面时发生错误。"
                 error={error}
-                resetButton={<Button variant="outline" onClick={resetErrorBoundary}>Go Back</Button>}
+                resetButton={<Button variant="outline" onClick={resetErrorBoundary}>返回</Button>}
             />
         </div>
     );
@@ -79,23 +79,23 @@ export function GenericErrorBoundaryCard(props: GenericErrorBoundaryCardProps) {
             </CardHeader>
             <CardContent>
                 <p className="truncate">
-                    Page:&nbsp;
+                    页面：&nbsp;
                     <code className="text-muted-foreground ">
-                        {window.location.pathname ?? 'unknown'}
+                        {window.location.pathname ?? '未知'}
                         {window.location.search ?? ''}
                     </code>
                 </p>
                 <p>
-                    Versions:&nbsp;
+                    版本：&nbsp;
                     <code className="text-muted-foreground">
                         txAdmin v{window.txConsts.txaVersion} atop FXServer b{window.txConsts.fxsVersion}
                     </code>
                 </p>
                 <p>
-                    Message:&nbsp;
-                    <code className="text-muted-foreground">{props.error.message ?? 'unknown'}</code>
+                    消息：&nbsp;
+                    <code className="text-muted-foreground">{props.error.message ?? '未知'}</code>
                 </p>
-                <p>Stack:</p>
+                <p>堆栈：</p>
                 <pre className="mt-1">
                     <ScrollArea
                         className="p-2 border border-red-800 rounded-sm 
@@ -112,7 +112,7 @@ export function GenericErrorBoundaryCard(props: GenericErrorBoundaryCardProps) {
                     className="bg-discord hover:bg-discord-active animate-pulse hover:animate-none"
                 >
                     <a href="http://discord.gg/txAdmin" target="_blank" rel="noopener noreferrer">
-                        Support Discord
+                        支持 Discord
                     </a>
                 </Button>
             </CardFooter>

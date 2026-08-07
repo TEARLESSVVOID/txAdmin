@@ -50,7 +50,7 @@ export default function CfxreCallback() {
     if (errorData) {
         return <AuthError error={errorData} />;
     } else if (isFetching) {
-        return <GenericSpinner msg="Logging in..." />;
+        return <GenericSpinner msg="正在登录..." />;
     } else {
         return <GenericSpinner />;
     }

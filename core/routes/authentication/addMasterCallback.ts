@@ -20,7 +20,7 @@ export default async function AuthAddMasterCallback(ctx: InitializedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<ApiAddMasterCallbackResp>({
-            errorTitle: 'Invalid request body',
+            errorTitle: '无效的请求体',
             errorMessage: schemaRes.error.message,
         });
     }
@@ -29,8 +29,8 @@ export default async function AuthAddMasterCallback(ctx: InitializedCtx) {
     //Check if there are already admins set up
     if (txCore.adminStore.hasAdmins()) {
         return ctx.send<ApiAddMasterCallbackResp>({
-            errorTitle: `Master account already set.`,
-            errorMessage: `Please return to the login page.`,
+            errorTitle: `主账户已设置。`,
+            errorMessage: `请返回登录页面。`,
         });
     }
 
@@ -45,8 +45,8 @@ export default async function AuthAddMasterCallback(ctx: InitializedCtx) {
     const fivemIdentifier = getIdFromOauthNameid(userInfo.nameid);
     if(!fivemIdentifier){
         return ctx.send<ApiAddMasterCallbackResp>({
-            errorTitle: 'Invalid nameid identifier.',
-            errorMessage: `Could not extract the user identifier from the URL below. Please report this to the txAdmin dev team.\n${userInfo.nameid.toString()}`,
+            errorTitle: '无效的 nameid 标识符。',
+            errorMessage: `无法从下面的 URL 中提取用户标识符。请将此问题报告给 txAdmin 开发团队。\n${userInfo.nameid.toString()}`,
         });
     }
 

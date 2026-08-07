@@ -38,10 +38,10 @@ function CrashTypeRow({ datum, isLast, isOdd }: CrashTypeRowProps) {
                 'hover:bg-secondary/35'
             )}
         >
-            <td className="min-w-[4ch] px-2 py-1 border-r text-right" title="Percent of all crashes">
+            <td className="min-w-[4ch] px-2 py-1 border-r text-right" title="占全部崩溃的百分比">
                 {datum.pctStr ?? '--'}
             </td>
-            <td className="min-w-[4ch] px-2 py-1 border-r text-right" title="Crash count">
+            <td className="min-w-[4ch] px-2 py-1 border-r text-right" title="崩溃次数">
                 {datum.cntStr ?? '--'}
             </td>
             <td className="px-2 py-1 attempt-word-wrap line-clamp-4">
@@ -66,7 +66,7 @@ export default function DrilldownCrashesSubcard({
     setCrashesTargetLimit
 }: DrilldownCrashesSubcardProps) {
     if (!crashTypes.length) {
-        return <PlayerDropsMessage message="No player crashes within this time window." />;
+        return <PlayerDropsMessage message="该时间段内没有玩家崩溃。" />;
     }
 
     const crashesData = useMemo(() => {
@@ -114,8 +114,8 @@ export default function DrilldownCrashesSubcard({
             <thead>
                 <tr className="border-b text-muted-foreground/75">
                     <th className="min-w-[4ch] px-2 py-1 border-r text-right">%</th>
-                    <th className="min-w-[4ch] px-2 py-1 border-r text-right">Count</th>
-                    <th className="px-2 py-1">Crash Reason</th>
+                    <th className="min-w-[4ch] px-2 py-1 border-r text-right">次数</th>
+                    <th className="px-2 py-1">崩溃原因</th>
                 </tr>
             </thead>
             <tbody>
@@ -137,13 +137,13 @@ export default function DrilldownCrashesSubcard({
                                 'hover:bg-secondary/35'
                             )}
                         >
-                            Showing the top {crashesData.display.length} out of {numberToLocaleString(crashTypes.length)} reasons which account for {crashesData.displayPct} of all crashes. <br />
-                            The remaining {numberToLocaleString(crashesData.filteredOut.types)} reasons account for {crashesData.filteredOut.countPct} of all crashes. {' '}
+                            当前显示 {numberToLocaleString(crashTypes.length)} 个原因中的前 {crashesData.display.length} 个，占全部崩溃的 {crashesData.displayPct}。 <br />
+                            其余 {numberToLocaleString(crashesData.filteredOut.types)} 个原因占全部崩溃的 {crashesData.filteredOut.countPct}。{' '}
                             <button
                                 className="text-accent hover:underline"
                                 onClick={() => setCrashesTargetLimit(0)}
                             >
-                                Show All!
+                                显示全部！
                             </button>
                         </td>
                     </tr>

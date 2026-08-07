@@ -160,11 +160,11 @@ export default function LiveConsolePage() {
                     ).then((res) => {
                         //undefined if no error
                         if (res === false) {
-                            txToast.error('Failed to copy to clipboard :(');
+                            txToast.error('复制到剪贴板失败 :(');
                         }
                     }).catch((error) => {
                         txToast.error({
-                            title: 'Failed to copy to clipboard:',
+                            title: '复制到剪贴板失败：',
                             msg: error.message,
                         });
                     });
@@ -364,7 +364,7 @@ export default function LiveConsolePage() {
         term.clear();
         searchAddon.clearDecorations();
         setShowSearchBar(false);
-        term.write(`${ANSI.ORANGE}[console cleared]${ANSI.RESET}\n`);
+        term.write(`${ANSI.ORANGE}[控制台已清空]${ANSI.RESET}\n`);
     }
     const toggleSearchBar = () => {
         setShowSearchBar(!showSearchBar);
@@ -395,7 +395,7 @@ export default function LiveConsolePage() {
                         <div className='flex flex-col gap-6 items-center justify-center text-muted-foreground select-none'>
                             <Loader2Icon className='w-16 h-16 animate-spin' />
                             <h2 className='text-3xl tracking-wider font-light animate-pulse'>
-                                &nbsp;&nbsp;&nbsp;Connecting...
+                                &nbsp;&nbsp;&nbsp;正在连接...
                             </h2>
                         </div>
                     </div>

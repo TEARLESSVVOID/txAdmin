@@ -27,9 +27,8 @@ export default function SettingsCardShell({
     const [animationParent] = useAutoAnimate();
     const isCardPendingSave = pageCtx.cardPendingSave?.cardId === cardCtx.cardId;
 
-    // FIXME:NEXT:UPDATE remove
-    const visibleTabName = cardCtx.tabName === 'Whitelist' ? 'Allowlist' : cardCtx.tabName;
-    const visibleCardName = cardCtx.cardName === 'Whitelist' ? 'Allowlist' : cardCtx.cardName;
+    const visibleTabName = cardCtx.tabName;
+    const visibleCardName = cardCtx.cardName;
 
     return (
         <div id={`tab-${cardCtx.cardId}`} data-show-advanced={advancedVisible} className='group/card'>
@@ -39,10 +38,10 @@ export default function SettingsCardShell({
                         <>
                             <li>{cardCtx.tabName}</li>
                             <ChevronRightIcon className='size-3.5 mt-0.5 inline align-text-top opacity-75' />
-                            <li>{cardCtx.cardName} Settings</li>
+                            <li>{cardCtx.cardName}设置</li>
                         </>
                     ) : (
-                        <li>{visibleTabName} Settings</li>
+                        <li>{visibleTabName}设置</li>
                     )}
                     {isCardPendingSave && (
                         // <div className="grow text-right xflex xitems-center xgap-1.5 xbg-lime-300">
@@ -51,7 +50,7 @@ export default function SettingsCardShell({
                         //     </li>
                         //     <li className="text-warning-inline italic tracking-wide">you have unsaved changes</li>
                         // </div>
-                        <li className="text-warning-inline italic tracking-wide">(unsaved changes)</li>
+                        <li className="text-warning-inline italic tracking-wide">（有未保存的更改）</li>
                     )}
                 </ol>
 
@@ -67,7 +66,7 @@ export default function SettingsCardShell({
                                 disabled={!isCardPendingSave || pageCtx.isReadOnly}
                                 onClick={onClickSave}
                             >
-                                Save {visibleCardName} Settings
+                                保存{visibleCardName}设置
                                 {pageCtx.isSaving && (
                                     <Loader2Icon className="h-3.5 mt-0.5 inline animate-spin" />
                                 )}
@@ -78,7 +77,7 @@ export default function SettingsCardShell({
                                     variant={'muted'}
                                     onClick={() => advancedSetter(!advancedVisible)}
                                 >
-                                    {advancedVisible ? 'Discard' : 'Show'} Advanced
+                                    {advancedVisible ? '收起' : '显示'}高级选项
                                     {advancedVisible
                                         ? <ChevronUpIcon className="size-4 ml-1.5" />
                                         : <ChevronDownIcon className="size-4 ml-1.5" />}

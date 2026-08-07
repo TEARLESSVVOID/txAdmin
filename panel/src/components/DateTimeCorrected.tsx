@@ -19,7 +19,7 @@ export default function DateTimeCorrected({ tsFetch, tsObject, serverTime, class
     const localTime = tsFetch - howFarInThePast;
 
     const clockDriftBtnHandler = () => {
-        txToast.warning(`This means that the server clock is ${Math.abs(serverClockDrift)} seconds ${serverClockDrift > 0 ? 'ahead' : 'behind'} your computer time. Make sure both your computer and the server have their clocks synchronized.`);
+        txToast.warning(`这意味着服务器时钟比您的电脑时间${serverClockDrift > 0 ? '快' : '慢'} ${Math.abs(serverClockDrift)} 秒。请确保您的电脑和服务器时钟已同步。`);
     }
     const displayTime = isDateOnly
         ? tsToLocaleDateString(localTime, dateStyle ?? 'medium')
@@ -33,7 +33,7 @@ export default function DateTimeCorrected({ tsFetch, tsObject, serverTime, class
             <button
                 className="ml-1 text-warning-inline"
                 onClick={clockDriftBtnHandler}
-            >(clock drift)</button>
+            >（时钟偏差）</button>
         )}
     </span>
 }

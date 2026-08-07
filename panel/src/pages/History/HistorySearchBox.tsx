@@ -33,21 +33,21 @@ import { HistoryTableSearchType } from "@shared/historyApiTypes";
 export const availableSearchTypes = [
     {
         value: 'actionId',
-        label: 'Action ID',
+        label: '操作 ID',
         placeholder: 'XXXX-XXXX',
-        description: 'Search actions by their ID.'
+        description: '通过操作 ID 搜索操作。'
     },
     {
         value: 'reason',
-        label: 'Reason',
-        placeholder: 'Enter part of the reason to search for',
-        description: 'Search actions by their reason contents.'
+        label: '原因',
+        placeholder: '输入要搜索的原因片段',
+        description: '按原因内容搜索操作。'
     },
     {
         value: 'identifiers',
-        label: 'Player IDs',
-        placeholder: 'License, Discord, Steam, etc.',
-        description: 'Search actions by their player IDs separated by a comma.'
+        label: '玩家 ID',
+        placeholder: 'License、Discord、Steam 等',
+        description: '按玩家 ID（用逗号分隔）搜索操作。'
     },
 ] as const;
 
@@ -183,12 +183,12 @@ export function HistorySearchBox({ doSearch, initialState, adminStats }: History
                                 onClick={() => setSearchTypeDropdownOpen(!isSearchTypeDropdownOpen)}
                                 className="xs:w-48 justify-between border-input bg-black/5 dark:bg-black/30 hover:dark:bg-primary grow md:grow-0"
                             >
-                                Search by {selectedSearchType.label}
+                                按{selectedSearchType.label}搜索
                                 <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='w-48'>
-                            <DropdownMenuLabel>Search Type</DropdownMenuLabel>
+                            <DropdownMenuLabel>搜索类型</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuRadioGroup value={currSearchType} onValueChange={setCurrSearchType}>
                                 {availableSearchTypes.map((searchType) => (
@@ -207,28 +207,28 @@ export function HistorySearchBox({ doSearch, initialState, adminStats }: History
 
                     <Select defaultValue={typeFilter} onValueChange={setTypeFilter}>
                         <SelectTrigger className="w-36 grow md:grow-0" >
-                            <SelectValue placeholder="Filter by admin" />
+                            <SelectValue placeholder="按管理员筛选" />
                         </SelectTrigger>
                         <SelectContent className="px-0">
                             <SelectItem value={SEARCH_ANY_STRING} className="cursor-pointer">
-                                Any type
+                                全部类型
                             </SelectItem>
                             <SelectItem value={'ban'} className="cursor-pointer">
-                                Bans
+                                封禁
                             </SelectItem>
                             <SelectItem value={'warn'} className="cursor-pointer">
-                                Warns
+                                警告
                             </SelectItem>
                         </SelectContent>
                     </Select>
 
                     <Select defaultValue={adminNameFilter} onValueChange={setAdminNameFilter}>
                         <SelectTrigger className="w-36 grow md:grow-0" >
-                            <SelectValue placeholder="Filter by admin" />
+                            <SelectValue placeholder="按管理员筛选" />
                         </SelectTrigger>
                         <SelectContent className="px-0">
                             <SelectItem value={SEARCH_ANY_STRING} className="cursor-pointer">
-                                By any admin
+                                所有管理员
                             </SelectItem>
                             <SelectItem value={authData.name} className="cursor-pointer">
                                 {authData.name} <span className="opacity-50">({selfActionCount})</span>
@@ -251,7 +251,7 @@ export function HistorySearchBox({ doSearch, initialState, adminStats }: History
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="grow md:grow-0">
-                                    More
+                                    更多
                                     <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -259,13 +259,13 @@ export function HistorySearchBox({ doSearch, initialState, adminStats }: History
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/system/master-actions#cleandb" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        Bulk Remove
+                                        批量删除
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="h-10 pl-1 pr-2 py-2" asChild>
                                     <Link href="/settings/ban-templates" className="cursor-pointer">
                                         <ExternalLinkIcon className="inline mr-1 h-4" />
-                                        Ban Templates
+                                        封禁模板
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>

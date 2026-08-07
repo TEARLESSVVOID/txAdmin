@@ -74,7 +74,7 @@ export const PlayerModalProvider: React.FC<PlayerModalProviderProps> = ({
   }, []);
 
   const showNoPerms = useCallback((opt: string) => {
-    enqueueSnackbar(`You do not have permissions for "${opt}"`, {
+    enqueueSnackbar(`您没有权限执行“${opt}”`, {
       variant: "error",
     });
   }, []);

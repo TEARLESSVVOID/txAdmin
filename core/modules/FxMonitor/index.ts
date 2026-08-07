@@ -202,7 +202,7 @@ export default class FxMonitor {
 
             //Logging
             const timesSuffix = result.times ? ` ${result.times}.` : '.';
-            const logMessage = `Restarting server: ${result.reason}` + timesSuffix;
+            const logMessage = `正在重启服务器：${result.reason}` + timesSuffix;
             console.error(logMessage);
             txCore.logger.admin.writeSystem('MONITOR', logMessage);
             txCore.logger.fxserver.logInformational(logMessage); //just for better visibility
@@ -240,7 +240,7 @@ export default class FxMonitor {
             this.resetState();
             return {
                 action: 'SKIP',
-                reason: 'Server is idle',
+                reason: '服务器处于空闲状态',
             };
         }
 
@@ -248,7 +248,7 @@ export default class FxMonitor {
         if (this.isAwaitingRestart) {
             return {
                 action: 'SKIP',
-                reason: 'Server is restarting',
+                reason: '服务器正在重启',
             };
         }
 
@@ -258,7 +258,7 @@ export default class FxMonitor {
             this.swLastStatusUpdate.restart();
             return {
                 action: 'SKIP',
-                reason: 'txAdmin was frozen',
+                reason: 'txAdmin 被冻结',
             }
         }
         this.swLastStatusUpdate.restart();
@@ -281,7 +281,7 @@ export default class FxMonitor {
             //No need to set any status, this.updateStatus will trigger this.resetState
             return {
                 action: 'RESTART',
-                reason: 'Server process close detected',
+                reason: '检测到服务器进程关闭',
                 cause: 'close',
             };
         }
@@ -295,7 +295,7 @@ export default class FxMonitor {
             }
             return {
                 action: 'SKIP',
-                reason: 'Server is healthy',
+                reason: '服务器运行正常',
             }
         }
 
@@ -310,7 +310,7 @@ export default class FxMonitor {
         if (processUptime < txConfig.restarter.bootGracePeriod) {
             return {
                 action: 'SKIP',
-                reason: `FXServer is ${currentStatusString}, still in grace period of ${txConfig.restarter.bootGracePeriod}s.`,
+                reason: `FXServer 当前为 ${currentStatusString}，仍处于 ${txConfig.restarter.bootGracePeriod} 秒的宽限期内。`,
             };
         }
 
@@ -321,21 +321,21 @@ export default class FxMonitor {
 
         //If HealthCheck failed
         if (healthCheck.state !== MonitorState.HEALTHY) {
-            healthCheckIssue = new MonitorIssue('Impossible HealthCheck failure.');
+            healthCheckIssue = new MonitorIssue('不可能发生的健康检查失败。');
             healthCheckIssue.addDetail(this.lastHealthCheckError?.error);
 
             //No HealthCheck received yet
             if (healthCheck.state === MonitorState.PENDING) {
-                healthCheckIssue.setTitle('No successful HealthCheck yet.');
+                healthCheckIssue.setTitle('尚未收到成功的健康检查。');
 
                 //Check if heartbeats started but no healthchecks yet
                 if (heartBeat.state !== MonitorState.PENDING) {
-                    healthCheckIssue.addInfo(`Resources started ${secs(heartBeat.secsSinceFirst)} ago but the HTTP endpoint is still unresponsive.`);
+                    healthCheckIssue.addInfo(`资源已在 ${secs(heartBeat.secsSinceFirst)} 前启动，但 HTTP 端点仍然无响应。`);
                     if (heartBeat.secsSinceFirst > HC_CONFIG.bootInitAfterHbLimit) {
                         return {
                             action: 'RESTART',
                             times: timeTags.withProc,
-                            reason: 'Server boot timed out',
+                            reason: '服务器启动超时',
                             issues: [healthCheckIssue],
                             cause: 'bootTimeout',
                         }
@@ -343,7 +343,7 @@ export default class FxMonitor {
                 }
             } else if (healthCheck.state === MonitorState.DELAYED || healthCheck.state === MonitorState.FATAL) {
                 //Started, but failing
-                healthCheckIssue.setTitle(`HealthChecks failing for the past ${secs(healthCheck.secsSinceLast)}.`);
+                healthCheckIssue.setTitle(`健康检查已连续失败 ${secs(healthCheck.secsSinceLast)}。`);
             } else {
                 throw new Error(`Unexpected HealthCheck state: ${healthCheck.state}`);
             }
@@ -351,52 +351,52 @@ export default class FxMonitor {
 
         //If HeartBeat failed
         if (heartBeat.state !== MonitorState.HEALTHY) {
-            heartBeatIssue = new MonitorIssue('Impossible HeartBeat failure.');
+            heartBeatIssue = new MonitorIssue('不可能发生的心跳失败。');
 
             //No HeartBeat received yet
             if (heartBeat.state === MonitorState.PENDING) {
-                heartBeatIssue.setTitle('No successful HeartBeat yet.');
+                heartBeatIssue.setTitle('尚未收到成功的心跳。');
                 const resBoot = txCore.fxResources.bootStatus;
                 if (resBoot.current?.time.isOver(txConfig.restarter.resourceStartingTolerance)) {
                     //Resource boot timed out
                     return {
                         action: 'RESTART',
                         times: timeTags.withProc,
-                        reason: `Resource "${resBoot.current.name}" failed to start within the ${secs(txConfig.restarter.resourceStartingTolerance)} time limit`,
+                        reason: `资源 "${resBoot.current.name}" 未能在 ${secs(txConfig.restarter.resourceStartingTolerance)} 时限内启动`,
                         cause: 'bootTimeout',
                     }
                 } else if (resBoot.current?.time.isOver(HB_CONFIG.bootResNominalStartTime)) {
                     //Resource booting for too long, but still within tolerance
-                    heartBeatIssue.addInfo(`Resource "${resBoot.current.name}" has been loading for ${secs(resBoot.current.time.elapsed)}.`);
+                    heartBeatIssue.addInfo(`资源 "${resBoot.current.name}" 已加载 ${secs(resBoot.current.time.elapsed)}。`);
                 } else if (resBoot.current) {
                     //Resource booting at nominal time
-                    heartBeatIssue.addInfo(`Resources are still booting at nominal time.`);
+                    heartBeatIssue.addInfo(`资源仍在按正常时间启动。`);
                 } else {
                     // No resource currently booting
-                    heartBeatIssue.addInfo(`No resource currently loading.`);
+                    heartBeatIssue.addInfo(`当前没有正在加载的资源。`);
                     if (resBoot.elapsedSinceLast === null) {
                         //No event received yet
                         if (processUptime > HB_CONFIG.bootNoEventLimit) {
-                            heartBeatIssue.addInfo(`No resource event received within the ${secs(HB_CONFIG.bootNoEventLimit)} limit.`);
+                            heartBeatIssue.addInfo(`在 ${secs(HB_CONFIG.bootNoEventLimit)} 时限内未收到资源事件。`);
                             return {
                                 action: 'RESTART',
                                 times: timeTags.withProc,
-                                reason: 'Server boot timed out',
+                                reason: '服务器启动超时',
                                 issues: [heartBeatIssue],
                                 cause: 'bootTimeout',
                             }
                         } else {
-                            heartBeatIssue.addInfo(`No resource event received yet.`);
+                            heartBeatIssue.addInfo(`尚未收到资源事件。`);
                         }
                     } else {
                         //Last event was recent
-                        heartBeatIssue.addInfo(`Last resource finished loading ${secs(resBoot.elapsedSinceLast)} ago.`);
+                        heartBeatIssue.addInfo(`最后一个资源在 ${secs(resBoot.elapsedSinceLast)} 前完成加载。`);
                         if (resBoot.elapsedSinceLast > HB_CONFIG.bootResEventGapLimit) {
                             //Last event was too long ago
                             return {
                                 action: 'RESTART',
                                 times: timeTags.withProc,
-                                reason: 'Server boot timed out',
+                                reason: '服务器启动超时',
                                 issues: [heartBeatIssue],
                                 cause: 'bootTimeout',
                             }
@@ -405,7 +405,7 @@ export default class FxMonitor {
                 }
             } else if (heartBeat.state === MonitorState.DELAYED || heartBeat.state === MonitorState.FATAL) {
                 //HeartBeat started, but failing
-                heartBeatIssue.setTitle(`Stopped receiving HeartBeats ${secs(heartBeat.secsSinceLast)} ago.`);
+                heartBeatIssue.setTitle(`已在 ${secs(heartBeat.secsSinceLast)} 前停止接收心跳。`);
             } else {
                 throw new Error(`Unexpected HeartBeat state: ${heartBeat.state}`);
             }
@@ -428,7 +428,7 @@ export default class FxMonitor {
                 action: 'RESTART',
                 cause,
                 times: timeTags.simple,
-                reason: 'Server is not responding',
+                reason: '服务器无响应',
                 issues: [heartBeatIssue, healthCheckIssue],
             }
         }
@@ -462,7 +462,7 @@ export default class FxMonitor {
         return {
             action: 'WARN',
             times: isStillBooting ? timeTags.withProc : timeTags.simple,
-            reason: isStillBooting ? 'Server is taking too long to start' : 'Server is not responding',
+            reason: isStillBooting ? '服务器启动耗时过长' : '服务器无响应',
             issues: [heartBeatIssue, healthCheckIssue],
         }
     }
@@ -500,7 +500,7 @@ export default class FxMonitor {
                     SYM_SYSTEM_AUTHOR
                 );
                 console.error(`${txHostConfig.sourceName}: Detected that the server has sv_maxclients above the limit (${txHostConfig.forceMaxClients}). Changing back to the limit.`);
-                txCore.logger.admin.writeSystem('SYSTEM', `changing sv_maxclients back to ${txHostConfig.forceMaxClients}`);
+                txCore.logger.admin.writeSystem('SYSTEM', `正在将 sv_maxclients 改回 ${txHostConfig.forceMaxClients}`);
             }
         }
     }

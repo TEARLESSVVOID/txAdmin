@@ -17,20 +17,20 @@ export default async function CFGEditorSave(ctx) {
         isUndefined(ctx.request.body.cfgData)
         || typeof ctx.request.body.cfgData !== 'string'
     ) {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
 
     //Check permissions
     if (!ctx.admin.testPermission('server.cfg.editor', modulename)) {
         return ctx.send({
             type: 'danger',
-            message: 'You don\'t have permission to execute this action.',
+            message: '你没有权限执行此操作。',
         });
     }
 
     //Check if file is set
     if (!txCore.fxRunner.isConfigured) {
-        const message = 'CFG or Server Data Path not defined. Configure it in the settings page first.';
+        const message = '未定义 CFG 或服务器数据路径。请先在设置页面中进行配置。';
         return ctx.send({type: 'danger', message});
     }
 
@@ -47,7 +47,7 @@ export default async function CFGEditorSave(ctx) {
         return ctx.send({
             type: 'danger',
             markdown: true,
-            message: `**Failed to save \`server.cfg\` with error:**\n${error.message}`,
+            message: `**保存 \`server.cfg\` 失败，错误信息：**\n${error.message}`,
         });
     }
 
@@ -56,19 +56,19 @@ export default async function CFGEditorSave(ctx) {
         return ctx.send({
             type: 'danger',
             markdown: true,
-            message: `**Cannot save \`server.cfg\` due to error(s) in your config file(s):**\n${result.errors}`,
+            message: `**由于配置文件存在错误，无法保存 \`server.cfg\`：**\n${result.errors}`,
         });
     }
     if (result.warnings) {
         return ctx.send({
             type: 'warning',
             markdown: true,
-            message: `**File saved, but there are warnings you should pay attention to:**\n${result.warnings}`,
+            message: `**文件已保存，但有一些警告需要你注意：**\n${result.warnings}`,
         });
     }
     return ctx.send({
         type: 'success',
         markdown: true,
-        message: '**File saved.**',
+        message: '**文件已保存。**',
     });
 };

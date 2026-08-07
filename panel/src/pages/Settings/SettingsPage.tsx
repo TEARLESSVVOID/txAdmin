@@ -27,16 +27,17 @@ import { PageHeader, PageHeaderChangelog } from "@/components/page-header";
 
 //Tab configuration
 const settingsTabsBase = [
-    { name: 'General', Component: ConfigCardGeneral }, //TODO: cards [Server Listing, txAdmin]
-    { name: 'FXServer', Component: ConfigCardFxserver },
-    { name: 'Bans', Component: ConfigCardBans },
-    { name: 'Whitelist', Component: ConfigCardWhitelist },
-    { name: 'Discord', Component: ConfigCardDiscord },
+    { name: 'General', label: '常规', Component: ConfigCardGeneral }, //TODO: cards [Server Listing, txAdmin]
+    { name: 'FXServer', label: 'FXServer', Component: ConfigCardFxserver },
+    { name: 'Bans', label: '封禁', Component: ConfigCardBans },
+    { name: 'Whitelist', label: '白名单', Component: ConfigCardWhitelist },
+    { name: 'Discord', label: 'Discord', Component: ConfigCardDiscord },
     {
         name: 'Game',
+        label: '游戏',
         cards: [
-            { name: 'Menu', Component: ConfigCardGameMenu },
-            { name: 'Notifications', Component: ConfigCardGameNotifications },
+            { name: 'Menu', label: '菜单', Component: ConfigCardGameMenu },
+            { name: 'Notifications', label: '通知', Component: ConfigCardGameNotifications },
         ]
     },
     //Dev only
@@ -63,7 +64,7 @@ const nameToId = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, '-')
 export const settingsTabs: SettingTabsDatum[] = settingsTabsBase.map((tab) => {
     const tabCtx = {
         tabId: nameToId(tab.name),
-        tabName: tab.name,
+        tabName: tab.label ?? tab.name,
     } satisfies SettingsTabInfo;
     if ('cards' in tab && tab.cards) {
         return {
@@ -72,8 +73,8 @@ export const settingsTabs: SettingTabsDatum[] = settingsTabsBase.map((tab) => {
                 ctx: {
                     ...tabCtx,
                     cardId: `${tabCtx.tabId}-${nameToId(card.name)}`,
-                    cardName: card.name,
-                    cardTitle: `${tabCtx.tabName} ${card.name}`,
+                    cardName: card.label ?? card.name,
+                    cardTitle: `${tabCtx.tabName}${card.label ?? card.name}`,
                 },
                 Component: card.Component,
             } satisfies SettingGroup)),
@@ -143,7 +144,7 @@ export default function SettingsPage() {
     //Handlers
     const saveChanges = async (source: SettingsCardContext, changes: PartialTxConfigs) => {
         if (isSaving) return;
-        const toastId = txToast.loading(`Saving ${source.cardTitle} settings...`, { id: 'settingsSave' });
+        const toastId = txToast.loading(`正在保存${source.cardTitle}设置...`, { id: 'settingsSave' });
         setIsSaving(true);
         try {
             if (!swr.data) throw new Error('Cannot save changes without swr.data.');
@@ -175,7 +176,7 @@ export default function SettingsPage() {
             setCardPendingSave(null);
         } catch (error) {
             txToast.error({
-                title: `Error saving ${source.cardTitle} settings:`,
+                title: `保存${source.cardTitle}设置时出错：`,
                 msg: (error as any).message,
             }, { id: toastId });
         } finally {
@@ -193,12 +194,12 @@ export default function SettingsPage() {
     const handleTabChange = (newTab: string) => {
         if (cardPendingSave && newTab && newTab !== cardPendingSave?.tabId) {
             openConfirmDialog({
-                title: 'Discard Changes',
-                actionLabel: 'Discard',
+                title: '放弃更改',
+                actionLabel: '放弃',
                 confirmBtnVariant: 'destructive',
                 message: (<>
-                    You have unsaved changes in the <strong>{cardPendingSave.cardTitle}</strong> tab. <br />
-                    Are you sure you want to discard them?
+                    您当前在 <strong>{cardPendingSave.cardTitle}</strong> 标签页中有未保存的更改。<br />
+                    确定要放弃这些更改吗？
                 </>),
                 onConfirm: () => {
                     switchTab(newTab);
@@ -212,7 +213,7 @@ export default function SettingsPage() {
 
     return (
         <div className="w-full mb-10">
-            <PageHeader title="Settings" icon={<Settings2Icon />}>
+            <PageHeader title="设置" icon={<Settings2Icon />}>
                 <PageHeaderChangelog
                     changelogData={swr?.data?.changelog}
                 />
@@ -232,8 +233,7 @@ export default function SettingsPage() {
                                 value={tab.ctx.tabId}
                                 className="hover:text-primary"
                             >
-                                {/* FIXME:NEXT:UPDATE remove */}
-                                {tab.ctx.tabName === 'Whitelist' ? 'Allowlist' : tab.ctx.tabName}
+                                {tab.ctx.tabName}
 
                                 {/* <TriangleAlertIcon className="inline-block size-4 mt-0.5 ml-1 text-destructive self-center" /> */}
                                 {/* <DynamicNewBadge size='xs' featName="ignore" /> */}

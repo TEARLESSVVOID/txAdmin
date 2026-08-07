@@ -49,7 +49,7 @@ export default async function playerDrops(ctx: AuthedCtx) {
     const schemaRes = querySchema.safeParse(ctx.request.query);
     if (!schemaRes.success) {
         return sendTypedResp({
-            fail_reason: `Invalid request query: ${schemaRes.error.message}`,
+            fail_reason: `无效的请求查询：${schemaRes.error.message}`,
         });
     }
     const { detailedWindow, detailedDaysAgo } = schemaRes.data;
@@ -70,7 +70,7 @@ export default async function playerDrops(ctx: AuthedCtx) {
             );
         } catch (error) {
             return sendTypedResp({
-                fail_reason: `Invalid date format: ${(error as Error).message}`,
+                fail_reason: `无效的日期格式：${(error as Error).message}`,
             })
         }
     } else {

@@ -13,10 +13,10 @@ const console = consoleFactory(modulename);
 export default async function MasterActionsGet(ctx: AuthedCtx) {
     //Check permissions
     if (!ctx.admin.testPermission('master', modulename)) {
-        return ctx.utils.renderMessage('Only the master account has permission to view/use this page.');
+        return ctx.utils.renderMessage('只有主账户（master）拥有查看/使用此页面的权限。');
     }
     if (!ctx.txVars.isWebInterface) {
-        return ctx.utils.renderMessage('This functionality cannot be used by the in-game menu, please use the web version of txAdmin.');
+        return ctx.utils.renderMessage('此功能无法通过游戏内菜单使用，请使用 txAdmin 的网页版本。');
     }
 
     const dbPath = `${txEnv.profilePath}/data/playersDB.json`;
@@ -25,7 +25,7 @@ export default async function MasterActionsGet(ctx: AuthedCtx) {
         readFile = await fsp.readFile(dbPath);
     } catch (error) {
         console.error(`Could not read database file ${dbPath}.`);
-        return ctx.utils.renderMessage(`Failed to generate backup file with error: ${(error as Error).message}`);
+        return ctx.utils.renderMessage(`生成备份文件失败，错误信息：${(error as Error).message}`);
     }
     //getTimeFilename
     ctx.attachment(`playersDB_${getTimeFilename()}.json`);

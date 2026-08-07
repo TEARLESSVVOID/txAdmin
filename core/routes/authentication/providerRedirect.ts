@@ -18,7 +18,7 @@ export default async function AuthProviderRedirect(ctx: InitializedCtx) {
     const schemaRes = querySchema.safeParse(ctx.request.query);
     if (!schemaRes.success) {
         return ctx.send<ApiOauthRedirectResp>({
-            error: `Invalid request query: ${schemaRes.error.message}`,
+            error: `无效的请求查询：${schemaRes.error.message}`,
         });
     }
     const { origin } = schemaRes.data;

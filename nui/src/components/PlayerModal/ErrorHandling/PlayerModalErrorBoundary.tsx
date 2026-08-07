@@ -12,7 +12,7 @@ export class PlayerModalErrorBoundary extends React.Component<
 > {
   public state = {
     hasError: false,
-    errorMessage: "Unknown Error Occurred",
+    errorMessage: "发生未知错误",
   };
 
   public constructor(props) {

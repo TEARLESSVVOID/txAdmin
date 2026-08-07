@@ -269,7 +269,7 @@ export const MainPageList: React.FC = () => {
   const handleClearArea = (autoClose = false) => {
     if (isRedm) {
       return enqueueSnackbar(
-        'This option is not yet available for RedM.',
+        '此选项暂不支持 RedM。',
         { variant: "error" }
       );
     }

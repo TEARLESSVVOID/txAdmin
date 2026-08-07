@@ -53,7 +53,7 @@ function DynamicNewBadgeInner({ badgeText, featName, durationDays, className, si
     return (
         <DynamicNewItemInner featName={featName} durationDays={durationDays}>
             <span className={cn(className, badgeVariants({ size }))}>
-                {badgeText ?? 'NEW'}
+                {badgeText ?? '新'}
             </span>
         </DynamicNewItemInner>
     );

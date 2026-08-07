@@ -10,27 +10,27 @@ const setVerbosity: AdvancedCommandHandler = (ctx, args) => {
     } else if (!args) {
         return {
             type: 'md',
-            data: `The current verbosity is ${console.isVerbose}.\nYou need to pass a boolean value to set it.`,
+            data: `当前详细级别（verbosity）为 ${console.isVerbose}。\n你需要传入一个布尔值来设置它。`,
         }
     } else {
         return {
             type: 'md',
-            data: `Invalid argument: ${args}`,
+            data: `无效的参数：${args}`,
         }
     }
 
     return {
         type: 'md',
-        data: `Console verbosity set to ${console.isVerbose}`,
+        data: `控制台详细级别已设置为 ${console.isVerbose}`,
     }
 }
 
 
 const setConfig: AdvancedCommandHandler = (ctx, args) => {
     const [scopeKey, valueString] = args.split(/\s+/, 2);
-    if (!scopeKey || !valueString) throw new Error(`Invalid set command: ${args}`);
+    if (!scopeKey || !valueString) throw new Error(`无效的 set 命令：${args}`);
     const [scope, key] = scopeKey.split('.');
-    if (!scope || !key) throw new Error(`Invalid scope.key: ${scopeKey}`);
+    if (!scope || !key) throw new Error(`无效的 scope.key：${scopeKey}`);
 
     const configUpdate: any = {};
     try {
@@ -39,14 +39,14 @@ const setConfig: AdvancedCommandHandler = (ctx, args) => {
         console.dir(error);
         return {
             type: 'md',
-            data: `Failed to parse the JSON value: ${valueString}\nIf you are trying to set a string, you must wrap it in quotes.`,
+            data: `解析 JSON 值失败：${valueString}\n如果你要设置字符串，必须用引号将其包裹起来。`,
         }
     }
     const { raw: keysUpdated } = txCore.configStore.saveConfigs(configUpdate, ctx.admin.name);
     const outParts = [
-        '## Keys Updated:',
+        '## 已更新的键：',
         mdCodeBlock(JSON.stringify(keysUpdated ?? 'not set', null, 2), 'json'),
-        '## Stored:',
+        '## 已存储的配置：',
         mdCodeBlock(JSON.stringify(txCore.configStore.getStoredConfig(), null, 2), 'json'),
     ];
 
@@ -99,7 +99,7 @@ const printFxResourcesBootLog: AdvancedCommandHandler = (ctx, args) => {
     if (!bootLog) {
         return {
             type: 'md',
-            data: 'Server has not booted yet.',
+            data: '服务器尚未启动完成。',
         }
     } else {
         const maxResNameLength = Math.max(...bootLog.map((x) => x.resource.length));
@@ -113,7 +113,7 @@ const printFxResourcesBootLog: AdvancedCommandHandler = (ctx, args) => {
         return {
             type: 'md',
             data: [
-                '## Latest Boot Log:',
+                '## 最近的启动日志：',
                 mdCodeBlock(lines.join('\n'), 'txt'),
             ].join('\n'),
         }

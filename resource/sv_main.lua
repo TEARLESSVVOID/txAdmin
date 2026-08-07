@@ -189,11 +189,11 @@ TX_EVENT_HANDLERS = {
 --- Handler for announcement events
 --- Broadcast admin message to all players
 TX_EVENT_HANDLERS.announcement = function(eventData)
-    local authorName = cvHideAdminInMessages and txServerName or eventData.author or 'anonym'
+    local authorName = cvHideAdminInMessages and txServerName or eventData.author or '匿名'
     if not cvHideAnnouncement then
         TriggerClientEvent('txcl:showAnnouncement', -1, eventData.message, authorName)
     end
-    TriggerEvent('txsv:logger:addChatMessage', 'tx', '(Broadcast) '..authorName, eventData.message)
+    TriggerEvent('txsv:logger:addChatMessage', 'tx', '(广播) '..authorName, eventData.message)
 end
 
 
@@ -210,11 +210,11 @@ end
 --- Handler for player DM event
 --- Sends a direct message from an admin to a player
 TX_EVENT_HANDLERS.playerDirectMessage = function(eventData)
-    local authorName = cvHideAdminInMessages and txServerName or eventData.author or 'anonym'
+    local authorName = cvHideAdminInMessages and txServerName or eventData.author or '匿名'
     if not cvHideDirectMessage then
         TriggerClientEvent('txcl:showDirectMessage', eventData.target, eventData.message, authorName)
     end
-    TriggerEvent('txsv:logger:addChatMessage', 'tx', '(DM) '..authorName, eventData.message)
+    TriggerEvent('txsv:logger:addChatMessage', 'tx', '(私信) '..authorName, eventData.message)
 end
 
 
@@ -262,7 +262,7 @@ TX_EVENT_HANDLERS.playerWarned = function(eventData, isWarningNew)
     end
 
     pendingWarnings[tostring(eventData.targetNetId)] = eventData.actionId
-    local authorName = cvHideAdminInPunishments and txServerName or eventData.author or 'anonym'
+    local authorName = cvHideAdminInPunishments and txServerName or eventData.author or '匿名'
     TriggerClientEvent(
         'txcl:showWarning',
         eventData.targetNetId,
@@ -399,7 +399,7 @@ local function handleConnections(name, setKickReason, d)
     -- if server is shutting down
     if TX_IS_SERVER_SHUTTING_DOWN then
         CancelEvent()
-        setKickReason("[txAdmin] Server is shutting down, try again in a few seconds.")
+        setKickReason("[txAdmin] 服务器正在关闭，请几秒钟后再试。")
         return
     end
 
@@ -417,19 +417,19 @@ local function handleConnections(name, setKickReason, d)
             playerName = name
         }
         if #exData.playerIds <= 1 then
-            d.done("\n[txAdmin] This server has bans or whitelisting enabled, which requires every player to have at least one identifier, but you have none.\nIf you own this server, make sure sv_lan is disabled in your server.cfg.")
+            d.done("\n[txAdmin] 此服务器已启用封禁或白名单功能，这要求每位玩家至少拥有一个标识符（identifier），但您没有任何标识符。\n如果您是服务器所有者，请确保在 server.cfg 中关闭了 sv_lan。")
             return
         end
 
         --Attempt to validate the user
-        d.update("\n[txAdmin] Checking banlist/whitelist... (0/5)")
+        d.update("\n[txAdmin] 正在检查封禁名单/白名单... (0/5)")
         CreateThread(function()
             local attempts = 0
             local isDone = false;
             --Do 5 attempts (2.5 mins)
             while isDone == false and attempts < 5 do
                 attempts = attempts + 1
-                d.update("\n[txAdmin] Checking banlist/whitelist... ("..attempts.."/5)")
+                d.update("\n[txAdmin] 正在检查封禁名单/白名单... ("..attempts.."/5)")
                 PerformHttpRequest(url, function(httpCode, rawData, resultHeaders)
                     if isDone then return end
                     -- rawData = nil
@@ -447,7 +447,7 @@ local function handleConnections(name, setKickReason, d)
                                 d.done()
                                 isDone = true
                             else
-                                local reason = respObj.reason or "\n[txAdmin] no reason provided"
+                                local reason = respObj.reason or "\n[txAdmin] 未提供原因"
                                 d.done("\n"..reason)
                                 isDone = true
                             end
@@ -459,7 +459,7 @@ local function handleConnections(name, setKickReason, d)
 
             --Block client if failed
             if not isDone then
-                d.done("\n[txAdmin] Failed to validate your banlist/whitelist status. Try again in a few minutes.")
+                d.done("\n[txAdmin] 无法验证您的封禁/白名单状态，请几分钟后再试。")
                 isDone = true
             end
         end)

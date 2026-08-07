@@ -12,7 +12,7 @@ const console = consoleFactory(modulename);
 export default async function Intercom(ctx: InitializedCtx) {
     //Sanity check
     if ((typeof (ctx as any).params.scope !== 'string') || (ctx as any).request.body === undefined) {
-        return ctx.utils.error(400, 'Invalid Request');
+            return ctx.utils.error(400, '无效请求');
     }
     const scope = (ctx as any).params.scope as string;
 
@@ -32,13 +32,13 @@ export default async function Intercom(ctx: InitializedCtx) {
         }
     } else if (scope == 'resources') {
         if (!Array.isArray(postData.resources)) {
-            return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
         }
         txCore.fxResources.tmpUpdateResourceList(postData.resources);
     } else {
         return ctx.send({
             type: 'danger',
-            message: 'Unknown intercom scope.',
+            message: '未知的互通信作用域。',
         });
     }
 

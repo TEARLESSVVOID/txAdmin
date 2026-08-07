@@ -205,7 +205,7 @@ const DialogInfoView: React.FC = () => {
             variant="outlined"
             style={{ right: 0 }}
           >
-            Save Note
+            保存备注
           </Button>
         </Box>
       </form>

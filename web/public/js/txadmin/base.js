@@ -8,7 +8,7 @@ const REQ_TIMEOUT_MEDIUM = 5_000;
 const REQ_TIMEOUT_LONG = 9_000;
 const REQ_TIMEOUT_REALLY_LONG = 15_000;
 const REQ_TIMEOUT_REALLY_REALLY_LONG = 30_000;
-const SPINNER_HTML = '<div class="txSpinner">Loading...</div>';
+const SPINNER_HTML = '<div class="txSpinner">加载中...</div>';
 
 //Helpers
 const anyUndefined = (...args) => { return [...args].some((x) => (typeof x === 'undefined')); };
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     if (typeof jconfirm !== 'undefined') {
         jconfirm.defaults = {
-            title: 'Confirm:',
+            title: '确认：',
 
             draggable: false,
             escapeKey: true,
@@ -102,7 +102,7 @@ const updateMarkdownNotification = (data, notify) => {
         if (data.type === 'danger') {
             msgHtml += `<div class="text-right">
                 <small>
-                    For support, visit <strong><a href="http://discord.gg/txAdmin" target="_blank" class="text-dark">discord.gg/txAdmin</a></strong>.
+                    如需支持，请访问 <strong><a href="http://discord.gg/txAdmin" target="_blank" class="text-dark">discord.gg/txAdmin</a></strong>。
                 </small>
             </div>`;
         }
@@ -159,7 +159,7 @@ const txAdminAlert = ({content, modalColor, title}) => {
         type: modalColor || 'green',
         buttons: {
             close: {
-                text: 'Close',
+                text: '关闭',
                 keys: ['enter'],
             }
         },
@@ -207,7 +207,7 @@ const txAdminPrompt = ({
             buttons: {
                 cancel: () => {resolve(false);},
                 formSubmit: {
-                    text: 'Submit',
+                    text: '提交',
                     btnClass: confirmBtnClass,
                     action: function () {
                         resolve(this.$content.find('.inputField').val());

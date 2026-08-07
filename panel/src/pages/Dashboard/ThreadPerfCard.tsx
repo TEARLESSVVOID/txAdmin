@@ -63,13 +63,13 @@ const ThreadPerfChart = memo(({ data, minTickIntervalMarker, width, height }: Th
         return (
             <div className="p-3 text-gray-900 bg-white rounded-md shadow-md">
                 <div>
-                    Tick duration: <strong>{formatTickBoundary(lowerLimit)}</strong> ~ <strong>{formatTickBoundary(upperLimit)}</strong>
+                    Tick 时长： <strong>{formatTickBoundary(lowerLimit)}</strong> ~ <strong>{formatTickBoundary(upperLimit)}</strong>
                 </div>
                 <div>
-                    Time spent: <strong>~{pctString}</strong>
+                    耗时占比： <strong>~{pctString}</strong>
                 </div>
                 <div>
-                    Tick count: {datum.data.count}
+                    Tick 次数： {datum.data.count}
                 </div>
             </div>
         );
@@ -113,7 +113,7 @@ const ThreadPerfChart = memo(({ data, minTickIntervalMarker, width, height }: Th
             }}
             axisBottom={{
                 format: '.0%',
-                legend: 'percent of total time',
+                legend: '占总时间百分比',
                 legendPosition: 'middle',
                 legendOffset: 32,
             }}
@@ -139,7 +139,7 @@ const ThreadPerfChart = memo(({ data, minTickIntervalMarker, width, height }: Th
                         strokeDasharray: '6 2',
                         strokeDashoffset: 1,
                     },
-                    legend: 'good',
+                    legend: '良好',
                     legendPosition: 'bottom-right',
                     //@ts-ignore - types are wrong, it errors if I remove this
                     legendOffsetX: 10, legendOffsetY: 12, legendOrientation: 'horizontal',
@@ -158,7 +158,7 @@ const ThreadPerfChart = memo(({ data, minTickIntervalMarker, width, height }: Th
                         strokeWidth: 2,
                         strokeDasharray: '4 4',
                     },
-                    legend: 'bad',
+                    legend: '不佳',
                     legendPosition: 'top-right',
                     //@ts-ignore - types are wrong, it errors if I remove this
                     legendOffsetX: 10, legendOffsetY: 12, legendOrientation: 'horizontal',
@@ -252,7 +252,7 @@ export default function ThreadPerfCard() {
                 (<span className="text-xs text-warning-inline font-mono">{fullStr}</span>)
             </>);
         } else {
-            return dataAge.isStale ? '(minutes ago)' : '(last minute)';
+            return dataAge.isStale ? '（几分钟前）' : '（最近一分钟）';
         }
     }, [svRuntimeData, perfCursorData]);
 
@@ -266,8 +266,8 @@ export default function ThreadPerfCard() {
     } else if (typeof chartData === 'string') {
         contentNode = <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground text-center">
             <p className='max-w-80'>
-                Data not yet available. <br />
-                The thread performance chart will appear soon after the server is online.
+                数据尚未可用。 <br />
+                服务器上线后，线程性能图表将很快显示。
             </p>
         </div>;
     } else {
@@ -281,7 +281,7 @@ export default function ThreadPerfCard() {
         <div className="py-2 md:rounded-xl border bg-card shadow-sm flex flex-col col-span-3 fill-primary h-[20rem] max-h-[20rem]">
             <div className="px-4 flex flex-row items-center justify-between space-y-0 pb-2 text-muted-foreground">
                 <h3 className="tracking-tight text-sm font-medium line-clamp-1">
-                    {cursorThreadLabel ?? selectedThread} performance {titleTimeIndicator}
+                    {cursorThreadLabel ?? selectedThread} 性能 {titleTimeIndicator}
                 </h3>
                 <div className="flex gap-4">
                     <Select
@@ -293,7 +293,7 @@ export default function ThreadPerfCard() {
                             "w-32 grow md:grow-0 h-6 px-3 py-1 text-sm",
                             !!perfCursorData && 'hidden'
                         )} >
-                            <SelectValue placeholder="Filter by admin" />
+                            <SelectValue placeholder="按管理员筛选" />
                         </SelectTrigger>
                         <SelectContent className="px-0">
                             <SelectItem value={'svMain'} className="cursor-pointer">

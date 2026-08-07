@@ -75,7 +75,7 @@ function HistoryRow({ action, modalOpener }: HistoryRowProps) {
             <TableCell className='px-4 py-2 border-r'>
                 <span className='text-ellipsis overflow-hidden line-clamp-1 break-all'>
                     {action.playerName ? action.playerName : (
-                        <span className='text-muted-foreground italic'>unknown</span>
+                        <span className='text-muted-foreground italic'>未知</span>
                     )}
                 </span>
             </TableCell>
@@ -116,17 +116,17 @@ function LastRow({ playersCount, hasReachedEnd, isFetching, loadError, retryFetc
         content = <Loader2Icon className="mx-auto animate-spin" />
     } else if (loadError) {
         content = <>
-            <span className='text-destructive-inline'>Error: {loadError}</span><br />
-            <button className='underline' onClick={() => retryFetch()}>Try again?</button>
+            <span className='text-destructive-inline'>错误：{loadError}</span><br />
+            <button className='underline' onClick={() => retryFetch()}>重试？</button>
         </>
     } else if (hasReachedEnd) {
         content = <span className='font-bold text-muted-foreground'>
-            {playersCount ? 'You have reached the end of the list.' : 'No actions found.'}
+            {playersCount ? '已到达列表末尾。' : '未找到任何操作。'}
         </span>
     } else {
         content = <span>
-            You've found the end of the rainbow, but there's no pot of gold here. <br />
-            <i>(this is a bug, please report it in <TxAnchor href="https://discord.gg/txAdmin" target="_blank" rel="noopener noreferrer">discord.gg/txAdmin</TxAnchor>)</i>
+            你已到达列表的尽头，但这里并没有宝藏。 <br />
+            <i>（这是个 bug，请在 <TxAnchor href="https://discord.gg/txAdmin" target="_blank" rel="noopener noreferrer">discord.gg/txAdmin</TxAnchor> 中报告）</i>
         </span>
     }
 
@@ -249,9 +249,9 @@ export default function HistoryTable({ search, filterbyType, filterbyAdmin }: Hi
 
             //Dealing with errors
             if (resp === undefined) {
-                return handleError(`Request failed.`);
+                return handleError(`请求失败。`);
             } else if ('error' in resp) {
-                return handleError(`Request failed: ${resp.error}`);
+                return handleError(`请求失败：${resp.error}`);
             }
 
             //Setting the states
@@ -264,7 +264,7 @@ export default function HistoryTable({ search, filterbyType, filterbyAdmin }: Hi
                 setHistory([]);
             }
         } catch (error) {
-            handleError(`Failed to fetch more data: ${(error as Error).message}`);
+            handleError(`获取更多数据失败：${(error as Error).message}`);
         } finally {
             setIsFetching(false);
             setIsResetting(false);
@@ -326,12 +326,12 @@ export default function HistoryTable({ search, filterbyType, filterbyAdmin }: Hi
                 <table className='w-full caption-bottom text-sm select-none'>
                     <TableHeader>
                         <tr className='sticky top-0 z-10 bg-zinc-200 dark:bg-muted text-secondary-foreground text-base shadow-md transition-colors'>
-                            <NonSortableTableHeader label='Action' />
-                            <NonSortableTableHeader label='Player' />
-                            <NonSortableTableHeader label='Reason' />
-                            <NonSortableTableHeader label='Author' />
+                            <NonSortableTableHeader label='操作' />
+                            <NonSortableTableHeader label='玩家' />
+                            <NonSortableTableHeader label='原因' />
+                            <NonSortableTableHeader label='执行人' />
                             <SortableTableHeader
-                                label='Date Time'
+                                label='日期时间'
                                 sortKey='timestamp'
                                 sortingState={sorting}
                                 setSorting={setSorting}

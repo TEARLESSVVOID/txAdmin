@@ -123,23 +123,23 @@ export default function PlayersPage() {
         const hasCalloutData = calloutData && !('error' in calloutData);
         return [
             {
-                label: 'Total Players',
+                label: '玩家总数',
                 value: hasCalloutData ? calloutData.total : false,
                 icon: <UsersIcon />,
             },
             {
-                label: 'Players Last 24h',
+                label: '24 小时内在线玩家',
                 value: hasCalloutData ? calloutData.playedLast24h : false,
                 icon: <CalendarPlusIcon />,
             },
             {
-                label: 'New Players Last 24h',
+                label: '24 小时内新增玩家',
                 value: hasCalloutData ? calloutData.joinedLast24h : false,
                 icon: <UserRoundPlusIcon />,
                 prefix: '+'
             },
             {
-                label: 'New Players Last 7d',
+                label: '7 天内新增玩家',
                 value: hasCalloutData ? calloutData.joinedLast7d : false,
                 icon: <UserRoundPlusIcon />,
                 prefix: '+'

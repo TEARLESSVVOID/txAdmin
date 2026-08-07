@@ -410,7 +410,7 @@ RegisterNetEvent('txcl:seatInVehicle', function(vehNetID, seat, oldVehVelocity)
         Wait(5)
     end
     if not NetworkDoesEntityExistWithNetworkId(vehNetID) then
-        return sendSnackbarMessage('error', 'Failed to seat into vehicle (net=' .. vehNetID .. ')', false)
+        return sendSnackbarMessage('error', '无法进入载具 (net=' .. vehNetID .. ')', false)
     end
 
     local veh = NetToVeh(vehNetID)

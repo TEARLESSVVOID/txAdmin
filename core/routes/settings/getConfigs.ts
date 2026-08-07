@@ -31,7 +31,7 @@ export default async function GetSettingsConfigs(ctx: AuthedCtx) {
     //Check permissions
     if (!ctx.admin.testPermission('settings.view', modulename)) {
         return sendTypedResp({
-            error: 'You do not have permission to view the settings.'
+            error: '你没有权限查看设置。'
         });
     }
 
@@ -59,7 +59,7 @@ export default async function GetSettingsConfigs(ctx: AuthedCtx) {
             toRedact.server.startupArgs = redactStartupSecrets(outData.storedConfigs.server.startupArgs);
         }
         if(outData.storedConfigs.discordBot?.token) {
-            toRedact.discordBot.token = '[redacted by txAdmin]';
+            toRedact.discordBot.token = '[已由 txAdmin 隐藏]';
         }
     }
 

@@ -35,7 +35,7 @@ export function PageHeaderChangelog({ changelogData }: PageHeaderChangelogProps)
         setIsModalOpen(true);
     }
 
-    const placeholder = Array.isArray(changelogData) ? 'No changes yet' : 'loading...';
+    const placeholder = Array.isArray(changelogData) ? '暂无更改' : '加载中...';
 
     return (<>
         <div className='flex xs:flex-col max-xs:items-center max-xs:gap-2 max-xs:w-full px-2 py-1 rounded-lg text-muted-foreground group relative'>
@@ -44,12 +44,12 @@ export function PageHeaderChangelog({ changelogData }: PageHeaderChangelogProps)
                     className="absolute inset-0 flex items-center justify-center rounded-[inherit] bg-card opacity-0 border group-hover:opacity-100 transition-opacity text-primary group-active:bg-primary group-active:text-primary-foreground group-active:border-none select-none cursor-pointer"
                     onClick={handleOpenChangelog}
                 >
-                    View Changelog
+                    查看更改记录
                 </div>
             ) : null}
             <div className='tracking-wider leading-3 font-semibold'>
-                <SaveIcon className='max-xs:hidden size-4 inline-block align-text-bottom' /> Last Updated
-                <span className="xs:hidden">:</span>
+                <SaveIcon className='max-xs:hidden size-4 inline-block align-text-bottom' /> 最后更新
+                <span className="xs:hidden">：</span>
             </div>
             <div className='text-xs'>
                 <CalendarIcon className='size-4 inline-block align-text-bottom' /> {mostRecent?.dateTime ?? placeholder}
@@ -61,7 +61,7 @@ export function PageHeaderChangelog({ changelogData }: PageHeaderChangelogProps)
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogContent className='max-sm:p-4 max-w-xl'>
                 <DialogHeader>
-                    <DialogTitle>Recent Changes</DialogTitle>
+                    <DialogTitle>近期更改</DialogTitle>
                 </DialogHeader>
                 <div
                     className="pr-3 max-h-[80vh] overflow-auto space-y-3"
@@ -94,7 +94,7 @@ function ChangelogEntry({ entry }: { entry: ConfigChangelogEntry }) {
                         {index < entry.keys.length - 1 && ','}
                     </span>
                 )) : (
-                    <div className='italic'>No changes</div>
+                    <div className='italic'>无更改</div>
                 )}
             </div>
         </div>

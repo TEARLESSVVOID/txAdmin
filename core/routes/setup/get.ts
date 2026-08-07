@@ -14,7 +14,7 @@ const console = consoleFactory(modulename);
 export default async function SetupGet(ctx: AuthedCtx) {
     //Check permissions
     if (!ctx.admin.hasPermission('master')) {
-        return ctx.utils.renderMessage('You need to be the admin master to use the setup page.');
+        return ctx.utils.renderMessage('你需要成为主账户管理员才能使用设置页面。');
     }
 
     // Ensure correct state for the setup page
@@ -27,7 +27,7 @@ export default async function SetupGet(ctx: AuthedCtx) {
     //Output
     const storedConfig = txCore.configStore.getStoredConfig();
     const renderData = {
-        headerTitle: 'Setup',
+        headerTitle: '设置',
         skipServerName: !!(storedConfig.general?.serverName),
         deployerEngineVersion: RECIPE_DEPLOYER_VERSION,
         forceGameName: txHostConfig.forceGameName ?? '', //ejs injection works better with strings

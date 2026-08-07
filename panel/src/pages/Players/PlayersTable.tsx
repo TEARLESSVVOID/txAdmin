@@ -66,17 +66,17 @@ function LastRow({ playersCount, hasReachedEnd, isFetching, loadError, retryFetc
         content = <Loader2Icon className="mx-auto animate-spin" />
     } else if (loadError) {
         content = <>
-            <span className='text-destructive-inline'>Error: {loadError}</span><br />
-            <button className='underline' onClick={() => retryFetch()}>Try again?</button>
+            <span className='text-destructive-inline'>错误：{loadError}</span><br />
+            <button className='underline' onClick={() => retryFetch()}>重试？</button>
         </>
     } else if (hasReachedEnd) {
         content = <span className='font-bold text-muted-foreground'>
-            {playersCount ? 'You have reached the end of the list.' : 'No players found.'}
+            {playersCount ? '已到达列表末尾。' : '未找到玩家。'}
         </span>
     } else {
         content = <span>
-            You've found the end of the rainbow, but there's no pot of gold here. <br />
-            <i>(this is a bug, please report it in <TxAnchor href="https://discord.gg/txAdmin" target="_blank" rel="noopener noreferrer">discord.gg/txAdmin</TxAnchor>)</i>
+            你已经走到了彩虹尽头，但这里没有金罐。<br />
+            <i>(这是一个 Bug，请在 <TxAnchor href="https://discord.gg/txAdmin" target="_blank" rel="noopener noreferrer">discord.gg/txAdmin</TxAnchor> 中反馈)</i>
         </span>
     }
 
@@ -184,9 +184,9 @@ export default function PlayersTable({ search, filters }: PlayersTableProps) {
 
             //Dealing with errors
             if (resp === undefined) {
-                return handleError(`Request failed.`);
+                return handleError(`请求失败。`);
             } else if ('error' in resp) {
-                return handleError(`Request failed: ${resp.error}`);
+                return handleError(`请求失败：${resp.error}`);
             }
 
             //Setting the states
@@ -199,7 +199,7 @@ export default function PlayersTable({ search, filters }: PlayersTableProps) {
                 setPlayers([]);
             }
         } catch (error) {
-            handleError(`Failed to fetch more data: ${(error as Error).message}`);
+            handleError(`获取更多数据失败：${(error as Error).message}`);
         } finally {
             setIsFetching(false);
             setIsResetting(false);
@@ -262,22 +262,22 @@ export default function PlayersTable({ search, filters }: PlayersTableProps) {
                     <TableHeader>
                         <tr className='sticky top-0 z-10 bg-zinc-200 dark:bg-muted text-secondary-foreground text-base shadow-md transition-colors'>
                             <th className='py-2 px-4 font-light tracking-wider text-left text-muted-foreground'>
-                                Display Name
+                                显示名称
                             </th>
                             <SortableTableHeader
-                                label='Play Time'
+                                label='游玩时长'
                                 sortKey='playTime'
                                 sortingState={sorting}
                                 setSorting={setSorting}
                             />
                             <SortableTableHeader
-                                label='First Joined'
+                                label='首次加入'
                                 sortKey='tsJoined'
                                 sortingState={sorting}
                                 setSorting={setSorting}
                             />
                             <SortableTableHeader
-                                label='Last Connection'
+                                label='最后连接'
                                 sortKey='tsLastConnection'
                                 sortingState={sorting}
                                 setSorting={setSorting}

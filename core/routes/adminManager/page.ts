@@ -10,20 +10,20 @@ const console = consoleFactory(modulename);
 export default async function AdminManagerPage(ctx: AuthedCtx) {
     //Check permission
     if (!ctx.admin.hasPermission('manage.admins')) {
-        return ctx.utils.renderMessage('You don\'t have permission to view this page.');
+        return ctx.utils.renderMessage('你没有权限查看此页面。');
     }
 
     //Prepare admin array
     const admins = txCore.adminStore.getAdminsList().map((admin) => {
         let perms;
         if (admin.master == true) {
-            perms = 'master account';
+            perms = '主账户';
         } else if (admin.permissions.includes('all_permissions')) {
-            perms = 'all permissions';
+            perms = '全部权限';
         } else if (admin.permissions.length !== 1) {
-            perms = `${admin.permissions.length} permissions`;
+            perms = `${admin.permissions.length} 个权限`;
         } else {
-            perms = '1 permission';
+            perms = '1 个权限';
         }
         const isSelf = ctx.admin.name.toLowerCase() === admin.name.toLowerCase();
 
@@ -48,7 +48,7 @@ export default async function AdminManagerPage(ctx: AuthedCtx) {
 
     //Set render data
     const renderData = {
-        headerTitle: 'Admin Manager',
+        headerTitle: '管理员管理',
         admins,
     };
 

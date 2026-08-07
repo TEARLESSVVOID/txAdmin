@@ -205,7 +205,7 @@ export default class DiscordBot {
             const serverClients = txCore.fxPlayerlist.onlineCount;
             const serverMaxClients = txCore.cacheStore.get('fxsRuntime:maxClients') ?? '??';
             const serverName = txConfig.general.serverName;
-            const message = `[${serverClients}/${serverMaxClients}] on ${serverName}`;
+            const message = `在 ${serverName} 上 [${serverClients}/${serverMaxClients}]`;
             this.#client.user.setActivity(message, { type: ActivityType.Watching });
         } catch (error) {
             console.verbose.warn(`Failed to set bot activity: ${(error as Error).message}`);
@@ -265,10 +265,10 @@ export default class DiscordBot {
 
             //Check for configs
             if (typeof botCfg.token !== 'string' || !botCfg.token.length) {
-                return sendError('Discord bot enabled while token is not set.');
+                return sendError('Discord 机器人已启用但未设置令牌。');
             }
             if (typeof botCfg.guild !== 'string' || !botCfg.guild.length) {
-                return sendError('Discord bot enabled while guild id is not set.');
+                return sendError('Discord 机器人已启用但未设置服务器（Guild）ID。');
             }
 
             //State check
@@ -288,7 +288,7 @@ export default class DiscordBot {
                 if (this.#lastDisallowedIntentsError !== lastKnownDisallowedIntentsError) {
                     clearInterval(disallowedIntentsWatcherId);
                     return sendError(
-                        `This bot does not have a required privileged intent.`,
+                        `此机器人缺少所需的特权意图（Privileged Intent）。`,
                         { code: 'DisallowedIntents' }
                     );
                 }
@@ -304,7 +304,7 @@ export default class DiscordBot {
                 const guild = this.#client.guilds.cache.find((guild) => guild.id === botCfg.guild);
                 if (!guild) {
                     return sendError(
-                        `Discord bot could not resolve guild/server ID ${botCfg.guild}.`,
+                        `Discord 机器人无法解析服务器（Guild）ID ${botCfg.guild}。`,
                         {
                             code: 'CustomNoGuild',
                             clientId: this.#client.user.id
@@ -332,7 +332,7 @@ export default class DiscordBot {
                 ]
                 const botPerms = this.guild.members.me?.permissions.serialize();
                 if (!botPerms) {
-                    return sendError(`Discord bot could not detect its own permissions.`);
+                    return sendError(`Discord 机器人无法检测自身的权限。`);
                 }
                 const prohibitedPermsInUse = Object.entries(botPerms)
                     .filter(([permName, permEnabled]) => prohibitedPerms.includes(permName) && permEnabled)
@@ -341,14 +341,14 @@ export default class DiscordBot {
                     const name = this.#client.user.username;
                     if(prohibitedPermsInUse.includes('Administrator')) {
                         return sendError(
-                            `This bot (\`${name}\`) has \`Administrator\` permission and for your safety the bot has been disabled.`,
+                            `此机器人（\`${name}\`）拥有 \`Administrator\`（管理员）权限，出于安全考虑，机器人已被禁用。`,
                             { code: 'DangerousPermission' }
                         );
                     } else {
                         const permsList = prohibitedPermsInUse.map((x) => `\`${x}\``).join(', ');
-                        const plural = prohibitedPermsInUse.length > 1 ? 'has dangerous permissions' : 'has a dangerous permission';
+                        const plural = '拥有危险权限';
                         return sendError(
-                            `This bot (\`${name}\`) ${plural} (${permsList}) and for your safety the bot has been disabled.`,
+                            `此机器人（\`${name}\`）${plural}（${permsList}），出于安全考虑，机器人已被禁用。`,
                             { code: 'DangerousPermission' }
                         );
                     }
@@ -358,9 +358,9 @@ export default class DiscordBot {
                 if (botCfg.warningsChannel) {
                     const fetchedChannel = this.#client.channels.cache.find((x) => x.id === botCfg.warningsChannel);
                     if (!fetchedChannel) {
-                        return sendError(`Channel ${botCfg.warningsChannel} not found.`);
+                        return sendError(`未找到频道 ${botCfg.warningsChannel}。`);
                     } else if (fetchedChannel.type !== ChannelType.GuildText && fetchedChannel.type !== ChannelType.GuildAnnouncement) {
-                        return sendError(`Channel ${botCfg.warningsChannel} - ${(fetchedChannel as any)?.name} is not a text or announcement channel.`);
+                        return sendError(`频道 ${botCfg.warningsChannel} - ${(fetchedChannel as any)?.name} 不是文本或公告频道。`);
                     } else {
                         this.announceChannel = fetchedChannel;
                     }
@@ -403,7 +403,7 @@ export default class DiscordBot {
                 //for some reason, this is not throwing unhandled rejection anymore /shrug
                 if (error.message === 'Used disallowed intents') {
                     return sendError(
-                        `This bot does not have a required privileged intent.`,
+                        `此机器人缺少所需的特权意图（Privileged Intent）。`,
                         { code: 'DisallowedIntents' }
                     );
                 }
@@ -504,7 +504,7 @@ export default class DiscordBot {
                 avatar: user.displayAvatarURL(avatarOptions),
             };
         } else {
-            throw new Error(`could not resolve discord user`);
+            throw new Error(`无法解析 Discord 用户`);
         }
     }
 };

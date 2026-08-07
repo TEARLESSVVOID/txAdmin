@@ -71,7 +71,7 @@ export const handleOauthCallback = async (ctx: InitializedCtx, redirectUri: stri
             };
         } else {
             return {
-                errorTitle: 'Code Exchange error:',
+                errorTitle: '授权码交换错误：',
                 errorMessage: error.message,
             };
         }
@@ -83,7 +83,7 @@ export const handleOauthCallback = async (ctx: InitializedCtx, redirectUri: stri
     } catch (error) {
         console.verbose.error(`Get UserInfo error: ${(error as Error).message}`);
         return {
-            errorTitle: 'Get UserInfo error:',
+            errorTitle: '获取用户信息错误：',
             errorMessage: (error as Error).message,
         };
     }

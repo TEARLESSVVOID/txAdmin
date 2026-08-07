@@ -29,7 +29,7 @@ export type ApiRevokeActionReqSchema = z.infer<typeof revokeActionBodySchema>;
 export default async function HistoryActions(ctx: AuthedCtx & { params: any }) {
     //Sanity check
     if (!ctx.params.action) {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const action = ctx.params.action;
     const sendTypedResp = (data: GenericApiOkResp) => ctx.send(data);
@@ -40,7 +40,7 @@ export default async function HistoryActions(ctx: AuthedCtx & { params: any }) {
     } else if (action === 'revokeAction') {
         return sendTypedResp(await handleRevokeAction(ctx));
     } else {
-        return sendTypedResp({ error: 'unknown action' });
+        return sendTypedResp({ error: '未知操作' });
     }
 };
 
@@ -54,7 +54,7 @@ async function handleBandIds(ctx: AuthedCtx): Promise<GenericApiOkResp> {
     //Checking request
     const schemaRes = addLegacyBanBodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
-        return { error: 'Invalid request body.' };
+        return { error: '无效的请求体。' };
     }
     const {
         reason,
@@ -64,13 +64,13 @@ async function handleBandIds(ctx: AuthedCtx): Promise<GenericApiOkResp> {
 
     //Filtering identifiers
     if (!identifiersInput.length) {
-        return { error: 'You must send at least one identifier' };
+        return { error: '你必须至少发送一个标识符' };
     }
     const invalids = identifiersInput.filter((id) => {
         return (typeof id !== 'string') || !Object.values(consts.validIdentifiers).some((vf) => vf.test(id));
     });
     if (invalids.length) {
-        return { error: 'Invalid IDs: ' + invalids.join(', ') };
+        return { error: '无效的 ID：' + invalids.join(', ') };
     }
     const identifiers = [...new Set(identifiersInput)];
 
@@ -86,7 +86,7 @@ async function handleBandIds(ctx: AuthedCtx): Promise<GenericApiOkResp> {
 
     //Check permissions
     if (!ctx.admin.testPermission('players.ban', modulename)) {
-        return { error: 'You don\'t have permission to execute this action.' }
+        return { error: '你没有权限执行此操作。' }
     }
 
     //Register action
@@ -100,7 +100,7 @@ async function handleBandIds(ctx: AuthedCtx): Promise<GenericApiOkResp> {
             false
         );
     } catch (error) {
-        return { error: `Failed to ban identifiers: ${(error as Error).message}` };
+        return { error: `封禁标识符失败：${(error as Error).message}` };
     }
     ctx.admin.logAction(`Banned <${identifiers.join(';')}>: ${reason}`);
 
@@ -149,7 +149,7 @@ async function handleRevokeAction(ctx: AuthedCtx): Promise<GenericApiOkResp> {
     //Checking request
     const schemaRes = revokeActionBodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
-        return { error: 'Invalid request body.' };
+        return { error: '无效的请求体。' };
     }
     const { actionId } = schemaRes.data;
 
@@ -163,7 +163,7 @@ async function handleRevokeAction(ctx: AuthedCtx): Promise<GenericApiOkResp> {
         action = txCore.database.actions.revoke(actionId, ctx.admin.name, perms) as DatabaseActionType;
         ctx.admin.logAction(`Revoked ${action.type} id ${actionId} from ${action.playerName ?? 'identifiers'}`);
     } catch (error) {
-        return { error: `Failed to revoke action: ${(error as Error).message}` };
+        return { error: `撤销操作失败：${(error as Error).message}` };
     }
 
     // Dispatch `txAdmin:events:actionRevoked`

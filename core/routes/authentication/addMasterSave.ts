@@ -22,7 +22,7 @@ export default async function AuthAddMasterSave(ctx: InitializedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return ctx.send<ApiAddMasterSaveResp>({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const { password, discordId } = schemaRes.data;
@@ -37,7 +37,7 @@ export default async function AuthAddMasterSave(ctx: InitializedCtx) {
     //Checking the discordId
     if (typeof discordId === 'string' && !consts.validIdentifierParts.discord.test(discordId)) {
         return ctx.send<ApiAddMasterSaveResp>({
-            error: `Invalid Discord ID.`,
+            error: `无效的 Discord ID。`,
         });
     }
 
@@ -54,7 +54,7 @@ export default async function AuthAddMasterSave(ctx: InitializedCtx) {
     const fivemIdentifier = getIdFromOauthNameid(userInfo.nameid);
     if (!fivemIdentifier) {
         return ctx.send<ApiAddMasterSaveResp>({
-            error: `Could not extract the user identifier from userInfo.nameid.\nPlease report this to the txAdmin dev team.\n${userInfo.nameid.toString()}`,
+            error: `无法从 userInfo.nameid 中提取用户标识符。\n请将此情况报告给 txAdmin 开发团队。\n${userInfo.nameid.toString()}`,
         });
     }
 
@@ -90,7 +90,7 @@ export default async function AuthAddMasterSave(ctx: InitializedCtx) {
         ctx.sessTools.destroy();
         console.error(`Failed to create session: ${(error as Error).message}`);
         return ctx.send<ApiAddMasterSaveResp>({
-            error: `Failed to create session: ${(error as Error).message}`,
+            error: `创建会话失败：${(error as Error).message}`,
         });
     }
 };

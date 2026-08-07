@@ -25,7 +25,7 @@ local function handleAuthFail(src, reason)
     local srcString = tostring(src)
     TX_ADMINS[srcString] = nil
     failedAuths[srcString] = GetGameTimer()
-    reason = reason or "unknown"
+    reason = reason or "未知"
     debugPrint("Auth rejected #"..srcString.." ("..reason..")")
     TriggerClientEvent('txcl:setAdmin', src, false, false, reason)
     TriggerEvent('txAdmin:events:adminAuth', {
@@ -42,7 +42,7 @@ RegisterNetEvent('txsv:checkIfAdmin', function()
 
     -- Rate Limiter
     if type(failedAuths[srcString]) == 'number' and failedAuths[srcString] + attemptCooldown > GetGameTimer() then
-        return handleAuthFail(source, "too many auth attempts")
+        return handleAuthFail(source, "身份验证尝试次数过多")
     end
 
     -- Prepping http request
@@ -58,13 +58,13 @@ RegisterNetEvent('txsv:checkIfAdmin', function()
         -- Validating response
         local resp = json.decode(data)
         if not resp then
-            return handleAuthFail(src, "invalid response")
+            return handleAuthFail(src, "响应无效")
         end
         if resp.logout ~= nil and resp.logout then
-            return handleAuthFail(src, resp.reason or 'unknown reject reason')
+            return handleAuthFail(src, resp.reason or '未知拒绝原因')
         end
         if type(resp.name) ~= "string" then
-            return handleAuthFail(src, "invalid response")
+            return handleAuthFail(src, "响应无效")
         end
         if type(resp.permissions) ~= 'table' then
             resp.permissions = {}

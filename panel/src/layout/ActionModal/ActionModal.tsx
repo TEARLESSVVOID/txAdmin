@@ -16,18 +16,18 @@ import { ModalContent, ModalTabMessage, ModalTabsList, ModalTabWrapper, type Mod
 
 const modalTabs: ModalTabInfo[] = [
     {
-        title: 'Info',
+        title: '信息',
         icon: <InfoIcon className="mr-2 h-5 w-5 hidden xs:block" />,
     },
     {
-        title: 'IDs',
+        title: 'ID',
         icon: <ListIcon className="mr-2 h-5 w-5 hidden xs:block" />,
     },
     {
         //In the future, when adding "edit" and "remove" to the modal, join with "revoke" in a tab bellow
         // title: 'Modify',
         // icon: <EraserIcon className="mr-2 h-5 w-5 hidden xs:block" />,
-        title: 'Revoke',
+        title: '撤销',
         icon: <Undo2Icon className="mr-2 h-5 w-5 hidden xs:block" />,
         className: 'hover:bg-destructive hover:text-destructive-foreground',
     },
@@ -109,24 +109,24 @@ export default function ActionModal() {
     if (modalData) {
         const displayName = modalData.action.playerName !== false
             ? <span>{modalData.action.playerName}</span>
-            : <span className="italic opacity-75">unknown player</span>;
+            : <span className="italic opacity-75">未知玩家</span>;
         if (modalData.action.type === 'ban') {
             pageTitle = <>
                 <span className="text-destructive-inline font-mono mr-2">[{modalData.action.id}]</span>
-                Banned {displayName}
+                封禁 {displayName}
             </>;
         } else if (modalData.action.type === 'warn') {
             pageTitle = <>
                 <span className="text-warning-inline font-mono mr-2">[{modalData.action.id}]</span>
-                Warned {displayName}
+                警告 {displayName}
             </>;
         } else {
             throw new Error(`Unknown action type: ${modalData.action.type}`);
         }
     } else if (modalError) {
-        pageTitle = <span className="text-destructive-inline">Error!</span>;
+        pageTitle = <span className="text-destructive-inline">错误！</span>;
     } else {
-        pageTitle = <span className="text-muted-foreground italic">Loading...</span>;
+        pageTitle = <span className="text-muted-foreground italic">加载中...</span>;
     }
 
     return (
@@ -163,22 +163,22 @@ export default function ActionModal() {
                         {!modalData ? (
                             <ModalTabMessage>
                                 {modalError ? (
-                                    <span className="text-destructive-inline">Error: {modalError}</span>
+                                    <span className="text-destructive-inline">错误：{modalError}</span>
                                 ) : (
-                                    <GenericSpinner msg="Loading..." />
+                                    <GenericSpinner msg="加载中..." />
                                 )}
                             </ModalTabMessage>
                         ) : (
                             <>
-                                {selectedTab === 'Info' && <ActionInfoTab
+                                {selectedTab === '信息' && <ActionInfoTab
                                     action={modalData.action}
                                     serverTime={modalData.serverTime}
                                     tsFetch={tsFetch}
                                 />}
-                                {selectedTab === 'IDs' && <ActionIdsTab
+                                {selectedTab === 'ID' && <ActionIdsTab
                                     action={modalData.action}
                                 />}
-                                {selectedTab === 'Revoke' && <ActionModifyTab
+                                {selectedTab === '撤销' && <ActionModifyTab
                                     action={modalData.action}
                                     refreshModalData={refreshModalData}
                                 />}

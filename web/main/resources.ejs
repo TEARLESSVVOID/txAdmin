@@ -24,27 +24,27 @@
                     name="resource"
                     id="resourceInput"
                     onkeyup="findResource()"
-                    placeholder="Find resource by name..."
+                    placeholder="按名称查找资源..."
                 >
                 <div class="d-flex flex-wrap justify-content-xs-center justify-content-between pt-2" style="gap: 1rem;">
                     <div class="d-flex flex-grow-1x" style="gap: 1rem;">
                         <div class="d-flex flex-column flex-lg-row align-items-center" style="gap: 0.5rem;">
                             <span class="form-text text-muted text-center">
-                                Default resources:
+                                默认资源：
                             </span>
                             <label class="switch-lg c-switch c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input type="checkbox" id="defResCheckbox" class="c-switch-input">
-                                <span class="c-switch-slider" data-checked="Show" data-unchecked="Hide"></span>
+                                <span class="c-switch-slider" data-checked="显示" data-unchecked="隐藏"></span>
                             </label>
                         </div>
                         
                         <div class="d-flex flex-column flex-lg-row align-items-center" style="gap: 0.5rem;">
                             <span class="form-text text-muted text-center">
-                                Only stopped resources:
+                                仅显示已停止的资源：
                             </span>
                             <label class="switch-lg c-switch c-switch-label c-switch-pill c-switch-success fix-pill-form">
                                 <input type="checkbox" id="stoppedResCheckbox" class="c-switch-input">
-                                <span class="c-switch-slider" data-checked="Show" data-unchecked="Hide"></span>
+                                <span class="c-switch-slider" data-checked="显示" data-unchecked="隐藏"></span>
                             </label>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                             id="btnExpandCollapse"
                         />
                         <button class="btn btn-sm btn-primary float-right" type="button" id="btnRefresh" <%= disableActions %>>
-                            <i class="icon-refresh"></i> Reload & Refresh
+                            <i class="icon-refresh"></i> 重新加载并刷新
                         </button>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                                         <em><%= resource.version %></em>
                                     <% } %>
                                     <% if (resource.author !== '') { %>
-                                        by <%= resource.author %>
+                                        由 <%= resource.author %>
                                     <% } %>
                                     <% if (resource.description !== '') { %>
                                         <br/>
@@ -104,7 +104,7 @@
                                         data-resName="<%= encodeURIComponent(resource.name) %>"
                                         <%= disableActions %>
                                     >
-                                        Restart
+                                        重启
                                     </a>
                                     <a class="btn-res-action btn btn-sm btn-outline-danger d-block d-md-inline-block m-0 <%= disableActions %>"
                                         href="#"
@@ -112,7 +112,7 @@
                                         data-resName="<%= encodeURIComponent(resource.name) %>"
                                         <%= disableActions %>
                                     >
-                                        Stop
+                                        停止
                                     </a>
                                     <% } else { %>
                                     <a class="btn-res-action btn btn-sm btn-outline-success d-block d-md-inline-block <%= disableActions %>"
@@ -121,7 +121,7 @@
                                         data-resName="<%= encodeURIComponent(resource.name) %>"
                                         <%= disableActions %>
                                     >
-                                        Start
+                                        启动
                                     </a>
                                     <% } %>
                                 </td>
@@ -222,7 +222,7 @@
 
     //============================================== Refresh List
     $('#btnRefresh').click(() => {
-        const notify = $.notify({ message: '<p class="text-center">Executing Command...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">正在执行命令...</p>' }, {});
         txAdminAPI({
             type: "POST",
             url: '/fxserver/commands',
@@ -248,7 +248,7 @@
 
     //============================================== Start/Stop/Restart buttons
     function btnCommand(action, parameter) {
-        const notify = $.notify({ message: '<p class="text-center">Executing Command...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">正在执行命令...</p>' }, {});
         txAdminAPI({
             type: "POST",
             url: '/fxserver/commands',
@@ -314,10 +314,10 @@
         });
         if (expandedCount === resGroupsJS.length) {
             isExpandButton = false;
-            btnExpandCollapse.innerHTML = '<i class="icon-size-actual"></i> Collapse All';
+            btnExpandCollapse.innerHTML = '<i class="icon-size-actual"></i> 全部折叠';
         } else {
             isExpandButton = true;
-            btnExpandCollapse.innerHTML = '<i class="icon-size-fullscreen"></i> Expand All';
+            btnExpandCollapse.innerHTML = '<i class="icon-size-fullscreen"></i> 全部展开';
         }
     }
     $('#btnExpandCollapse').click(() => {

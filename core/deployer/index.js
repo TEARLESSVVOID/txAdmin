@@ -49,7 +49,7 @@ export class Deployer {
             this.recipe = recipeParser(impRecipe);
         } catch (error) {
             console.verbose.dir(error);
-            throw new Error(`Recipe Error: ${error.message}`);
+            throw new Error(`配方错误：${error.message}`);
         }
     }
 
@@ -71,13 +71,13 @@ export class Deployer {
      * @param {string} userRecipe
      */
     async confirmRecipe(userRecipe) {
-        if (this.step !== 'review') throw new Error('expected review step');
+        if (this.step !== 'review') throw new Error('应为 review 步骤');
 
         //Parse/set recipe
         try {
             this.recipe = recipeParser(userRecipe);
         } catch (error) {
-            throw new Error(`Cannot start() deployer due to a Recipe Error: ${error.message}`);
+            throw new Error(`由于配方错误，无法启动部署器：${error.message}`);
         }
 
         //Ensure deployment path
@@ -85,7 +85,7 @@ export class Deployer {
             await fse.ensureDir(this.deployPath);
         } catch (error) {
             console.verbose.dir(error);
-            throw new Error(`Failed to create ${this.deployPath} with error: ${error.message}`);
+            throw new Error(`创建 ${this.deployPath} 失败，错误信息：${error.message}`);
         }
 
         this.step = 'input';
@@ -95,7 +95,7 @@ export class Deployer {
      * Returns the recipe variables for the deployer run step
      */
     getRecipeVars() {
-        if (this.step !== 'input') throw new Error('expected input step');
+        if (this.step !== 'input') throw new Error('应为 input 步骤');
         return cloneDeep(this.recipe.variables);
         //TODO: ?? Object.keys pra montar varname: {type: 'string'}?
     }
@@ -105,10 +105,10 @@ export class Deployer {
      * @param {string} userInputs
      */
     start(userInputs) {
-        if (this.step !== 'input') throw new Error('expected input step');
+        if (this.step !== 'input') throw new Error('应为 input 步骤');
         Object.assign(this.recipe.variables, userInputs);
         this.logLines = [];
-        this.customLog(`Starting deployment of ${this.recipe.name}.`);
+        this.customLog(`正在开始部署 ${this.recipe.name}。`);
         this.deployFailed = false;
         this.progress = 0;
         this.step = 'run';
@@ -122,7 +122,7 @@ export class Deployer {
         this.deployFailed = true;
         try {
             const filePath = path.join(this.deployPath, '_DEPLOY_FAILED_DO_NOT_USE');
-            await fse.outputFile(filePath, 'This deploy has failed, please do not use these files.');
+            await fse.outputFile(filePath, '此部署已失败，请勿使用这些文件。');
         } catch (error) { }
     }
 
@@ -130,7 +130,7 @@ export class Deployer {
      * (Private) Run the tasks in a sequential way.
      */
     async runTasks() {
-        if (this.step !== 'run') throw new Error('expected run step');
+        if (this.step !== 'run') throw new Error('应为 run 步骤');
         const contextVariables = cloneDeep(this.recipe.variables);
         contextVariables.deploymentID = this.deploymentID;
         contextVariables.serverName = this.serverName;
@@ -143,27 +143,27 @@ export class Deployer {
             this.progress = Math.round((index / this.recipe.tasks.length) * 100);
             const task = this.recipe.tasks[index];
             const taskID = `[task${index + 1}:${task.action}]`;
-            this.customLog(`Running ${taskID}...`);
+            this.customLog(`正在运行 ${taskID}...`);
             const taskTimeoutSeconds = task.timeoutSeconds ?? recipeEngine[task.action].timeoutSeconds;
 
             try {
-                contextVariables.$step = `loading task ${task.action}`;
+                contextVariables.$step = `正在加载任务 ${task.action}`;
                 await Promise.race([
                     recipeEngine[task.action].run(task, this.deployPath, contextVariables),
                     new Promise((resolve, reject) => {
                         setTimeout(() => {
-                            reject(new Error(`timed out after ${taskTimeoutSeconds}s.`));
+                            reject(new Error(`在 ${taskTimeoutSeconds} 秒后超时。`));
                         }, taskTimeoutSeconds * 1000);
                     }),
                 ]);
                 this.logLines[this.logLines.length - 1] += ' ✔️';
             } catch (error) {
                 this.logLines[this.logLines.length - 1] += ' ❌';
-                let msg = `Task Failed: ${error.message}\n`
-                    + 'Options: \n'
+                let msg = `任务失败：${error.message}\n`
+                    + '选项：\n'
                     + JSON.stringify(task, null, 2);
                 if (contextVariables.$step) {
-                    msg += '\nDebug/Status: '
+                    msg += '\n调试/状态：'
                         + JSON.stringify([
                             txEnv.txaVersion,
                             await getOsDistro(),
@@ -177,17 +177,17 @@ export class Deployer {
 
         //Set progress
         this.progress = 100;
-        this.customLog('All tasks completed.');
+        this.customLog('所有任务已完成。');
 
         //Check deploy folder validity (resources + server.cfg)
         try {
             if (!fse.existsSync(path.join(this.deployPath, 'resources'))) {
-                throw new Error('this recipe didn\'t create a \'resources\' folder.');
+                throw new Error('此配方没有创建 \'resources\' 文件夹。');
             } else if (!fse.existsSync(path.join(this.deployPath, 'server.cfg'))) {
-                throw new Error('this recipe didn\'t create a \'server.cfg\' file.');
+                throw new Error('此配方没有创建 \'server.cfg\' 文件。');
             }
         } catch (error) {
-            this.customLogError(`Deploy validation error: ${error.message}`);
+            this.customLogError(`部署验证错误：${error.message}`);
             return await this.markFailedDeploy();
         }
 
@@ -198,14 +198,14 @@ export class Deployer {
                 file: './server.cfg',
             };
             await recipeEngine['replace_string'].run(task, this.deployPath, contextVariables);
-            this.customLog('Replacing all vars in server.cfg... ✔️');
+            this.customLog('正在替换 server.cfg 中的所有变量... ✔️');
         } catch (error) {
-            this.customLogError(`Failed to replace all vars in server.cfg: ${error.message}`);
+            this.customLogError(`替换 server.cfg 中的所有变量失败：${error.message}`);
             return await this.markFailedDeploy();
         }
 
         //Else: success :)
-        this.customLog('Deploy finished and folder validated. All done!');
+        this.customLog('部署完成且文件夹验证通过。全部完成！');
         this.step = 'configure';
         if (txEnv.isWindows) {
             try {

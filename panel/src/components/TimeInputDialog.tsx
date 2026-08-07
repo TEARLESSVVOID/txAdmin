@@ -63,10 +63,10 @@ export function TimeInputDialog({ title, isOpen, onClose, onSubmit }: TimeInputD
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor={hourSelectId} className="text-sm font-medium">Hour</Label>
+                            <Label htmlFor={hourSelectId} className="text-sm font-medium">小时</Label>
                             <Select onValueChange={setHour} value={hour}>
                                 <SelectTrigger id={hourSelectId}>
-                                    <SelectValue placeholder="Select hour" />
+                                    <SelectValue placeholder="选择小时" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {hoursArray.map((h) => <StyledHourOption key={h.value} {...h} />)}
@@ -74,10 +74,10 @@ export function TimeInputDialog({ title, isOpen, onClose, onSubmit }: TimeInputD
                             </Select>
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor={minuteSelectId} className="text-sm font-medium">Minute</Label>
+                            <Label htmlFor={minuteSelectId} className="text-sm font-medium">分钟</Label>
                             <Select onValueChange={setMinute} value={minute}>
                                 <SelectTrigger id={minuteSelectId}>
-                                    <SelectValue placeholder="Select minute" />
+                                    <SelectValue placeholder="选择分钟" />
                                 </SelectTrigger>
                                 <SelectContent onBlur={(e) => e.preventDefault()}>
                                     <SelectItem value={'00'}>00</SelectItem>
@@ -98,7 +98,7 @@ export function TimeInputDialog({ title, isOpen, onClose, onSubmit }: TimeInputD
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={handleSubmit}>Add Time</Button>
+                    <Button onClick={handleSubmit}>添加时间</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

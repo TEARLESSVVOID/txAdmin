@@ -22,7 +22,7 @@ export default async function SaveBanTemplates(ctx: AuthedCtx) {
     //Check permissions
     if (!ctx.admin.testPermission('settings.write', modulename)) {
         return sendTypedResp({
-            error: 'You do not have permission to change the settings.'
+            error: '你没有权限修改设置。'
         });
     }
 
@@ -30,7 +30,7 @@ export default async function SaveBanTemplates(ctx: AuthedCtx) {
     const schemaRes = bodySchema.safeParse(ctx.request.body);
     if (!schemaRes.success) {
         return sendTypedResp({
-            error: `Invalid request body: ${schemaRes.error.message}`,
+            error: `无效的请求体：${schemaRes.error.message}`,
         });
     }
     const banTemplates = schemaRes.data;
@@ -44,7 +44,7 @@ export default async function SaveBanTemplates(ctx: AuthedCtx) {
         console.warn(`[${ctx.admin.name}] Error changing banTemplates settings.`);
         console.verbose.dir(error);
         return sendTypedResp({
-            error: `Error saving the configuration file: ${(error as Error).message}`
+            error: `保存配置文件时出错：${(error as Error).message}`
         });
     }
 

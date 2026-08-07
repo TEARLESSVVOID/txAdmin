@@ -131,21 +131,21 @@ export default class FxRunner {
             fxSpawnVars = getFxSpawnVariables();
             // debugPrintSpawnVars(fxSpawnVars); //DEBUG
         } catch (error) {
-            const errMsg = `Error setting up spawn variables: ${(error as any).message}`;
+            const errMsg = `设置启动变量时出错：${(error as any).message}`;
             console.error(errMsg);
             return errMsg;
         }
         try {
             await setupCustomLocaleFile();
         } catch (error) {
-            const errMsg = `Error copying custom locale: ${(error as any).message}`;
+            const errMsg = `复制自定义语言文件时出错：${(error as any).message}`;
             console.error(errMsg);
             return errMsg;
         }
 
         //If there is any FXServer configuration missing
         if (!this.isConfigured) {
-            const msg = `Cannot start the server with missing configuration (serverDataPath || cfgPath).`;
+            const msg = `无法在缺少配置（serverDataPath || cfgPath）的情况下启动服务器。`;
             console.error(msg);
             return msg;
         }
@@ -155,18 +155,18 @@ export default class FxRunner {
         try {
             const result = await validateFixServerConfig(fxSpawnVars.cfgPath, fxSpawnVars.dataPath);
             if (result.errors || !result.connectEndpoint) {
-                const msg = `**Unable to start the server due to error(s) in your config file(s):**\n${result.errors}`;
+                const msg = `**由于配置文件存在错误，无法启动服务器：**\n${result.errors}`;
                 console.error(msg);
                 return msg;
             }
             if (result.warnings) {
-                const msg = `**Warning regarding your configuration file(s):**\n${result.warnings}`;
+                const msg = `**关于你的配置文件的警告：**\n${result.warnings}`;
                 console.warn(msg);
             }
 
             netEndpointDetected = result.connectEndpoint;
         } catch (error) {
-            const errMsg = `server.cfg error: ${(error as any).message}`;
+            const errMsg = `server.cfg 错误：${(error as any).message}`;
             console.error(errMsg);
             if ((error as any).message.includes('unreadable')) {
                 console.error('That is the file where you configure your server and start resources.');
@@ -207,7 +207,7 @@ export default class FxRunner {
             },
         );
         if (!isValidChildProcess(childProc)) {
-            const errMsg = `Failed to run \n${fxSpawnVars.bin}`;
+            const errMsg = `无法运行 \n${fxSpawnVars.bin}`;
             console.error(errMsg);
             return errMsg;
         }
@@ -301,7 +301,7 @@ export default class FxRunner {
 
         //Prepare vars
         const shutdownDelay = Math.max(txConfig.server.shutdownNoticeDelayMs, MIN_KILL_DELAY);
-        const reasonString = reason ?? 'no reason provided';
+        const reasonString = reason ?? '未提供原因';
         const messageType = isRestarting ? 'restarting' : 'stopping';
         const messageColor = isRestarting ? 'warning' : 'danger';
         const tOptions = {
@@ -315,7 +315,7 @@ export default class FxRunner {
                 shutdownDelay,
                 { units: ['m', 's', 'ms'] }
             );
-            return `A shutdown is already in progress, with a delay of ${durationStr}.`;
+            return `已有一次关机正在进行中，延迟为 ${durationStr}。`;
         }
 
         try {
@@ -351,7 +351,7 @@ export default class FxRunner {
             }).catch(() => { });
             return null;
         } catch (error) {
-            const msg = `Couldn't kill the server. Perhaps What Is Dead May Never Die.`;
+            const msg = `无法关闭服务器。或许已死之物永不消亡。`;
             console.error(msg);
             console.verbose.dir(error);
             this.proc = null;

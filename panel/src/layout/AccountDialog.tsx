@@ -43,10 +43,10 @@ function ChangePasswordTab() {
         setError('');
 
         if (newPassword.length < consts.adminPasswordMinLength || newPassword.length > consts.adminPasswordMaxLength) {
-            setError(`The password must be between ${consts.adminPasswordMinLength} and ${consts.adminPasswordMaxLength} digits long.`);
+            setError(`密码长度必须介于 ${consts.adminPasswordMinLength} 和 ${consts.adminPasswordMaxLength} 位之间。`);
             return;
         } else if (newPassword !== newPasswordConfirm) {
-            setError('The passwords do not match.');
+            setError('两次输入的密码不一致。');
             return;
         }
 
@@ -70,7 +70,7 @@ function ChangePasswordTab() {
                             isTempPassword: false,
                         });
                     } else {
-                        txToast.success('Password changed successfully!');
+                        txToast.success('密码修改成功！');
                         closeAccountModal();
                     }
                 } else {
@@ -85,18 +85,18 @@ function ChangePasswordTab() {
         <TabsContent value="password" tabIndex={undefined}>
             <form onSubmit={handleSubmit}>
                 {authData.isTempPassword ? (<p className="text-sm text-warning-inline">
-                    Your account has a temporary password that needs to be changed before you can use this web panel. <br />
-                    <strong>Make sure to take note of your new password before saving.</strong>
+                    您的账户当前使用临时密码，在您可以使用此网页面板之前需要先修改密码。 <br />
+                    <strong>保存前请务必记下您的新密码。</strong>
                 </p>) : (<p className="text-sm text-muted-foreground">
-                    You can use your password to login to the txAdmin inferface even without using the Cfx.re login button.
+                    即使不使用 Cfx.re 登录按钮，您也可以使用密码登录 txAdmin 界面。
                 </p>)}
                 <div className="space-y-3 pt-2 pb-6">
                     {!authData.isTempPassword && (
                         <div className="space-y-1">
-                            <Label htmlFor="current-password">Current Password</Label>
+                            <Label htmlFor="current-password">当前密码</Label>
                             <Input
                                 id="current-password"
-                                placeholder="Enter current password"
+                                placeholder="请输入当前密码"
                                 type="password"
                                 value={oldPassword}
                                 autoFocus
@@ -109,11 +109,11 @@ function ChangePasswordTab() {
                         </div>
                     )}
                     <div className="space-y-1">
-                        <Label htmlFor="new-password">New Password</Label>
+                        <Label htmlFor="new-password">新密码</Label>
                         <Input
                             id="new-password"
                             autoComplete="new-password"
-                            placeholder="Enter new password"
+                            placeholder="请输入新密码"
                             type="password"
                             value={newPassword}
                             autoFocus={authData.isTempPassword}
@@ -125,11 +125,11 @@ function ChangePasswordTab() {
                         />
                     </div>
                     <div className="space-y-1">
-                        <Label htmlFor="confirm-password">Confirm Password</Label>
+                        <Label htmlFor="confirm-password">确认密码</Label>
                         <Input
                             id="confirm-password"
                             autoComplete="new-password"
-                            placeholder="Repeat new password"
+                            placeholder="请再次输入新密码"
                             type="password"
                             required
                             onChange={(e) => {
@@ -146,7 +146,7 @@ function ChangePasswordTab() {
                     type="submit"
                     disabled={isSaving}
                 >
-                    {isSaving ? 'Saving...' : authData.isTempPassword ? 'Save & Next' : 'Change Password'}
+                    {isSaving ? '保存中...' : authData.isTempPassword ? '保存并下一步' : '修改密码'}
                 </Button>
             </form>
         </TabsContent>
@@ -203,7 +203,7 @@ function ChangeIdentifiersTab() {
             success: (data) => {
                 setIsSaving(false);
                 if ('success' in data) {
-                    txToast.success('Identifiers changed successfully!');
+                    txToast.success('标识符修改成功！');
                     closeAccountModal();
                 } else {
                     setError(data.error)
@@ -224,10 +224,10 @@ function ChangeIdentifiersTab() {
                 if (forumData.user && typeof forumData.user.id === 'number') {
                     setCfxreId(`fivem:${forumData.user.id}`);
                 } else {
-                    setError('Could not find the user in the forum. Make sure you typed the username correctly.');
+                    setError('在论坛中找不到该用户。请确认您输入的用户名是否正确。');
                 }
             } catch (error) {
-                setError('Failed to check the identifiers on the forum API.');
+                setError('通过论坛 API 检查标识符失败。');
             }
             setIsConvertingFivemId(false);
         } else if (cfxreId !== trimmed) {
@@ -249,19 +249,19 @@ function ChangeIdentifiersTab() {
         <TabsContent value="identifiers" tabIndex={undefined}>
             <form onSubmit={handleSubmit}>
                 <p className="text-sm text-muted-foreground">
-                    The identifiers are optional for accessing the <strong>Web Panel</strong> but required for you to be able to use the <strong>In Game Menu</strong> and the <strong>Discord Bot</strong>. <br />
-                    <strong>It is recommended that you configure at least one.</strong>
+                    标识符对于访问<strong>网页面板</strong>是可选的，但要使用<strong>游戏内菜单</strong>和<strong>Discord 机器人</strong>则是必需的。 <br />
+                    <strong>建议您至少配置一个。</strong>
                 </p>
                 <div className="space-y-3 pt-2 pb-6">
                     <div className="space-y-1">
-                        <Label htmlFor="cfxreId">FiveM identifier <span className="text-sm opacity-75 text-info">(optional)</span></Label>
+                        <Label htmlFor="cfxreId">FiveM 标识符 <span className="text-sm opacity-75 text-info">（可选）</span></Label>
                         <Input
                             id="cfxreId"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"
                             placeholder="fivem:000000"
-                            value={currIdsResp.isLoading || isConvertingFivemId ? 'loading...' : cfxreId}
+                            value={currIdsResp.isLoading || isConvertingFivemId ? '加载中...' : cfxreId}
                             disabled={currIdsResp.isLoading || isConvertingFivemId}
                             autoFocus
                             onBlur={handleCfxreIdBlur}
@@ -271,20 +271,20 @@ function ChangeIdentifiersTab() {
                             }}
                         />
                         <p className="text-sm text-muted-foreground">
-                            Your identifier can be found by clicking in your name in the playerlist and going to the IDs page. <br />
-                            You can also type in your <TxAnchor href="https://forum.cfx.re/">forum.cfx.re</TxAnchor> username and it will be converted automatically. <br />
-                            This is required if you want to login using the Cfx.re button.
+                            您可以在玩家列表中点击自己的名字并进入 ID 页面查看您的标识符。 <br />
+                            您也可以输入您的 <TxAnchor href="https://forum.cfx.re/">forum.cfx.re</TxAnchor> 用户名，它会被自动转换。 <br />
+                            如果您想使用 Cfx.re 按钮登录，这是必需的。
                         </p>
                     </div>
                     <div className="space-y-1">
-                        <Label htmlFor="discordId">Discord identifier <span className="text-sm opacity-75 text-info">(optional)</span></Label>
+                        <Label htmlFor="discordId">Discord 标识符 <span className="text-sm opacity-75 text-info">（可选）</span></Label>
                         <Input
                             id="discordId"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"
                             placeholder="discord:000000000000000000"
-                            value={currIdsResp.isLoading ? 'loading...' : discordId}
+                            value={currIdsResp.isLoading ? '加载中...' : discordId}
                             disabled={currIdsResp.isLoading}
                             onBlur={handleDiscordIdBlur}
                             onChange={(e) => {
@@ -293,8 +293,8 @@ function ChangeIdentifiersTab() {
                             }}
                         />
                         <p className="text-sm text-muted-foreground">
-                            You can get your Discord User ID by following <TxAnchor href="https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID">this guide</TxAnchor>. <br />
-                            This is required if you want to use the Discord Bot slash commands.
+                            您可以按照<TxAnchor href="https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID">此指南</TxAnchor>获取您的 Discord 用户 ID。 <br />
+                            如果您想使用 Discord 机器人的斜杠命令，这是必需的。
                         </p>
                     </div>
                 </div>
@@ -305,7 +305,7 @@ function ChangeIdentifiersTab() {
                     type="submit"
                     disabled={!currIdsResp || isSaving}
                 >
-                    {isSaving ? 'Saving...' : 'Save Changes'}
+                    {isSaving ? '保存中...' : '保存更改'}
                 </Button>
             </form>
         </TabsContent>
@@ -349,7 +349,7 @@ export default function AccountDialog() {
             <DialogContent className="sm:max-w-lg" tabIndex={undefined}>
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold">
-                        {authData.isTempPassword ? 'Welcome to txAdmin!' : `Your Account - ${authData.name}`}
+                        {authData.isTempPassword ? '欢迎使用 txAdmin！' : `我的账户 - ${authData.name}`}
                     </DialogTitle>
                 </DialogHeader>
                 <Tabs
@@ -358,8 +358,8 @@ export default function AccountDialog() {
                     onValueChange={setAccountModalTab}
                 >
                     <TabsList className="grid w-full grid-cols-2 mb-4">
-                        <TabsTrigger value="password">Password</TabsTrigger>
-                        <TabsTrigger value="identifiers" disabled={authData.isTempPassword}>Identifiers</TabsTrigger>
+                        <TabsTrigger value="password">密码</TabsTrigger>
+                        <TabsTrigger value="identifiers" disabled={authData.isTempPassword}>标识符</TabsTrigger>
                     </TabsList>
                     <ChangePasswordTab />
                     <ChangeIdentifiersTab />

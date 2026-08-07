@@ -10,11 +10,11 @@ const console = consoleFactory(modulename);
 export default async function ServerLog(ctx) {
     //Check permissions
     if (!ctx.admin.hasPermission('server.log.view')) {
-        return ctx.utils.renderMessage('You don\'t have permission to view this page.');
+        return ctx.utils.renderMessage('你没有权限查看此页面。');
     }
 
     const renderData = {
-        headerTitle: 'Server Log',
+        headerTitle: '服务器日志',
     };
     return ctx.utils.render('main/serverLog', renderData);
 };

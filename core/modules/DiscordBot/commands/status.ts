@@ -22,17 +22,17 @@ const isValidButtonConfig = (btn: any) => {
     );
 }
 
-const invalidUrlMessage = `Every URL must start with one of (\`http://\`, \`https://\`, \`discord://\`).
-URLs cannot be empty, if you do not want a URL then remove the URL line.`;
+const invalidUrlMessage = `每个 URL 都必须以（\`http://\`、\`https://\`、\`discord://\`）之一开头。
+URL 不能为空，如果不需要 URL，请删除 URL 行。`;
 
-const invalidPlaceholderMessage = `Your URL starts with \`{{\`, try removing it.
-If you just tried to edit a placeholder like \`{{serverBrowserUrl}}\` or \`{{serverJoinUrl}}\`, remember that those placeholders are replaced automatically by txAdmin, meaning you do not need to edit them at all.`
+const invalidPlaceholderMessage = `你的 URL 以 \`{{\` 开头，请尝试删除它。
+如果你只是想编辑像 \`{{serverBrowserUrl}}\` 或 \`{{serverJoinUrl}}\` 这样的占位符，请记住这些占位符会由 txAdmin 自动替换，你完全不需要编辑它们。`
 
-const invalidEmojiMessage = `All emojis must be one of:
-- UTF-8 emoji ('😄')
-- Valid emoji ID ('1062339910654246964')
-- Discord custom emoji (\`<:name:id>\` or \`<a:name:id>\`).
-To get the full emoji code, insert it into discord, and add \`\\\` before it then send the message`
+const invalidEmojiMessage = `所有表情符号必须是以下之一：
+- UTF-8 表情（'😄'）
+- 有效的表情 ID（'1062339910654246964'）
+- Discord 自定义表情（\`<:name:id>\` 或 \`<a:name:id>\`）。
+要获取完整的表情代码，请将其插入 Discord，并在前面加上 \`\\\` 然后发送消息`
 
 
 export const generateStatusMessage = (
@@ -62,14 +62,14 @@ export const generateStatusMessage = (
     const fxMonitorStatus = txCore.fxMonitor.status;
     const placeholders = {
         serverName: txConfig.general.serverName,
-        statusString: 'Unknown',
+        statusString: '未知',
         statusColor: '#4C3539',
         serverCfxId,
         serverBrowserUrl: `https://servers.fivem.net/servers/detail/${serverCfxId}`,
         serverJoinUrl: `https://cfx.re/join/${serverCfxId}`,
-        serverMaxClients: txCore.cacheStore.get('fxsRuntime:maxClients') ?? 'unknown',
+        serverMaxClients: txCore.cacheStore.get('fxsRuntime:maxClients') ?? '未知',
         serverClients: txCore.fxPlayerlist.onlineCount,
-        nextScheduledRestart: 'unknown',
+        nextScheduledRestart: '未知',
         uptime: (fxMonitorStatus.uptime > 0)
             ? msToShortishDuration(fxMonitorStatus.uptime)
             : '--',
@@ -78,29 +78,29 @@ export const generateStatusMessage = (
     //Prepare scheduler placeholder
     const schedule = txCore.fxScheduler.getStatus();
     if (typeof schedule.nextRelativeMs !== 'number') {
-        placeholders.nextScheduledRestart = 'not scheduled';
+        placeholders.nextScheduledRestart = '未安排';
     } else if (schedule.nextSkip) {
-        placeholders.nextScheduledRestart = 'skipped';
+        placeholders.nextScheduledRestart = '已跳过';
     } else {
-        const tempFlag = (schedule.nextIsTemp) ? '(tmp)' : '';
+        const tempFlag = (schedule.nextIsTemp) ? '（临时）' : '';
         const relativeTime = msToShortishDuration(schedule.nextRelativeMs);
         const isLessThanMinute = schedule.nextRelativeMs < 60_000;
         if (isLessThanMinute) {
-            placeholders.nextScheduledRestart = `right now ${tempFlag}`;
+            placeholders.nextScheduledRestart = `现在${tempFlag}`;
         } else {
-            placeholders.nextScheduledRestart = `in ${relativeTime} ${tempFlag}`;
+            placeholders.nextScheduledRestart = `${relativeTime} 后${tempFlag}`;
         }
     }
 
     //Prepare status placeholders
     if (fxMonitorStatus.health === FxMonitorHealth.ONLINE) {
-        placeholders.statusString = embedConfigJson?.onlineString ?? '🟢 Online';
+        placeholders.statusString = embedConfigJson?.onlineString ?? '🟢 在线';
         placeholders.statusColor = embedConfigJson?.onlineColor ?? "#0BA70B";
     } else if (fxMonitorStatus.health === FxMonitorHealth.PARTIAL) {
-        placeholders.statusString = embedConfigJson?.partialString ?? '🟡 Partial';
+        placeholders.statusString = embedConfigJson?.partialString ?? '🟡 部分';
         placeholders.statusColor = embedConfigJson?.partialColor ?? "#FFF100";
     } else if (fxMonitorStatus.health === FxMonitorHealth.OFFLINE) {
-        placeholders.statusString = embedConfigJson?.offlineString ?? '🔴 Offline';
+        placeholders.statusString = embedConfigJson?.offlineString ?? '🔴 离线';
         placeholders.statusColor = embedConfigJson?.offlineColor ?? "#A70B28";
     }
 
@@ -129,8 +129,8 @@ export const generateStatusMessage = (
             const processed = processValue(value);
             if (key === 'url' && !isValidEmbedUrl(processed)) {
                 const messageHead = processed.length
-                    ? `Invalid URL \`${processed}\`.`
-                    : `Empty URL.`;
+                    ? `无效的 URL \`${processed}\`。`
+                    : 'URL 为空。';
                 const badPlaceholderMessage = processed.startsWith('{{')
                     ? invalidPlaceholderMessage
                     : '';
@@ -154,11 +154,11 @@ export const generateStatusMessage = (
         embed.setTimestamp();
         embed.setFooter({
             iconURL: 'https://cdn.discordapp.com/emojis/1062339910654246964.webp?size=96&quality=lossless',
-            text: `txAdmin ${txEnv.txaVersion} • Updated every minute`,
+            text: `txAdmin ${txEnv.txaVersion} • 每分钟更新`,
 
         });
     } catch (error) {
-        throw new Error(`**Embed Class Error:** ${(error as Error).message}`);
+        throw new Error(`**嵌入消息类错误：** ${(error as Error).message}`);
     }
 
     //Attempting to instantiate buttons
@@ -166,26 +166,26 @@ export const generateStatusMessage = (
     try {
         if (Array.isArray(embedConfigJson?.buttons) && embedConfigJson.buttons.length) {
             if (embedConfigJson.buttons.length > 5) {
-                throw new Error(`Over limit of 5 buttons.`);
+                throw new Error(`超过 5 个按钮的限制。`);
             }
             buttonsRow = new ActionRowBuilder<ButtonBuilder>();
             for (const cfgButton of embedConfigJson.buttons) {
                 if (!isValidButtonConfig(cfgButton)) {
-                    throw new Error(`Invalid button in Discord Status Embed Config.
-                    All buttons must have:
-                    - Label: string, not empty
-                    - URL: string, not empty, valid URL`);
+                    throw new Error(`Discord 状态嵌入配置中的按钮无效。
+                    所有按钮必须满足：
+                    - 标签：非空字符串
+                    - URL：非空且有效的 URL`);
                 }
                 const processedUrl = processValue(cfgButton.url);
                 if (!isValidEmbedUrl(processedUrl)) {
                     const messageHead = processedUrl.length
-                        ? `Invalid URL \`${processedUrl}\``
-                        : `Empty URL`;
+                        ? `无效的 URL \`${processedUrl}\``
+                        : 'URL 为空';
                     const badPlaceholderMessage = processedUrl.startsWith('{{')
                         ? invalidPlaceholderMessage
                         : '';
                     throw new Error([
-                        `${messageHead} for button \`${cfgButton.label}\`.`,
+                        `${messageHead}，按钮 \`${cfgButton.label}\`。`,
                         invalidUrlMessage,
                         badPlaceholderMessage
                     ].join('\n'));
@@ -197,7 +197,7 @@ export const generateStatusMessage = (
                 });
                 if (cfgButton.emoji !== undefined) {
                     if (!isValidButtonEmoji(cfgButton.emoji)) {
-                        throw new Error(`Invalid emoji for button \`${cfgButton.label}\`.\n${invalidEmojiMessage}`);
+                        throw new Error(`按钮 \`${cfgButton.label}\` 的表情无效。\n${invalidEmojiMessage}`);
                     }
                     btn.setEmoji(cfgButton.emoji);
                 }
@@ -205,7 +205,7 @@ export const generateStatusMessage = (
             }
         }
     } catch (error) {
-        throw new Error(`**Embed Buttons Error:** ${(error as Error).message}`);
+        throw new Error(`**嵌入按钮错误：** ${(error as Error).message}`);
     }
 
     return {
@@ -222,10 +222,10 @@ export const removeOldEmbed = async (interaction: ChatInputCommandInteraction) =
         if (oldChannel?.type === ChannelType.GuildText || oldChannel?.type === ChannelType.GuildAnnouncement) {
             await oldChannel.messages.delete(oldMessageId);
         } else {
-            throw new Error(`oldChannel is not a guild text or announcement channel`);
+            throw new Error(`旧频道不是文本或公告频道`);
         }
     } else {
-        throw new Error(`no old message id saved, maybe was never sent, maybe it was removed`);
+        throw new Error(`未保存旧消息 ID，可能从未发送过，也可能已被删除`);
     }
 }
 
@@ -241,14 +241,14 @@ export default async (interaction: ChatInputCommandInteraction) => {
         txCore.cacheStore.delete('discord:status:channelId');
         txCore.cacheStore.delete('discord:status:messageId');
         if (isRemoveOnly) {
-            const msg = `Old status embed removed.`;
+            const msg = `旧状态嵌入已移除。`;
             logDiscordAdminAction(adminName, msg);
             return await interaction.reply(embedder.success(msg, true));
         }
     } catch (error) {
         if (isRemoveOnly) {
             return await interaction.reply(
-                embedder.warning(`**Failed to remove old status embed:**\n${(error as Error).message}`, true)
+                embedder.warning(`**移除旧状态嵌入失败：**\n${(error as Error).message}`, true)
             );
         }
     }
@@ -259,17 +259,17 @@ export default async (interaction: ChatInputCommandInteraction) => {
         newStatusMessage = generateStatusMessage();
     } catch (error) {
         return await interaction.reply(
-            embedder.warning(`**Failed to generate new embed:**\n${(error as Error).message}`, true)
+            embedder.warning(`**生成新嵌入失败：**\n${(error as Error).message}`, true)
         );
     }
 
     //Attempt to send new message
     try {
         if (interaction.channel?.type !== ChannelType.GuildText && interaction.channel?.type !== ChannelType.GuildAnnouncement) {
-            throw new Error(`channel type not supported`);
+            throw new Error(`不支持此频道类型`);
         }
         const placeholderEmbed = new EmbedBuilder({
-            description: '_placeholder message, attempting to edit with embed..._\n**Note:** If you are seeing this message, it probably means that something was wrong with the configured Embed JSONs and Discord\'s API rejected the request to replace this placeholder.'
+            description: '_占位消息，正在尝试用嵌入替换..._\n**注意：** 如果你看到此消息，可能意味着配置的嵌入 JSON 存在问题，Discord 的 API 拒绝了替换此占位消息的请求。'
         })
         const newMessage = await interaction.channel.send({ embeds: [placeholderEmbed] });
         await newMessage.edit(newStatusMessage);
@@ -278,17 +278,17 @@ export default async (interaction: ChatInputCommandInteraction) => {
     } catch (error) {
         let msg: string;
         if ((error as any).code === 50013) {
-            msg = `This bot does not have permission to send embed messages in this channel.
-            Please change the channel permissions and give this bot the \`Embed Links\` and \`Send Messages\` permissions.`
+            msg = `此机器人在该频道中没有发送嵌入消息的权限。
+            请修改频道权限，为此机器人授予 \`Embed Links\`（嵌入链接）和 \`Send Messages\`（发送消息）权限。`
         } else {
             msg = (error as Error).message;
         }
         return await interaction.reply(
-            embedder.warning(`**Failed to send new embed:**\n${msg}`, true)
+            embedder.warning(`**发送新嵌入失败：**\n${msg}`, true)
         );
     }
 
-    const msg = `Status embed saved.`;
+    const msg = `状态嵌入已保存。`;
     logDiscordAdminAction(adminName, msg);
     return await interaction.reply(embedder.success(msg, true));
 }

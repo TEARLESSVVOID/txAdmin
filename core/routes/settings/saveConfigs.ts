@@ -76,7 +76,7 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('settings.write', modulename)) {
         return sendTypedResp({
             type: 'error',
-            msg: 'You don\'t have permission to execute this action.',
+            msg: '你没有权限执行此操作。',
         });
     }
 
@@ -87,7 +87,7 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
         return sendTypedResp({
             type: 'error',
             md: true,
-            title: 'Invalid Request',
+            title: '无效请求',
             msg: fromError(
                 paramsSchemaRes.error ?? bodySchemaRes.error,
                 { prefix: null }
@@ -115,7 +115,7 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
         return sendTypedResp({
             type: 'error',
             md: true,
-            title: `Error processing the ${displayCardName} changes.`,
+            title: `处理 ${displayCardName} 更改时出错。`,
             msg: (error as any).message,
         });
     }
@@ -126,14 +126,14 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
     try {
         for (const config of resetKeys) {
             const [scope, key] = config.split('.');
-            if (!scope || !key) throw new Error(`Invalid reset key: \`${config}\``);
+            if (!scope || !key) throw new Error(`无效的重置键：\`${config}\``);
             confx(configChanges).set(scope, key, SYM_RESET_CONFIG);
         }
     } catch (error) {
         return sendTypedResp({
             type: 'error',
             md: true,
-            title: `Error processing the ${displayCardName} changes.`,
+            title: `处理 ${displayCardName} 更改时出错。`,
             msg: (error as any).message,
         });
     }
@@ -146,7 +146,7 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
         }
         return sendTypedResp({
             type: 'success',
-            msg: `${displayCardName} Settings saved!`,
+            msg: `${displayCardName} 设置已保存！`,
             ...(handlerResp?.successToast ?? {}),
             stored: txCore.configStore.getStoredConfig(),
             changelog: txCore.configStore.getChangelog(),
@@ -156,7 +156,7 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
         return sendTypedResp({
             type: 'error',
             md: true,
-            title: `Error saving the ${displayCardName} changes.`,
+            title: `保存 ${displayCardName} 更改时出错。`,
             msg: (error as any).message,
         });
     }
@@ -168,30 +168,30 @@ export default async function SaveSettingsConfigs(ctx: AuthedCtx) {
  */
 const handleGeneralCard: CardHandler = async (inputConfig, sendTypedResp) => {
     //Validates custom language file
-    if (inputConfig.general?.language === undefined) throw new Error(`Unexpected data for the 'general' card.`);
+    if (inputConfig.general?.language === undefined) throw new Error(`'general' 卡片出现意外数据。`);
     if (inputConfig.general.language === 'custom') {
         try {
             const raw = await fsp.readFile(txCore.translator.customLocalePath, 'utf8');
-            if (!raw.length) throw new Error('The \`locale.json\` file is empty.');
+            if (!raw.length) throw new Error('该 \`locale.json\` 文件为空。');
             const parsed = JSON.parse(raw);
             const locale = localeFileSchema.parse(parsed);
             if (!Translator.humanizerLanguages.includes(locale.$meta.humanizer_language)) {
-                throw new Error(`Invalid humanizer language: \`${locale.$meta.humanizer_language}\`.`);
+                throw new Error(`无效的 humanizer 语言：\`${locale.$meta.humanizer_language}\`。`);
             }
         } catch (error) {
             let msg = (error as Error).message;
             if (error instanceof Error) {
                 if (error.message.includes('ENOENT')) {
-                    msg = `Could not find the custom language file:\n\`${txCore.translator.customLocalePath}\``;
+                    msg = `找不到自定义语言文件：\n\`${txCore.translator.customLocalePath}\``;
                 } else if (error.message.includes('JSON')) {
-                    msg = 'The custom language file contains invalid JSON.';
+                    msg = '自定义语言文件包含无效的 JSON。';
                 } else if (error instanceof z.ZodError) {
-                    msg = fromError(error, { prefix: 'Invalid Locale Metadata' }).message;
+                    msg = fromError(error, { prefix: '无效的语言元数据' }).message;
                 }
             }
             return sendTypedResp({
                 type: 'error',
-                title: 'Custom Language Error',
+                title: '自定义语言错误',
                 md: true,
                 msg,
             });
@@ -210,29 +210,29 @@ const handleFxserverCard: CardHandler = async (inputConfig, sendTypedResp) => {
     //     inputConfig.server.dataPath = cleanPath(inputConfig.server.dataPath + '/');
     // }
     if (typeof inputConfig.server?.dataPath !== 'string' || !inputConfig.server?.dataPath.length) {
-        throw new Error(`Unexpected data for the 'fxserver' card.`);
+        throw new Error(`'fxserver' 卡片出现意外数据。`);
     }
 
     //Validating Server Data Path
     const dataPath = inputConfig.server.dataPath;
     try {
         const isValid = await isValidServerDataPath(dataPath);
-        if (!isValid) throw new Error(`unexpected isValidServerDataPath response`);
+        if (!isValid) throw new Error(`isValidServerDataPath 返回了意外结果`);
     } catch (error) {
         try {
             const potentialFix = await findPotentialServerDataPaths(dataPath);
             if (potentialFix) {
                 return sendTypedResp({
                     type: 'error',
-                    title: 'Server Data Folder Error',
+                    title: '服务器数据文件夹错误',
                     md: true,
-                    msg: `The path provided is not valid.\n\nDid you mean this path?\n\`${cleanPath(potentialFix)}\``,
+                    msg: `提供的路径无效。\n\n你是否指的是这个路径？\n\`${cleanPath(potentialFix)}\``,
                 });
             }
         } catch (error2) { }
         return sendTypedResp({
             type: 'error',
-            title: 'Server Data Folder Error',
+            title: '服务器数据文件夹错误',
             md: true,
             msg: (error as any).message,
         });
@@ -246,7 +246,7 @@ const handleFxserverCard: CardHandler = async (inputConfig, sendTypedResp) => {
         if (!res.success) {
             return sendTypedResp({
                 type: 'error',
-                title: 'Invalid CFG Path',
+                title: '无效的 CFG 路径',
                 md: true,
                 msg: fromError(res.error, { prefix: null }).message,
             });
@@ -258,12 +258,12 @@ const handleFxserverCard: CardHandler = async (inputConfig, sendTypedResp) => {
         cfgPath = resolveCFGFilePath(cfgPath, dataPath);
         const cfgFileStat = await fsp.stat(cfgPath);
         if (!cfgFileStat.isFile()) {
-            throw new Error('The path provided is not a file');
+            throw new Error('提供的路径不是文件');
         }
     } catch (error) {
         return sendTypedResp({
             type: 'error',
-            title: 'CFG Path Error',
+            title: 'CFG 路径错误',
             md: true,
             msg: getFsErrorMdMessage(error, cleanPath(cfgPath)),
         });
@@ -284,8 +284,8 @@ const handleFxserverCard: CardHandler = async (inputConfig, sendTypedResp) => {
         processedConfig: inputConfig,
         successToast: {
             type: 'success',
-            title: 'FXServer Settings Saved!',
-            msg: 'You need to restart the server for the changes to take effect.',
+            title: 'FXServer 设置已保存！',
+            msg: '你需要重启服务器才能使更改生效。',
         }
     };
 }
@@ -295,7 +295,7 @@ const handleFxserverCard: CardHandler = async (inputConfig, sendTypedResp) => {
  * Discord card handler
  */
 const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
-    if (!inputConfig.discordBot) throw new Error(`Unexpected data for the 'discord' card.`);
+    if (!inputConfig.discordBot) throw new Error(`'discord' 卡片出现意外数据。`);
 
     //Validating embed JSONs
     //NOTE: need this before checking if enabled, or while disabled one could save invalid JSON
@@ -308,7 +308,7 @@ const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
         } catch (error) {
             return sendTypedResp({
                 type: 'error',
-                title: 'Embed validation failed:',
+                title: 'Embed 校验失败：',
                 md: true,
                 msg: (error as Error).message,
             });
@@ -324,7 +324,7 @@ const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
     //Validating fields manually before trying to start the bot
     const baseError = {
         type: 'error',
-        title: 'Discord Bot Error',
+        title: 'Discord 机器人错误',
         md: true,
     } as const;
     const schemas = ConfigStore.Schema.discordBot;
@@ -348,7 +348,7 @@ const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
     ) {
         return sendTypedResp({
             ...baseError,
-            msg: 'Missing required fields to enable the bot.',
+            msg: '缺少启用机器人所需的必填字段。',
         });
     }
 
@@ -366,30 +366,30 @@ const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
         const errorCode = (error as any).code;
         let extraContext = '';
         if (errorCode === 'DisallowedIntents' || errorCode === 4014) {
-            extraContext = `**The bot requires the \`GUILD_MEMBERS\` intent.**
-            - Go to the [Discord Dev Portal](https://discord.com/developers/applications)
-            - Navigate to \`Bot > Privileged Gateway Intents\`.
-            - Enable the \`GUILD_MEMBERS\` intent.
-            - Press save on the developer portal.
-            - Go to the \`txAdmin > Settings > Discord Bot\` and press save.`;
+            extraContext = `**该机器人需要 \`GUILD_MEMBERS\` 意图（intent）权限。**
+            - 前往 [Discord 开发者门户](https://discord.com/developers/applications)
+            - 导航到 \`Bot > Privileged Gateway Intents\`。
+            - 启用 \`GUILD_MEMBERS\` 意图。
+            - 在开发者门户中按下保存。
+            - 前往 \`txAdmin > 设置 > Discord 机器人\` 并按下保存。`;
         } else if (errorCode === 'CustomNoGuild') {
             const inviteUrl = ('clientId' in (error as any))
                 ? `https://discord.com/oauth2/authorize?client_id=${(error as any).clientId}&scope=bot&permissions=0`
                 : `https://discordapi.com/permissions.html#0`
-            extraContext = `**This usually mean one of the issues below:**
-            - **Wrong server ID:** read the description of the server ID setting for more information.
-            - **Bot is not in the server:** you need to [INVITE THE BOT](${inviteUrl}) to join the server.
-            - **Wrong bot:** you may be using the token of another discord bot.`;
+            extraContext = `**这通常意味着以下问题之一：**
+            - **服务器 ID 错误：** 请阅读服务器 ID 设置的说明以获取更多信息。
+            - **机器人不在服务器中：** 你需要 [邀请机器人](${inviteUrl}) 加入服务器。
+            - **机器人错误：** 你可能使用了另一个 Discord 机器人的令牌。`;
         } else if (errorCode === 'DangerousPermission') {
-            extraContext = `To enable the bot, you need to remove the permissions listed above, which can be done in the Discord Server role configuration page. Please check every single role that the bot has, including the \`@everyone\` role.
-            **Please keep in mind that:**
-            - These permissions are dangerous because if the bot token leaks, an attacker can cause permanent damage to your server.
-            - No bot should have more permissions than strictly needed, especially \`Administrator\`.
-            - You should never have multiple bots using the same token, create a new one for each bot.`;
+            extraContext = `要启用机器人，你需要移除上面列出的权限，这可以在 Discord 服务器角色配置页面中完成。请检查机器人拥有的每一个角色，包括 \`@everyone\` 角色。
+            **请记住：**
+            - 这些权限是危险的，因为如果机器人令牌泄露，攻击者可能会对你的服务器造成永久性损害。
+            - 任何机器人的权限都不应超出其严格所需，尤其是 \`Administrator\`。
+            - 你绝不能让多个机器人使用同一个令牌，请为每个机器人创建新的令牌。`;
         }
         return sendTypedResp({
             ...baseError,
-            title: 'Error starting the bot:',
+            title: '启动机器人时出错：',
             msg: `${(error as Error).message}\n${extraContext}`.trim(),
         });
     }
@@ -399,8 +399,8 @@ const handleDiscordCard: CardHandler = async (inputConfig, sendTypedResp) => {
         successToast: {
             type: 'success',
             md: true,
-            title: 'Discord Bot Settings Saved!',
-            msg: `${successMsg}\nIf _(and only if)_ the status embed is not being updated, check the [System > Console Log](/system/console-log) page to look for embed errors.`,
+            title: 'Discord 机器人设置已保存！',
+            msg: `${successMsg}\n如果_（并且仅在）_状态 embed 没有更新，请查看 [系统 > 控制台日志](/system/console-log) 页面以查找 embed 错误。`,
         }
     };
 }

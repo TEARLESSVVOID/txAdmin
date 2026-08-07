@@ -33,7 +33,7 @@ const getPerms = (checkPerms: string[], allPermissions: [string, string][]) => {
 export default async function AdminManagerGetModal(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.params.modalType !== 'string') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const modalType = ctx.params.modalType;
 
@@ -41,7 +41,7 @@ export default async function AdminManagerGetModal(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('manage.admins', modulename)) {
         return ctx.send({
             type: 'danger',
-            message: 'You don\'t have permission to execute this action.',
+            message: '你没有权限执行此操作。',
         });
     }
 
@@ -54,7 +54,7 @@ export default async function AdminManagerGetModal(ctx: AuthedCtx) {
     } else {
         return ctx.send({
             type: 'danger',
-            message: 'Unknown modalType.',
+            message: '未知的 modalType。',
         });
     }
 
@@ -75,17 +75,17 @@ export default async function AdminManagerGetModal(ctx: AuthedCtx) {
 
     //Sanity check
     if (typeof ctx.request.body.name !== 'string') {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const name = ctx.request.body.name.trim();
 
     //Get admin data
     const admin = txCore.adminStore.getAdminByName(name);
-    if (!admin) return ctx.send('Admin not found');
+    if (!admin) return ctx.send('未找到该管理员');
 
     //Check if editing an master admin
     if (!ctx.admin.isMaster && admin.master) {
-        return ctx.send('You cannot edit an admin master.');
+        return ctx.send('你不能编辑主账户管理员。');
     }
 
     //Prepare permissions

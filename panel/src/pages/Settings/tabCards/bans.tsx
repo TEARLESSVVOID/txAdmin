@@ -68,9 +68,9 @@ export default function ConfigCardBans({ cardCtx, pageCtx }: SettingsCardProps) 
             && localConfigs.banlist.rejectionMessage.length > 512
         ) {
             return txToast.error({
-                title: 'The Ban Rejection Message is too big.',
+                title: '封禁拒绝消息过长。',
                 md: true,
-                msg: 'The message must be 512 characters or less.',
+                msg: '消息长度必须为 512 个字符或更少。',
             });
         }
         pageCtx.saveChanges(cardCtx, localConfigs);
@@ -84,39 +84,39 @@ export default function ConfigCardBans({ cardCtx, pageCtx }: SettingsCardProps) 
             advancedVisible={showAdvanced}
             advancedSetter={setShowAdvanced}
         >
-            <SettingItem label="Ban Checking">
+            <SettingItem label="封禁检测">
                 <SwitchText
                     id={cfg.checkingEnabled.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     checked={states.checkingEnabled}
                     onCheckedChange={cfg.checkingEnabled.state.set}
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Enable checking for ban status on player join. <br />
-                    <strong>Note:</strong> txAdmin bans will not work if this option is disabled.
+                    在玩家加入时检查其封禁状态。<br />
+                    <strong>注意：</strong>如果禁用此选项，txAdmin 封禁将无法生效。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Ban Templates">
+            <SettingItem label="封禁模板">
                 <Link asChild href="/settings/ban-templates">
                     <Button
                         size={'sm'}
                         variant="secondary"
                         disabled={pageCtx.isReadOnly}
                     >
-                        <PencilIcon className='size-4 mr-1.5 inline-block' /> Edit Ban Templates
+                        <PencilIcon className='size-4 mr-1.5 inline-block' /> 编辑封禁模板
                     </Button>
                 </Link>
                 <SettingItemDesc>
-                    Configure ban reasons and durations that will appear as dropdown options when banning a player. This is useful for common reasons that happen frequently, like violation of your server rules.
+                    配置封禁玩家时下拉选项中显示的封禁原因与时长。这对于频繁出现的常见原因（如违反服务器规则）非常有用。
                 </SettingItemDesc>
             </SettingItem>
-            <SettingItem label="Ban Rejection Message" htmlFor={cfg.rejectionMessage.eid} showOptional>
+            <SettingItem label="封禁拒绝消息" htmlFor={cfg.rejectionMessage.eid} showOptional>
                 <AutosizeTextarea
                     id={cfg.rejectionMessage.eid}
                     ref={rejectionMessageRef}
-                    placeholder='You can join http://discord.gg/example to appeal this ban.'
+                    placeholder='您可以通过 http://discord.gg/example 申诉此封禁。'
                     defaultValue={cfg.rejectionMessage.initialValue}
                     onInput={updatePageState}
                     autoComplete="off"
@@ -125,34 +125,34 @@ export default function ConfigCardBans({ cardCtx, pageCtx }: SettingsCardProps) 
                     disabled={pageCtx.isReadOnly}
                 />
                 <SettingItemDesc>
-                    Optional message to display to a player on the rejection message that shows when they try to connect while being banned. <br />
-                    If you have a ban appeal process, you can use this field to inform the players.
+                    可选消息：当被封禁的玩家尝试连接时，在拒绝消息中向玩家显示。<br />
+                    如果您有封禁申诉流程，可以使用此字段告知玩家。
                 </SettingItemDesc>
             </SettingItem>
 
             {showAdvanced && <AdvancedDivider />}
 
-            <SettingItem label="Required Ban HWID Matches" htmlFor={cfg.requiredHwids.eid} showIf={showAdvanced}>
+            <SettingItem label="封禁所需 HWID 匹配数" htmlFor={cfg.requiredHwids.eid} showIf={showAdvanced}>
                 <Select
                     value={selectNumberUtil.toUi(states.requiredHwids)}
                     onValueChange={(val) => cfg.requiredHwids.state.set(selectNumberUtil.toCfg(val))}
                     disabled={pageCtx.isReadOnly}
                 >
                     <SelectTrigger id={cfg.requiredHwids.eid}>
-                        <SelectValue placeholder="Select..." />
+                        <SelectValue placeholder="请选择..." />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="1">1 - recommended</SelectItem>
-                        <SelectItem value="2">2 - lax</SelectItem>
-                        <SelectItem value="3">3 - very lax</SelectItem>
-                        <SelectItem value="4">4 - virtually disabled</SelectItem>
-                        <SelectItem value="0">Disable HWID Bans</SelectItem>
+                        <SelectItem value="1">1 - 推荐</SelectItem>
+                        <SelectItem value="2">2 - 宽松</SelectItem>
+                        <SelectItem value="3">3 - 非常宽松</SelectItem>
+                        <SelectItem value="4">4 - 几乎禁用</SelectItem>
+                        <SelectItem value="0">禁用 HWID 封禁</SelectItem>
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
-                    This option configures how many HWID tokens must match between a player and an existing ban for the player join to be blocked, or can disable HWID Bans entirely. <br />
-                    Since Hardware ID Tokens are not guaranteed to be unique, there is the possibility of tokens from two players matching without them being related to each other. <br />
-                    <strong>Note:</strong> Most players have 3 to 6 HWID tokens.
+                    此选项配置玩家的 HWID 令牌与现有封禁匹配多少个时阻止其加入，也可以完全禁用 HWID 封禁。<br />
+                    由于硬件 ID 令牌不能保证唯一，因此存在两名玩家的令牌恰好匹配但彼此无关的可能。<br />
+                    <strong>注意：</strong>大多数玩家有 3 到 6 个 HWID 令牌。
                 </SettingItemDesc>
             </SettingItem>
         </SettingsCardShell>

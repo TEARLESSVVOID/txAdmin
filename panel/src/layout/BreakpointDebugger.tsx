@@ -26,7 +26,7 @@ export default function BreakpointDebugger() {
                 isOverflowing ? 'block' : 'hidden',
                 'w-full text-center border-b-2 border-red-500',
             )}>
-                Overflowing!
+                溢出!
             </div>
             <h1 className="px-1 bg-red-500 xs:bg-green-500">xs</h1>
             <h1 className="px-1 bg-red-500 sm:bg-green-500">sm</h1>

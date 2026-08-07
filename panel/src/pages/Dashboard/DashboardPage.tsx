@@ -65,7 +65,7 @@ export default function DashboardPage() {
     } else if (txConfigState !== TxConfigState.Ready) {
         return <div className='size-full'>
             <ModalTabMessage>
-                <GenericSpinner msg={`Unknown Config State: ${String(txConfigState)}`} />
+                <GenericSpinner msg={`未知配置状态：${String(txConfigState)}`} />
             </ModalTabMessage>
         </div>;
     } else {

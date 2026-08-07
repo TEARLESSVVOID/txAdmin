@@ -9,7 +9,7 @@ const console = consoleFactory(modulename);
  */
 export default async function WhitelistPage(ctx: AuthedCtx) {
     const respData = {
-        headerTitle: 'Allowlist',
+        headerTitle: '白名单',
         hasWhitelistPermission: ctx.admin.hasPermission('players.whitelist'),
         currentWhitelistMode: txConfig.whitelist.mode,
     };

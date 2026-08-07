@@ -97,23 +97,23 @@ export default function HistoryPage() {
         const hasCalloutData = calloutData && !('error' in calloutData);
         return [
             {
-                label: 'Total Warns',
+                label: '警告总数',
                 value: hasCalloutData ? calloutData.totalWarns : false,
                 icon: <AlertTriangleIcon />,
             },
             {
-                label: 'New Warns Last 7d',
+                label: '最近 7 天新增警告',
                 value: hasCalloutData ? calloutData.warnsLast7d : false,
                 icon: <AlertTriangleIcon />,
                 prefix: '+'
             },
             {
-                label: 'Total Bans',
+                label: '封禁总数',
                 value: hasCalloutData ? calloutData.totalBans : false,
                 icon: <GavelIcon />,
             },
             {
-                label: 'New Bans Last 7d',
+                label: '最近 7 天新增封禁',
                 value: hasCalloutData ? calloutData.bansLast7d : false,
                 icon: <GavelIcon />,
                 prefix: '+'

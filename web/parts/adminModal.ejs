@@ -1,9 +1,9 @@
 <!-- Field: Username -->
 <div class="form-group row">
     <label for="modAdmin-name" class="col-sm-3 col-form-label">
-        Username
+        用户名
         <% if (isNewAdmin) { %>
-            <small class="text-danger">(required)</small>
+            <small class="text-danger">(必填)</small>
         <% } %>
     </label>
     <div class="col-sm-9">
@@ -18,7 +18,7 @@
 <div class="form-group row">
     <label for="modAdmin-citizenfxID" class="col-sm-3 col-form-label">
         Cfx.re ID <br>
-        <small class="text-muted">(optional)</small>
+        <small class="text-muted">(可选)</small>
     </label>
     <div class="col-sm-9">
         <div class="input-group">
@@ -26,7 +26,7 @@
                 autocomplete="off" value="<%= citizenfx_id %>">
         </div>
         <span class="form-text text-muted">
-            The admin's <a href="https://forum.cfx.re/" target="_blank" rel="noopener noreferrer">https://forum.cfx.re/</a>  username. This is required if you want to login using the Cfx.re button.
+            管理员的 <a href="https://forum.cfx.re/" target="_blank" rel="noopener noreferrer">https://forum.cfx.re/</a> 用户名。如果你想使用 Cfx.re 按钮登录，此项为必填。
         </span>
     </div>
 </div>
@@ -35,14 +35,14 @@
 <div class="form-group row">
     <label for="modAdmin-discordID" class="col-sm-3 col-form-label">
         Discord ID <br>
-        <small class="text-muted">(optional)</small>
+        <small class="text-muted">(可选)</small>
     </label>
     <div class="col-sm-9">
         <div class="input-group">
             <input type="number" class="form-control" id="modAdmin-discordID" autocomplete="off" value="<%= discord_id %>">
         </div>
         <span class="form-text text-muted">
-            The admin's Discord User ID. Follow <a href="https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID" target="_blank">this guide</a> if you don't know how to get the User ID.
+            管理员的 Discord 用户 ID。如果你不知道如何获取用户 ID，请参阅<a href="https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID" target="_blank">此指南</a>。
         </span>
     </div>
 </div>
@@ -50,7 +50,7 @@
 <!-- Permissions -->
 <hr>
 <div class="form-group justify-content-center row">
-    <h5>Permissions</h5>
+    <h5>权限</h5>
 </div>
 <div class="form-group row">
     <div class="col-sm-6">

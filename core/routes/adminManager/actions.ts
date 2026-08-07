@@ -10,7 +10,7 @@ const console = consoleFactory(modulename);
 //Helpers
 const nanoid = customAlphabet(dict49, 20);
 //NOTE: this desc misses that it should start and end with alphanum or _, and cannot have repeated -_.
-const nameRegexDesc = 'up to 20 characters containing only letters, numbers and the characters \`_.-\`';
+const nameRegexDesc = '最多 20 个字符，只能包含字母、数字以及字符 \`_.-\`';
 const cfxHttpReqOptions = {
     timeout: { request: 6000 },
 };
@@ -22,7 +22,7 @@ type ProviderDataType = { id: string, identifier: string };
 export default async function AdminManagerActions(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.params?.action !== 'string') {
-        return ctx.utils.error(400, 'Invalid Request');
+        return ctx.utils.error(400, '无效请求');
     }
     const action = ctx.params.action;
 
@@ -30,7 +30,7 @@ export default async function AdminManagerActions(ctx: AuthedCtx) {
     if (!ctx.admin.testPermission('manage.admins', modulename)) {
         return ctx.send({
             type: 'danger',
-            message: 'You don\'t have permission to execute this action.',
+            message: '你没有权限执行此操作。',
         });
     }
 
@@ -44,7 +44,7 @@ export default async function AdminManagerActions(ctx: AuthedCtx) {
     } else {
         return ctx.send({
             type: 'danger',
-            message: 'Unknown action.',
+            message: '未知操作。',
         });
     }
 };
@@ -61,7 +61,7 @@ async function handleAdd(ctx: AuthedCtx) {
         || typeof ctx.request.body.discordID !== 'string'
         || ctx.request.body.permissions === undefined
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
 
     //Prepare and filter variables
@@ -76,7 +76,7 @@ async function handleAdd(ctx: AuthedCtx) {
 
     //Validate name
     if (!consts.regexValidFivemUsername.test(name)) {
-        return ctx.send({ type: 'danger', markdown: true, message: `**Invalid username, it must follow the rule:**\n${nameRegexDesc}` });
+        return ctx.send({ type: 'danger', markdown: true, message: `**无效的用户名，它必须符合以下规则：**\n${nameRegexDesc}` });
     }
 
     //Validate & translate FiveM ID
@@ -87,7 +87,7 @@ async function handleAdd(ctx: AuthedCtx) {
                 const id = citizenfxID.split(':')[1];
                 const res = await got(`https://policy-live.fivem.net/api/getUserInfo/${id}`, cfxHttpReqOptions).json<any>();
                 if (!res.username || !res.username.length) {
-                    return ctx.send({ type: 'danger', message: 'Invalid CitizenFX ID1' });
+                    return ctx.send({ type: 'danger', message: '无效的 CitizenFX ID1' });
                 }
                 citizenfxData = {
                     id: res.username,
@@ -96,14 +96,14 @@ async function handleAdd(ctx: AuthedCtx) {
             } else if (consts.regexValidFivemUsername.test(citizenfxID)) {
                 const res = await got(`https://forum.cfx.re/u/${citizenfxID}.json`, cfxHttpReqOptions).json<any>();
                 if (!res.user || typeof res.user.id !== 'number') {
-                    return ctx.send({ type: 'danger', message: 'Invalid CitizenFX ID2' });
+                    return ctx.send({ type: 'danger', message: '无效的 CitizenFX ID2' });
                 }
                 citizenfxData = {
                     id: citizenfxID,
                     identifier: `fivem:${res.user.id}`,
                 };
             } else {
-                return ctx.send({ type: 'danger', message: 'Invalid CitizenFX ID3' });
+                return ctx.send({ type: 'danger', message: '无效的 CitizenFX ID3' });
             }
         } catch (error) {
             console.error(`Failed to resolve CitizenFX ID to game identifier with error: ${(error as Error).message}`);
@@ -114,7 +114,7 @@ async function handleAdd(ctx: AuthedCtx) {
     let discordData: ProviderDataType | false = false;
     if (discordID.length) {
         if (!consts.validIdentifierParts.discord.test(discordID)) {
-            return ctx.send({ type: 'danger', message: 'Invalid Discord ID' });
+            return ctx.send({ type: 'danger', message: '无效的 Discord ID' });
         }
         discordData = {
             id: discordID,
@@ -128,7 +128,7 @@ async function handleAdd(ctx: AuthedCtx) {
         if (deniedPerms.length) {
             return ctx.send({
                 type: 'danger',
-                message: `You cannot give permissions you do not have:<br>${deniedPerms.join(', ')}`,
+                message: `你不能授予你自身没有的权限：<br>${deniedPerms.join(', ')}`,
             });
         }
     }
@@ -162,7 +162,7 @@ async function handleEdit(ctx: AuthedCtx) {
         || typeof ctx.request.body.discordID !== 'string'
         || ctx.request.body.permissions === undefined
     ) {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
 
     //Prepare and filter variables
@@ -172,7 +172,7 @@ async function handleEdit(ctx: AuthedCtx) {
 
     //Check if editing himself
     if (ctx.admin.name.toLowerCase() === name.toLowerCase()) {
-        return ctx.send({ type: 'danger', message: '(ERR0) You cannot edit yourself.' });
+        return ctx.send({ type: 'danger', message: '(ERR0) 你不能编辑自己。' });
     }
 
     //Validate & translate permissions
@@ -192,7 +192,7 @@ async function handleEdit(ctx: AuthedCtx) {
                 const id = citizenfxID.split(':')[1];
                 const res = await got(`https://policy-live.fivem.net/api/getUserInfo/${id}`, cfxHttpReqOptions).json<any>();
                 if (!res.username || !res.username.length) {
-                    return ctx.send({ type: 'danger', message: '(ERR1) Invalid CitizenFX ID' });
+                    return ctx.send({ type: 'danger', message: '(ERR1) 无效的 CitizenFX ID' });
                 }
                 citizenfxData = {
                     id: res.username,
@@ -201,14 +201,14 @@ async function handleEdit(ctx: AuthedCtx) {
             } else if (consts.regexValidFivemUsername.test(citizenfxID)) {
                 const res = await got(`https://forum.cfx.re/u/${citizenfxID}.json`, cfxHttpReqOptions).json<any>();
                 if (!res.user || typeof res.user.id !== 'number') {
-                    return ctx.send({ type: 'danger', message: '(ERR2) Invalid CitizenFX ID' });
+                    return ctx.send({ type: 'danger', message: '(ERR2) 无效的 CitizenFX ID' });
                 }
                 citizenfxData = {
                     id: citizenfxID,
                     identifier: `fivem:${res.user.id}`,
                 };
             } else {
-                return ctx.send({ type: 'danger', message: '(ERR3) Invalid CitizenFX ID' });
+                return ctx.send({ type: 'danger', message: '(ERR3) 无效的 CitizenFX ID' });
             }
         } catch (error) {
             console.error(`Failed to resolve CitizenFX ID to game identifier with error: ${(error as Error).message}`);
@@ -220,7 +220,7 @@ async function handleEdit(ctx: AuthedCtx) {
     let discordData: ProviderDataType | false = false;
     if (discordID.length) {
         if (!consts.validIdentifierParts.discord.test(discordID)) {
-            return ctx.send({ type: 'danger', message: 'Invalid Discord ID' });
+            return ctx.send({ type: 'danger', message: '无效的 Discord ID' });
         }
         discordData = {
             id: discordID,
@@ -230,11 +230,11 @@ async function handleEdit(ctx: AuthedCtx) {
 
     //Check if admin exists
     const admin = txCore.adminStore.getAdminByName(name);
-    if (!admin) return ctx.send({ type: 'danger', message: 'Admin not found.' });
+    if (!admin) return ctx.send({ type: 'danger', message: '未找到该管理员。' });
 
     //Check if editing an master admin
     if (!ctx.admin.isMaster && admin.master) {
-        return ctx.send({ type: 'danger', message: 'You cannot edit an admin master.' });
+        return ctx.send({ type: 'danger', message: '你不能编辑主账户管理员。' });
     }
 
     //Check for privilege escalation
@@ -243,7 +243,7 @@ async function handleEdit(ctx: AuthedCtx) {
         if (deniedPerms.length) {
             return ctx.send({
                 type: 'danger',
-                message: `You cannot give permissions you do not have:<br>${deniedPerms.join(', ')}`,
+                message: `你不能授予你自身没有的权限：<br>${deniedPerms.join(', ')}`,
             });
         }
     }
@@ -302,22 +302,22 @@ async function handleEdit(ctx: AuthedCtx) {
 async function handleDelete(ctx: AuthedCtx) {
     //Sanity check
     if (typeof ctx.request.body.name !== 'string') {
-        return ctx.utils.error(400, 'Invalid Request - missing parameters');
+        return ctx.utils.error(400, '无效请求 - 缺少参数');
     }
     const name = ctx.request.body.name.trim();
 
     //Check if deleting himself
     if (ctx.admin.name.toLowerCase() === name.toLowerCase()) {
-        return ctx.send({ type: 'danger', message: "You can't delete yourself." });
+        return ctx.send({ type: 'danger', message: '你不能删除自己。' });
     }
 
     //Check if admin exists
     const admin = txCore.adminStore.getAdminByName(name);
-    if (!admin) return ctx.send({ type: 'danger', message: 'Admin not found.' });
+    if (!admin) return ctx.send({ type: 'danger', message: '未找到该管理员。' });
 
     //Check if editing an master admin
     if (admin.master) {
-        return ctx.send({ type: 'danger', message: 'You cannot delete an admin master.' });
+        return ctx.send({ type: 'danger', message: '你不能删除主账户管理员。' });
     }
 
     //Delete admin and give output

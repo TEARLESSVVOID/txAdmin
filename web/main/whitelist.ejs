@@ -40,9 +40,9 @@
     <div class="row justify-content-md-center">
         <div class="col-md-6">
             <div class="alert alert-warning text-center" role="alert">
-                <strong>Warning: The server is not in the "Approved License" allowlist mode.</strong> <br>
-                This means that any changes made in this page will not reflect in the ability of players to connect to the server while the allowlist is in another mode or disabled. <br>
-                This can be changed in the page <a href="#" onclick="navigateParentTo('/settings#allowlist')">Settings > Allowlist</a>.
+                <strong>警告：服务器当前未处于"已批准许可证"白名单模式。</strong> <br>
+                这意味着当白名单处于其他模式或已禁用时，在此页面所做的任何更改都不会影响玩家连接服务器的权限。 <br>
+                你可以在 <a href="#" onclick="navigateParentTo('/settings#allowlist')">设置 > 白名单</a> 页面中更改此设置。
             </div>
         </div>
     </div>
@@ -54,17 +54,17 @@
         <div class="card card-accent-success">
             <div class="card-header" style="display: flex; justify-content: space-between;">
                 <div>
-                    <span style="font-size: large">Allowlist Requests: <span id="reqs-counter"></span></span> <br>
-                    <small>Players that tried to join the server but were not allowlisted.</small>
+                    <span style="font-size: large">白名单请求： <span id="reqs-counter"></span></span> <br>
+                    <small>尝试加入服务器但未被批准白名单的玩家。</small>
                 </div>
                 <div class="header-elements">
                     <div class="form-group mb-0">
                         <div class="input-group input-group-sm">
                             <input class="form-control" id="reqs-searchInput" type="text"
-                                placeholder="player name, R1234">
+                                placeholder="玩家名, R1234">
                             <span class="input-group-append">
                                 <button class="btn btn-sm btn-secondary" type="button" id="reqs-searchButton">
-                                    Search
+                                    搜索
                                 </button>
                             </span>
                         </div>
@@ -73,20 +73,20 @@
             </div>
             <div class="card-body">
                 <div id="reqs-spinner" style="min-height: 125px;">
-                    <div class="txSpinner">Loading...</div>
+                    <div class="txSpinner">加载中...</div>
                 </div>
                 <div class="text-center">
-                    <h3 class="mx-auto pt-3 text-muted d-none" id="reqs-message">no players here yet</h3>
+                    <h3 class="mx-auto pt-3 text-muted d-none" id="reqs-message">暂无玩家</h3>
                 </div>
                 <div class="table-responsive text-center d-nonex" id="reqs-content">
                     <table class="table table-responsive-sm table-borderless table-striped table-sm text-left">
                         <thead>
                             <tr class="text-left">
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>名称</th>
                                 <th>Discord</th>
-                                <th>Join Time</th>
-                                <th class="text-right">Actions</th>
+                                <th>申请时间</th>
+                                <th class="text-right">操作</th>
                             </tr>
                         </thead>
                         <tbody id="reqs-tableBody"></tbody>
@@ -96,17 +96,17 @@
 
             <div class="card-footer d-flex" style="flex-direction: row; justify-content: space-between;">
                 <button class="btn btn-sm btn-outline-danger" type="button" id="reqs-denyAllBtton" onclick="denyAllRequests()">
-                    <i class="icon-close"></i> Deny All
+                    <i class="icon-close"></i> 全部拒绝
                 </button>
                 <ul class="pagination justify-content-center mb-0">
                     <li class="page-item disabled" id="reqs-paginator-prev">
-                        <a class="page-link" href="#" onclick="event.preventDefault(); reqsPrevPage()">Previous</a>
+                        <a class="page-link" href="#" onclick="event.preventDefault(); reqsPrevPage()">上一页</a>
                     </li>
                     <li class="page-item disabled" id="reqs-paginator-mid">
                         <a class="page-link" href="#">?</a>
                     </li>
                     <li class="page-item disabled" id="reqs-paginator-next">
-                        <a class="page-link" href="#" onclick="event.preventDefault(); reqsNextPage()">Next</a>
+                        <a class="page-link" href="#" onclick="event.preventDefault(); reqsNextPage()">下一页</a>
                     </li>
                 </ul>
             </div>
@@ -118,31 +118,31 @@
         <div class="card card-accent-success">
             <div class="card-header" style="display: flex; justify-content: space-between;">
                 <div>
-                    <span style="font-size: large">Approved Allowlists Pending Join: <span id="approved-counter"></span></span> <br>
-                    <small>Players that are already approved, but haven't joined the server yet.</small>
+                    <span style="font-size: large">待加入的已批准白名单： <span id="approved-counter"></span></span> <br>
+                    <small>已获批准但尚未加入服务器的玩家。</small>
                 </div>
                 <div class="header-elements">
                     <button class="btn btn-sm btn-success" type="button" onclick="addApproval()">
-                        <i class="icon-plus"></i> Add Approval
+                        <i class="icon-plus"></i> 添加批准
                     </button>
                 </div>
             </div>
             <div class="card-body">
                 <div id="approved-spinner" style="min-height: 125px;">
-                    <div class="txSpinner">Loading...</div>
+                    <div class="txSpinner">加载中...</div>
                 </div>
                 <div class="text-center">
-                    <h3 class="mx-auto pt-3 text-muted d-none" id="approved-message">no players here yet</h3>
+                    <h3 class="mx-auto pt-3 text-muted d-none" id="approved-message">暂无玩家</h3>
                 </div>
                 <div class="table-responsive text-center d-nonex" id="approved-content">
                     <table class="table table-responsive-sm table-borderless table-striped table-sm text-left">
                         <thead>
                             <tr class="text-left">
                                 <!-- <th>Identifier</th> -->
-                                <th>Player</th>
-                                <th>Approved By</th>
-                                <th>Approval Date</th>
-                                <th class="text-right">Actions</th>
+                                <th>玩家</th>
+                                <th>批准人</th>
+                                <th>批准日期</th>
+                                <th class="text-right">操作</th>
                             </tr>
                         </thead>
                         <tbody id="approved-tableBody"></tbody>
@@ -167,10 +167,10 @@
     </td>
     <td></td>
     <td class="tableActions">
-        <a href="#" class="action-buttons text-success" title="Approve">
+        <a href="#" class="action-buttons text-success" title="批准">
             <i class="icon-check"></i>
         </a>
-        <a href="#" class="action-buttons text-danger" title="Deny">
+        <a href="#" class="action-buttons text-danger" title="拒绝">
             <i class="icon-close"></i>
         </a>
     </td>
@@ -187,7 +187,7 @@
     <td></td>
     <td></td>
     <td class="tableActions">
-        <a href="#" class="action-buttons text-danger" title="Deny">
+        <a href="#" class="action-buttons text-danger" title="拒绝">
             <i class="icon-close"></i>
         </a>
     </td>
@@ -200,7 +200,7 @@
 <script>
     const hasWhitelistPermission = ('<%= hasWhitelistPermission %>' === 'true');
     const disableActionButton = (e) => {
-        e.title = 'You do not have this permission.';
+        e.title = '你没有此权限。';
         e.setAttribute('disabled', '');
         e.classList.remove('text-success', 'text-danger');
         e.classList.add('text-muted');
@@ -238,7 +238,7 @@
     }
 
     reqElements.searchButton.addEventListener('click', (e) => {
-        if(reqElements.searchButton.innerText === 'Search'){
+        if(reqElements.searchButton.innerText === '搜索'){
             performSearch();
         }else{
             clearSearch();
@@ -246,8 +246,8 @@
     });
     reqElements.searchInput.addEventListener('keyup', (e) => {
         if(e.keyCode !== 13){
-            if(reqElements.searchButton.innerText !== 'Search'){
-                reqElements.searchButton.innerText = 'Search';
+            if(reqElements.searchButton.innerText !== '搜索'){
+                reqElements.searchButton.innerText = '搜索';
             }
         }else{
             if(reqElements.searchInput.value.length){
@@ -264,7 +264,7 @@
         reqElements.spinner.classList.remove('d-none');
         reqElements.content.classList.add('d-none');
         reqElements.message.classList.add('d-none');
-        reqElements.searchButton.innerText = 'Search';
+        reqElements.searchButton.innerText = '搜索';
         activeSearchString = '';
         queryRequests();
     }
@@ -276,7 +276,7 @@
         reqElements.spinner.classList.remove('d-none');
         reqElements.content.classList.add('d-none');
         reqElements.message.classList.add('d-none');
-        reqElements.searchButton.innerText = 'Clear';
+        reqElements.searchButton.innerText = '清除';
         queryRequests();
     }
 
@@ -295,14 +295,14 @@
             newNode.innerHTML = reqElements.entryTemplate.innerHTML;
             newNode.querySelector('td:nth-child(1)').textContent = req.id;
             newNode.querySelector('td:nth-child(2)').textContent = req.playerDisplayName;
-            newNode.querySelector('td:nth-child(2)').title = `${req.playerDisplayName}\nlicense:${req.license}`;
+            newNode.querySelector('td:nth-child(2)').title = `${req.playerDisplayName}\n许可证：${req.license}`;
             newNode.querySelector('td:nth-child(3)').title = req.discordTag;
             newNode.querySelector('td:nth-child(3) div img').src = req.discordAvatar
                 ? req.discordAvatar
                 : 'img/default_avatar.png';
             newNode.querySelector('td:nth-child(3) span').textContent = req.discordTag
                 ? req.discordTag
-                : 'not available';
+                : '不可用';
 
             const tsLastAttempt = new Date(req.tsLastAttempt * 1000)
             newNode.querySelector('td:nth-child(4)').title = tsLastAttempt.toLocaleString(
@@ -367,11 +367,11 @@
                 if(data.error){
                     reqElements.message.classList.remove('d-none', 'text-muted');
                     reqElements.message.classList.add('text-danger');
-                    reqElements.message.textContent = `Error: ${data.error}`;
+                    reqElements.message.textContent = `错误：${data.error}`;
                 }else if(!Array.isArray(data.requests)){
                     reqElements.message.classList.remove('d-none', 'text-muted');
                     reqElements.message.classList.add('text-danger');
-                    reqElements.message.textContent = 'Error reading API response';
+                    reqElements.message.textContent = '读取 API 响应出错';
                 }else if(!data.requests.length){
                     setPaginator(1, 1);
                     newestRequest = data.newest;
@@ -385,7 +385,7 @@
                         reqElements.counter.innerText = data.cntTotal;
                         reqElements.denyAllBtton.disabled = false;
                     }else{
-                        reqElements.counter.innerText = `${data.cntFiltered} of ${data.cntTotal}`;
+                        reqElements.counter.innerText = `${data.cntFiltered} / ${data.cntTotal}`;
                     }
                     reqElements.message.classList.add('d-none');
                     reqElements.content.classList.remove('d-none');
@@ -396,14 +396,14 @@
                 reqElements.spinner.classList.add('d-none');
                 reqElements.message.classList.remove('d-none', 'text-muted');
                 reqElements.message.classList.add('text-danger');
-                reqElements.message.textContent = 'Error reading API response';
+                reqElements.message.textContent = '读取 API 响应出错';
             }
         });
     }
     
 
     function approveDenyRequest(reqId, action){
-        const notify = $.notify({ message: '<p class="text-center">Processing...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">处理中...</p>' }, {});
 
         txAdminAPI({
             type: 'POST',
@@ -417,7 +417,7 @@
                     return true;
                 } else {
                     notify.update('type', 'danger');
-                    notify.update('message', data.error || 'unknown error');
+                    notify.update('message', data.error || '未知错误');
                 }
             },
             error: function (xmlhttprequest, textstatus, message) {
@@ -430,12 +430,12 @@
 
     async function denyAllRequests(reqId, action){
         const confirmOptions = {
-            title: 'Deny all allowlist requests?',
-            content: `Players will still be able to try to join again, and will receive a new request ID.`,
+            title: '拒绝所有白名单请求？',
+            content: `玩家仍然可以再次尝试加入，并会获得一个新的请求 ID。`,
         };
         if (!await txAdminConfirm(confirmOptions)) return;
 
-        const notify = $.notify({ message: '<p class="text-center">Processing...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">处理中...</p>' }, {});
 
         txAdminAPI({
             type: 'POST',
@@ -449,7 +449,7 @@
                     return true;
                 } else {
                     notify.update('type', 'danger');
-                    notify.update('message', data.error || 'unknown error');
+                    notify.update('message', data.error || '未知错误');
                 }
             },
             error: function (xmlhttprequest, textstatus, message) {
@@ -520,11 +520,11 @@
             if(data.error){
                 approvedElements.message.classList.remove('d-none', 'text-muted');
                 approvedElements.message.classList.add('text-danger');
-                approvedElements.message.textContent = `Error: ${data.error}`;
+                approvedElements.message.textContent = `错误：${data.error}`;
             }else if(!Array.isArray(data)){
                 approvedElements.message.classList.remove('d-none', 'text-muted');
                 approvedElements.message.classList.add('text-danger');
-                approvedElements.message.textContent = 'Error reading API response';
+                approvedElements.message.textContent = '读取 API 响应出错';
             }else if(!data.length){
                 approvedElements.counter.innerText = 0;
                 approvedElements.content.classList.add('d-none');
@@ -540,7 +540,7 @@
             approvedElements.spinner.classList.add('d-none');
             approvedElements.message.classList.remove('d-none', 'text-muted');
             approvedElements.message.classList.add('text-danger');
-            approvedElements.message.textContent = 'Error reading API response';
+            approvedElements.message.textContent = '读取 API 响应出错';
         }
     });
 
@@ -550,9 +550,9 @@
         let identifier = await txAdminPrompt({
             modalColor: 'green',
             confirmBtnClass: 'btn-green',
-            title: 'Allowlist player',
-            description: `Type in the Player Identifier you want to allowlist. <br>
-                This can be any of the following: <code>${acceptedIdTypes.join(', ')}</code>`, 
+            title: '批准白名单玩家',
+            description: `请输入你想要批准白名单的玩家标识符。 <br>
+                可以是以下任意一种：<code>${acceptedIdTypes.join(', ')}</code>`, 
             placeholder: 'discord:272800190639898628'
         });
         if(typeof identifier !== 'string') return;
@@ -560,10 +560,10 @@
         //Check input validity
         identifier = identifier.trim();
         if(!identifier.length || !acceptedIdTypes.includes(identifier.split(':', 1)[0])){
-            return $.notify({ message: 'Error: the provided identifier does not seem to be valid.' }, { type: 'danger' });
+            return $.notify({ message: '错误：提供的标识符似乎无效。' }, { type: 'danger' });
         }
 
-        const notify = $.notify({ message: '<p class="text-center">Processing...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">处理中...</p>' }, {});
         txAdminAPI({
             type: 'POST',
             url: '/whitelist/approvals/add',
@@ -578,7 +578,7 @@
                     return true;
                 } else {
                     notify.update('type', 'danger');
-                    notify.update('message', data.error || 'unknown error');
+                    notify.update('message', data.error || '未知错误');
                 }
             },
             error: function (xmlhttprequest, textstatus, message) {
@@ -590,7 +590,7 @@
     }
 
     function removeApproval(identifier){
-        const notify = $.notify({ message: '<p class="text-center">Processing...</p>' }, {});
+        const notify = $.notify({ message: '<p class="text-center">处理中...</p>' }, {});
 
         txAdminAPI({
             type: 'POST',
@@ -606,7 +606,7 @@
                     return true;
                 } else {
                     notify.update('type', 'danger');
-                    notify.update('message', data.error || 'unknown error');
+                    notify.update('message', data.error || '未知错误');
                 }
             },
             error: function (xmlhttprequest, textstatus, message) {

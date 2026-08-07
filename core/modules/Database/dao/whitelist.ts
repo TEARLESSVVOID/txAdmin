@@ -13,12 +13,12 @@ export default class WhitelistDao {
     constructor(private readonly db: DbInstance) { }
 
     private get dbo() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj;
     }
 
     private get chain() {
-        if (!this.db.obj || !this.db.isReady) throw new Error(`database not ready yet`);
+        if (!this.db.obj || !this.db.isReady) throw new Error(`数据库尚未就绪`);
         return this.db.obj.chain;
     }
 
@@ -59,7 +59,7 @@ export default class WhitelistDao {
         const found = this.chain.get('whitelistApprovals')
             .filter({ identifier: approval.identifier })
             .value();
-        if (found.length) throw new DuplicateKeyError(`this identifier is already whitelisted`);
+        if (found.length) throw new DuplicateKeyError(`该标识符已在准入名单中`);
 
         //Register new
         this.db.writeFlag(SavePriority.LOW);
@@ -101,11 +101,11 @@ export default class WhitelistDao {
      */
     updateRequest(license: string, srcData: object): DatabaseWhitelistRequestsType {
         if (typeof (srcData as any).id !== 'undefined' || typeof (srcData as any).license !== 'undefined') {
-            throw new Error(`cannot update id or license fields`);
+            throw new Error(`不能修改 id 或 license 字段`);
         }
 
         const requestDbObj = this.chain.get('whitelistRequests').find({ license });
-        if (!requestDbObj.value()) throw new Error('Request not found in database');
+        if (!requestDbObj.value()) throw new Error('数据库中未找到该请求');
         this.db.writeFlag(SavePriority.LOW);
         return requestDbObj
             .assign(cloneDeep(srcData))
@@ -120,7 +120,7 @@ export default class WhitelistDao {
     registerRequest(request: Omit<DatabaseWhitelistRequestsType, "id">): string {
         //TODO: validate player data vs DatabaseWhitelistRequestsType props
         if (typeof (request as any).id !== 'undefined') {
-            throw new Error(`cannot manually set the id field`);
+            throw new Error(`不能手动设置 id 字段`);
         }
 
         const id = genWhitelistRequestID(this.dbo);

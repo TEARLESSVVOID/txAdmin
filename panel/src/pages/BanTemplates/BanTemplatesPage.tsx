@@ -125,11 +125,11 @@ function BanTemplatesPageInner() {
         const toBeRemoved = swr.data.find((item) => item.id === id);
         if (!toBeRemoved) return;
         openConfirmDialog({
-            title: 'Remove Template',
-            actionLabel: 'Remove',
+            title: '删除模板',
+            actionLabel: '删除',
             confirmBtnVariant: 'destructive',
             message: <>
-                Are you sure you want to remove this ban template? <br />
+                确定要删除这个封禁模板吗？ <br />
                 <blockquote className='opacity-70 italic border-l-4 pl-2'>
                     {toBeRemoved.reason}
                 </blockquote>
@@ -158,12 +158,12 @@ function BanTemplatesPageInner() {
         const retryFunc = () => swr.mutate();
         const errMsg = swr?.error?.message ?? 'unknown error';
         statusNode = <div className="inline-flex flex-wrap gap-1">
-            <span className='text-destructive-inline'>Error loading: {errMsg}</span><br />
-            <button className='underline hover:text-accent' onClick={retryFunc}>Try again?</button>
+            <span className='text-destructive-inline'>加载出错：{errMsg}</span><br />
+            <button className='underline hover:text-accent' onClick={retryFunc}>重试？</button>
         </div>
     } else if (isSaving) {
         statusNode = <span className="text-success-inlinex animate-pulse">
-            Saving...
+            保存中...
         </span>
     } else if (saveError) {
         const retryFunc = () => {
@@ -172,16 +172,16 @@ function BanTemplatesPageInner() {
         }
         const errMsg = saveError ?? 'unknown error';
         statusNode = <div className="inline-flex flex-wrap gap-1">
-            <span className='text-destructive-inline'>Error saving: {errMsg}</span><br />
-            <button className='underline hover:text-accent' onClick={retryFunc}>Try again?</button>
+            <span className='text-destructive-inline'>保存出错：{errMsg}</span><br />
+            <button className='underline hover:text-accent' onClick={retryFunc}>重试？</button>
         </div>
     } else if (isSaveSuccessful) {
         statusNode = <span className="text-success-inline">
-            Saved.
+            已保存。
         </span>
     } else if (swr.isLoading || swr.isValidating) {
         statusNode = <span className="text-muted-foreground">
-            Loading...
+            加载中...
         </span>
     }
 
@@ -190,27 +190,27 @@ function BanTemplatesPageInner() {
     return <>
         <div className="space-y-4 w-full max-w-screen-lg mx-auto">
             <p className="px-2 md:px-0">
-                Here you can configure ban reasons and durations that will appear as dropdown options when banning a player. <br />
-                This is useful for common reasons that happen frequently, like violation of your server rules. <br />
+                您可以在此配置封禁原因和时长，它们将作为封禁玩家时的下拉选项显示。 <br />
+                这对于常见的封禁原因（如违反服务器规则）非常有用。 <br />
                 {canEdit ? (
                     <span className="text-muted-foreground italic">
-                        TIP: You can also drag and drop to reorder the list. <br />
+                        提示：您还可以通过拖拽来调整列表顺序。 <br />
                     </span>
                 ) : (
                     <span className="text-warning-inline">
-                        You need the <InlineCode className="text-warning-inline">Settings: Change</InlineCode> permission to edit these reasons.
+                        您需要 <InlineCode className="text-warning-inline">Settings: Change</InlineCode> 权限才能编辑这些原因。
                     </span>
                 )}
             </p>
             <div className="space-y-2">
                 <div className="flex flex-wrap justify-between text-muted-foreground px-2 md:px-0">
-                    <span className="shrink-0">Configured reasons: {swr.data?.length ?? 0}</span>
+                    <span className="shrink-0">已配置原因：{swr.data?.length ?? 0}</span>
                     {statusNode}
                 </div>
 
                 {!swr.data && !saveError && (
                     <div className="text-muted-foreground text-lg md:text-2xl text-center my-4 px-2 md:px-0">
-                        <Loader2Icon className="inline animate-spin h-8" />Loading...
+                        <Loader2Icon className="inline animate-spin h-8" />加载中...
                     </div>
                 )}
                 {swr.data && (
@@ -221,7 +221,7 @@ function BanTemplatesPageInner() {
                     >
                         {!swr.data.length ? (
                             <div className="text-muted-foreground text-lg md:text-2xl text-center my-4 px-2 md:px-0">
-                                No reasons configured yet.
+                                尚未配置任何原因。
                             </div>
                         ) : swr.data.map((item) => (
                             <DndSortableItem
@@ -258,8 +258,8 @@ export default function BanTemplatesPage() {
         <div className="w-full mb-10">
             <PageHeader
                 icon={<Settings2Icon />}
-                title="Ban Templates"
-                parentName="Settings"
+                title="封禁模板"
+                parentName="设置"
                 parentLink="/settings"
             />
             <div className="px-0 xs:px-3 md:px-0 flex flex-row gap-2 w-full">

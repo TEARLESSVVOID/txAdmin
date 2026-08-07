@@ -115,11 +115,11 @@ export default function LiveConsoleFooter(props: LiveConsoleFooterProps) {
 
     let inputError: string | undefined;
     if (!hasWritePerm) {
-        inputError = 'You do not have permission to write to the console.';
+        inputError = '您没有权限向控制台输入命令。';
     } else if (!fxRunnerState.isChildAlive) {
-        inputError = 'The server is not running.';
+        inputError = '服务器未运行。';
     } else if (!props.isConnected) {
-        inputError = 'Socket connection lost.';
+        inputError = 'Socket 连接已断开。';
     }
 
     return (
@@ -145,7 +145,7 @@ export default function LiveConsoleFooter(props: LiveConsoleFooterProps) {
                         "w-full",
                         !!inputError && 'placeholder:text-destructive placeholder:opacity-100'
                     )}
-                    placeholder={inputError ?? "Type a command..."}
+                    placeholder={inputError ?? "输入命令..."}
                     type="text"
                     disabled={!!inputError}
                     onKeyDown={handleInputKeyDown}
@@ -157,24 +157,24 @@ export default function LiveConsoleFooter(props: LiveConsoleFooterProps) {
             <div className="flex flex-row justify-evenly gap-3 2xl:gap-1 select-none">
                 <ConsoleFooterButton
                     icon={BookMarkedIcon}
-                    title="Saved"
+                    title="已保存"
                     onClick={props.toggleSaveSheet}
                 />
                 <ConsoleFooterButton
                     icon={SearchIcon}
-                    title="Search"
+                    title="搜索"
                     disabled={!props.isConnected}
                     onClick={props.toggleSearchBar}
                 />
                 <ConsoleFooterButton
                     icon={Trash2Icon}
-                    title="Clear"
+                    title="清空"
                     disabled={!props.isConnected}
                     onClick={props.consoleClear}
                 />
                 <ConsoleFooterButton
                     icon={FileDownIcon}
-                    title="Download"
+                    title="下载"
                     disabled={!props.isConnected}
                     onClick={() => {
                         openExternalLink('/fxserver/downloadLog');

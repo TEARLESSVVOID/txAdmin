@@ -131,13 +131,13 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
             advancedVisible={showAdvanced}
             advancedSetter={setShowAdvanced}
         >
-            <h2 className="text-2xl text-warning-inline">Simple Examples</h2>
+            <h2 className="text-2xl text-warning-inline">简单示例</h2>
 
-            <SettingItem label="Switch">
+            <SettingItem label="开关">
                 <SwitchText
                     id={cfg.booleanSwitch.eid}
-                    checkedLabel="Enabled"
-                    uncheckedLabel="Disabled"
+                    checkedLabel="启用"
+                    uncheckedLabel="禁用"
                     checked={states.booleanSwitch}
                     onCheckedChange={cfg.booleanSwitch.state.set}
                     disabled={pageCtx.isReadOnly}
@@ -147,7 +147,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Select String" htmlFor={cfg.selectString.eid}>
+            <SettingItem label="字符串选择" htmlFor={cfg.selectString.eid}>
                 <Select
                     value={states.selectString}
                     onValueChange={cfg.selectString.state.set as any}
@@ -157,9 +157,9 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                         <SelectValue placeholder="Lorem ipsum dolor..." />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="on">On (recommended)</SelectItem>
-                        <SelectItem value="legacy">Legacy</SelectItem>
-                        <SelectItem value="off">Off</SelectItem>
+                        <SelectItem value="on">开启（推荐）</SelectItem>
+                        <SelectItem value="legacy">旧版</SelectItem>
+                        <SelectItem value="off">关闭</SelectItem>
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
@@ -167,7 +167,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Normal Input" htmlFor={cfg.normalInput.eid}>
+            <SettingItem label="普通输入" htmlFor={cfg.normalInput.eid}>
                 <Input
                     id={cfg.normalInput.eid}
                     ref={normalInputRef}
@@ -181,7 +181,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Textarea" htmlFor={cfg.textareaInput.eid}>
+            <SettingItem label="文本域" htmlFor={cfg.textareaInput.eid}>
                 <AutosizeTextarea
                     id={cfg.textareaInput.eid}
                     ref={textareaInputRef}
@@ -198,9 +198,9 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <h2 className="text-2xl text-warning-inline">Compex Examples (data marshalling)</h2>
+            <h2 className="text-2xl text-warning-inline">复杂示例（数据序列化）</h2>
 
-            <SettingItem label="Select Number" htmlFor={cfg.selectNumber.eid}>
+            <SettingItem label="数字选择" htmlFor={cfg.selectNumber.eid}>
                 <Select
                     value={selectNumberUtil.toUi(states.selectNumber)}
                     onValueChange={(val) => cfg.selectNumber.state.set(selectNumberUtil.toCfg(val))}
@@ -210,10 +210,10 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                         <SelectValue placeholder="Lorem ipsum dolor..." />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="90">1.5 minutes (default)</SelectItem>
-                        <SelectItem value="180">3 minutes</SelectItem>
-                        <SelectItem value="300">5 minutes</SelectItem>
-                        <SelectItem value="600">10 minutes</SelectItem>
+                        <SelectItem value="90">1.5 分钟（默认）</SelectItem>
+                        <SelectItem value="180">3 分钟</SelectItem>
+                        <SelectItem value="300">5 分钟</SelectItem>
+                        <SelectItem value="600">10 分钟</SelectItem>
                     </SelectContent>
                 </Select>
                 <SettingItemDesc>
@@ -221,7 +221,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Input Array" htmlFor={cfg.inputArray.eid}>
+            <SettingItem label="输入数组" htmlFor={cfg.inputArray.eid}>
                 <Input
                     id={cfg.inputArray.eid}
                     ref={inputArrayRef}
@@ -235,7 +235,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Nullable Input" htmlFor={cfg.nullableInput.eid}>
+            <SettingItem label="可空输入" htmlFor={cfg.nullableInput.eid}>
                 <Input
                     id={cfg.nullableInput.eid}
                     ref={nullableInputRef}
@@ -250,9 +250,9 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
             </SettingItem>
 
             {showAdvanced && <AdvancedDivider />}
-            {showAdvanced && <h2 className="text-2xl text-warning-inline">Advanced Examples (custom components)</h2>}
+            {showAdvanced && <h2 className="text-2xl text-warning-inline">高级示例（自定义组件）</h2>}
 
-            <SettingItem label="Custom Component" showIf={showAdvanced}>
+            <SettingItem label="自定义组件" showIf={showAdvanced}>
                 <ItemWithState
                     value={states.customComponent}
                     setValue={cfg.customComponent.state.set}
@@ -263,7 +263,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                 </SettingItemDesc>
             </SettingItem>
 
-            <SettingItem label="Big Radio" showIf={showAdvanced}>
+            <SettingItem label="大号单选" showIf={showAdvanced}>
                 <RadioGroup
                     value={states.bigRadio}
                     onValueChange={cfg.bigRadio.state.set as any}
@@ -272,13 +272,13 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                     <BigRadioItem
                         groupValue={states.bigRadio}
                         value="disabled"
-                        title="Disabled"
+                        title="禁用"
                         desc="desc as text"
                     />
                     <BigRadioItem
                         groupValue={states.bigRadio}
                         value="adminOnly"
-                        title="Admin-only (maintenance mode)"
+                        title="仅管理员（维护模式）"
                         desc={(<>
                             desc as <InlineCode className="text-warning-inline">JSX</InlineCode>
                         </>)}
@@ -286,7 +286,7 @@ export default function SettingsCardTemplate({ cardCtx, pageCtx }: SettingsCardP
                     <BigRadioItem
                         groupValue={states.bigRadio}
                         value="discordMember"
-                        title="Discord Server Member"
+                        title="Discord 服务器成员"
                         desc="desc as text"
                     />
                 </RadioGroup>
