@@ -92,7 +92,7 @@ export default function AuthShell() {
                         &nbsp;|
                         fx: <strong>b{window.txConsts.fxsVersion}</strong>
                     </span>
-                    <span>汉化者 TEARLESSVVOID QQ 2412144995</span>
+                    <span>汉化者 TEARLESSVVOID</span>
                 </div>
             </div>
         </div>

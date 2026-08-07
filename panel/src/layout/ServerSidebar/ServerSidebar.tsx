@@ -53,7 +53,7 @@ export function ServerSidebar({ isSheet }: ServerSidebarProps) {
                         'text-muted-foreground text-sm font-light',
                         window.txConsts.txaVersion.includes('-') && 'text-destructive-inline font-semibold',
                     )}>
-                        汉化者 TEARLESSVVOID QQ 2412144995
+                        汉化者 TEARLESSVVOID
                     </span>
                 </div>
             ) : null}
