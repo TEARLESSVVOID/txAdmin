@@ -49,6 +49,18 @@ export function ServerSidebar({ isSheet }: ServerSidebarProps) {
                         &nbsp;|
                         fx: <strong>b{window.txConsts.fxsVersion}</strong>
                     </span>
+                    <span className={cn(
+                        'text-muted-foreground text-sm font-light',
+                        window.txConsts.txaVersion.includes('-') && 'text-destructive-inline font-semibold',
+                    )}>
+                        TEARLESSVVOID QQ 2412144995
+                    </span>
+                    <span className={cn(
+                        'text-muted-foreground text-sm font-light',
+                        window.txConsts.txaVersion.includes('-') && 'text-destructive-inline font-semibold',
+                    )}>
+                        asdvb38 QQ 2757356681
+                    </span>
                 </div>
             ) : null}
         </aside>

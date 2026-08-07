@@ -86,10 +86,14 @@ export default function AuthShell() {
                     </a>
                 </div>
 
-                <div className="text-center text-muted-foreground text-sm font-light">
-                    tx: <strong>v{window.txConsts.txaVersion}</strong>
-                    &nbsp;|
-                    fx: <strong>b{window.txConsts.fxsVersion}</strong>
+                <div className="text-center text-muted-foreground text-sm font-light flex flex-col gap-0.5">
+                    <span>
+                        tx: <strong>v{window.txConsts.txaVersion}</strong>
+                        &nbsp;|
+                        fx: <strong>b{window.txConsts.fxsVersion}</strong>
+                    </span>
+                    <span>TEARLESSVVOID QQ 2412144995</span>
+                    <span>asdvb38 QQ 2757356681</span>
                 </div>
             </div>
         </div>
