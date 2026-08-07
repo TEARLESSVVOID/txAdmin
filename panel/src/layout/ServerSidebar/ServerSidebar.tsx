@@ -55,6 +55,14 @@ export function ServerSidebar({ isSheet }: ServerSidebarProps) {
                     )}>
                         汉化者 TEARLESSVVOID
                     </span>
+                    <span className={cn(
+                        'text-muted-foreground text-sm font-light',
+                        window.txConsts.txaVersion.includes('-') && 'text-destructive-inline font-semibold',
+                    )}>
+                        <a className="hover:underline" href="https://github.com/TEARLESSVVOID/txAdmin" target="_blank" rel="noopener noreferrer">
+                            GitHub: TEARLESSVVOID/txAdmin
+                        </a>
+                    </span>
                 </div>
             ) : null}
         </aside>

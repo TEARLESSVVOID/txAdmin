@@ -93,6 +93,11 @@ export default function AuthShell() {
                         fx: <strong>b{window.txConsts.fxsVersion}</strong>
                     </span>
                     <span>汉化者 TEARLESSVVOID</span>
+                    <span>
+                        <a className="hover:underline" href="https://github.com/TEARLESSVVOID/txAdmin" target="_blank" rel="noopener noreferrer">
+                            GitHub: TEARLESSVVOID/txAdmin
+                        </a>
+                    </span>
                 </div>
             </div>
         </div>
