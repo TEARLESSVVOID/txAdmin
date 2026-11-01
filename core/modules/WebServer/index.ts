@@ -177,6 +177,23 @@ export default class WebServer {
             // console.debug(`HTTP ${req.method} ${req.url}`);
             if (!checkHttpLoad()) return;
             if (!checkRateLimit(req?.socket?.remoteAddress)) return;
+
+            // FIXME:NEXT:UPDATE: CVE-2026-111497 缓解措施
+            // 在 Koa/Socket.IO 解码之前拒绝携带压缩编码的请求体。
+            const contentEncoding = req.headers['content-encoding'];
+            if (contentEncoding !== undefined) {
+                if (typeof contentEncoding !== 'string' || contentEncoding.trim().toLowerCase() !== 'identity') {
+                    res.writeHead(415, {
+                        'Content-Type': 'text/plain; charset=utf-8',
+                        'Accept-Encoding': 'identity',
+                    });
+                    res.end('不支持的内容编码');
+                    return;
+                }
+                // 下游解析器也必须能识别大小写/空白变体。
+                req.headers['content-encoding'] = 'identity';
+            }
+
             if (req.url.startsWith('/socket.io')) {
                 (this.io.engine as any).handleRequest(req, res);
             } else {
